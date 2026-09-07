@@ -1,0 +1,158 @@
+@font-face {
+    font-family: 'inter';
+    src: url('./lib/assets/fonts/Inter-VariableFont_opsz,wght.ttf');
+    font-weight: 100 900;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'ibm';
+    src: url('./lib/assets/fonts/IBMPlexSerif-Thin.ttf');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'ibm';
+    src: url('./lib/assets/fonts/IBMPlexSerif-ThinItalic.ttf');
+    font-weight: 100;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'ibm';
+    src: url('./lib/assets/fonts/IBMPlexSerif-ExtraLight.ttf');
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'ibm';
+    src: url('./lib/assets/fonts/IBMPlexSerif-ExtraLightItalic.ttf');
+    font-weight: 200;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'ibm';
+    src: url('./lib/assets/fonts/IBMPlexSerif-Light.ttf');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'ibm';
+    src: url('./lib/assets/fonts/IBMPlexSerif-LightItalic.ttf');
+    font-weight: 300;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'ibm';
+    src: url('./lib/assets/fonts/IBMPlexSerif-Regular.ttf');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'ibm';
+    src: url('./lib/assets/fonts/IBMPlexSerif-Italic.ttf');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'ibm';
+    src: url('./lib/assets/fonts/IBMPlexSerif-Medium.ttf');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'ibm';
+    src: url('./lib/assets/fonts/IBMPlexSerif-MediumItalic.ttf');
+    font-weight: 500;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'ibm';
+    src: url('./lib/assets/fonts/IBMPlexSerif-SemiBold.ttf');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'ibm';
+    src: url('./lib/assets/fonts/IBMPlexSerif-SemiBoldItalic.ttf');
+    font-weight: 600;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'ibm';
+    src: url('./lib/assets/fonts/IBMPlexSerif-Bold.ttf');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'ibm';
+    src: url('./lib/assets/fonts/IBMPlexSerif-BoldItalic.ttf');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    line-height: 1.4;
+    box-sizing: border-box;
+    font-family: inter, sans-serif;
+    list-style: none;
+}
+
+p, a, span {
+    font-family: inter, sans-serif;
+    text-decoration: none;
+    color: black;
+}
+
+h1, h2, h3, h4, h5{
+    font-family: 'ibm', serif;
+}
+
+a{
+    position: relative;
+}
+
+a::after{
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    border-bottom: 2px dotted currentColor;
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform .2s;
+}
+
+a:hover::after{
+    transform: scaleX(1);
+}
