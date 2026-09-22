@@ -129,17 +129,23 @@
 <style>
 h1{
     --stretch: clamp(.5, calc(1.5 - 0.5 * (100vw - 375px) / 825px), 1.5);
-    transform: scaleY(var(--stretch));
+    @media (prefers-reduced-motion: reduce) {
+        transform: scaleY(var(--stretch));
+    }
     transform-origin: top;
     font-size: 10vw;
     white-space: nowrap;
     width: max-content;
 
-    animation-timeline: view();
-    animation-range: entry 100lvh exit 10%;
-    animation-name: extended-animation;
-    animation-fill-mode: forwards;
-    --translate: calc(-100% + 100vw);
+    @media (prefers-reduced-motion: no-preference) {
+        @supports (animation-timeline: view()) {
+            animation-timeline: view();
+            animation-range: entry 100lvh exit 0%;
+            animation-name: extended-animation;
+            animation-fill-mode: forwards;
+            --translate: calc(-100% + 100vw);
+        }
+    }
 }
 
 .marquee{
