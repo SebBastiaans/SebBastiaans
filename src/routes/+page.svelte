@@ -8,6 +8,7 @@
     import userExpEnh from '$lib/assets/pics/user-exp-enh.png';
     import pleasurableUi from '$lib/assets/pics/pleasurable-ui.png';
     import proofOfConcept from '$lib/assets/pics/proof-of-concept.png';
+    import tribeForLifeSquadPage from '$lib/assets/pics/your-tibe-for-life-squadpage.png';
     import instagramIcon from '$lib/assets/icons/icons8-instagram.svg';
     import githubIcon from '$lib/assets/icons/icons8-github-logo.svg';
     import linkedinIcon from '$lib/assets/icons/icons8-linkedin-24.svg';
@@ -104,6 +105,12 @@
             <a href="https://github.com/SebBastiaans/proof-of-concept">
                 <img src={proofOfConcept} alt="">
                 <span class="desc">Q42 and Teylers museum - End of first year project, everything coming together: data-driven, UI and UX progressively enhanced.</span>
+            </a>
+        </li>
+        <li>
+            <a href="https://github.com/SebBastiaans/your-tribe-for-life-squad-page">
+                <img src={tribeForLifeSquadPage} alt="">
+                <span class="desc">School - Remaking a squadpage using SvelteKit</span>
             </a>
         </li>
     </ul>
