@@ -125,6 +125,7 @@
     box-sizing: border-box;
     font-family: inter, sans-serif;
     list-style: none;
+    scroll-behavior: smooth;
 }
 
 p, a, span {
