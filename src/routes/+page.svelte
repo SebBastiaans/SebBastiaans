@@ -132,7 +132,7 @@ h1{
     gap: 1rem;
     padding-inline: 0;
 
-    @media (width>=441px){
+    @media (width>=420px){
         padding-inline: clamp(.5rem, calc(.5rem + (100vw - 375px) * 2.5rem / 1065px), 3rem);
     }
 
