@@ -1,10 +1,34 @@
 <script>
     import profilePhoto from '$lib/assets/pics/IMG_7841-face.png';
+
+    const dodgeDistance = 100;
+    const dodgeDuration = 1000;
+
+    let dodge = $state('');
+    let dodgeTimer;
+
+    // Shoots the img away from the mouse, in the direction from the mouse to its center
+    function handlePointerEnter(event) {
+        const img = event.currentTarget;
+
+        // only while the scroll animation runs, otherwise the normal photo would dodge too
+        if (!img.getAnimations().length) return;
+
+        const rect = img.getBoundingClientRect();
+        const dx = rect.left + rect.width / 2 - event.clientX;
+        const dy = rect.top + rect.height / 2 - event.clientY;
+        const length = Math.hypot(dx, dy) || 1;
+
+        dodge = `${dx / length * dodgeDistance}px ${dy / length * dodgeDistance}px`;
+
+        clearTimeout(dodgeTimer);
+        dodgeTimer = setTimeout(() => dodge = '', dodgeDuration);
+    }
 </script>
 
 <!-- The img sits outside .hero so it can stay sticky over the whole page.
      .photo-slot keeps its place in the hero layout. -->
-<img class="profile-photo" src={profilePhoto} alt="">
+<img class="profile-photo" src={profilePhoto} alt="" style:translate={dodge} onpointerenter={handlePointerEnter}>
 
 <div class="hero">
     <div class="photo-slot"></div>
@@ -53,6 +77,10 @@
             /* starts when the img sticks, at --pad from the top of the viewport */
             animation-timeline: --hero;
             animation-range: exit calc(0% - var(--pad)) exit 50%;
+            /* for the dodge on hover (set in the script), only possible at the end of the animation,
+               see pointer-events in photo-morph. translate instead of transform, because transform
+               would be scaled down along with the animated scale */
+            transition: translate .3s ease-out;
         }
     }
 }
@@ -119,6 +147,10 @@
         /* E */
         clip-path: polygon(0% 100%, 0% 0%, 100% 0%, 100% 20%, 25% 20%, 25% 40%, 80% 40%, 80% 60%, 25% 60%, 25% 80%, 100% 80%, 100% 100%);
     }
+    0%, 99% {
+        /* no hover until the animation is done */
+        pointer-events: none;
+    }
     90% {
         /* circle made of 12 points, so the E can morph into it */
         clip-path: polygon(14.64% 85.36%, 1.7% 62.94%, 1.7% 37.06%, 14.64% 14.64%, 37.06% 1.7%, 62.94% 1.7%, 85.36% 14.64%, 98.3% 37.06%, 98.3% 62.94%, 85.36% 85.36%, 62.94% 98.3%, 37.06% 98.3%);
@@ -129,6 +161,7 @@
         /* right side of the screen, same padding as on the left */
         margin-inline-start: calc(100% - var(--pad) - var(--size));
         clip-path: circle(50%);
+        pointer-events: auto;
     }
 }
 </style>
