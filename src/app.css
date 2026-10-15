@@ -157,3 +157,25 @@ a::after{
 a:hover::after{
     transform: scaleX(1);
 }
+
+section{
+    margin-top: 1rem;
+    padding-inline: clamp(.5rem, calc(.5rem + (100vw - 375px) * 2.5rem / 1065px), 3rem);
+
+    h2 {
+        --stretch: clamp(.8, calc(1.5 - 0.5 * (100vw - 375px) / 825px), 1.5);
+        transform: scaleY(var(--stretch));
+        transform-origin: top;
+        display: flex;
+        align-items: center;
+        gap: .75rem;
+        margin-bottom: calc(.8rem + (var(--stretch) - 1) * 1.4em);
+
+        &::after{
+            content: '';
+            flex: 1 1 auto;
+            height: 2px;
+            background: blue;
+        }
+    }
+}
