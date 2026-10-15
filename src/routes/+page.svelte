@@ -20,7 +20,8 @@
 <Biography />
 
 <Projects />
-
+<Projects />
+<Projects />
 <Contact />
 
 <style>
