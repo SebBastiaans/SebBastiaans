@@ -1,5 +1,4 @@
 <script>
-    import Checkbox from '$lib/components/checkbox.svelte';
     import Hero from '$lib/components/hero.svelte';
     import Nav from '$lib/components/nav.svelte';
     import Biography from '$lib/components/biography.svelte';
@@ -20,8 +19,7 @@
 <Biography />
 
 <Projects />
-<Projects />
-<Projects />
+
 <Contact />
 
 <style>
