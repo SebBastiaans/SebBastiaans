@@ -31,7 +31,8 @@ h1{
         transform: scaleY(var(--stretch));
     }
     transform-origin: top;
-    font-size: 10vw;
+    /* grows with the screen, but never bigger than 7rem */
+    font-size: min(10vw, 7rem);
     white-space: nowrap;
     width: max-content;
 
@@ -41,12 +42,16 @@ h1{
             animation-range: entry 100lvh exit 0%;
             animation-name: extended-animation;
             animation-fill-mode: forwards;
-            --translate: calc(-100% + 100vw);
+            /* min() so it doesn't move right when the h1 is narrower than the screen */
+            --translate: min(0px, calc(-100% + 100vw - 2 * var(--pad)));
         }
     }
 }
 
 .marquee{
+    /* same padding as the sections */
+    --pad: clamp(.5rem, calc(.5rem + (100vw - 375px) * 2.5rem / 1065px), 3rem);
+    padding-inline: var(--pad);
     width: 100%;
     height: clamp(10lvh, calc(10lvh + (40lvh - 10lvh) * (100vw - 375px) / 1065px), 40lvh);
     overflow: clip;
