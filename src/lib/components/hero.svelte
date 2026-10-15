@@ -41,7 +41,8 @@
     z-index: 5;
 
     @media (prefers-reduced-motion: no-preference) {
-        @supports (animation-timeline: view()) {
+        /* without support the img just stays a normal square photo in the hero */
+        @supports (animation-timeline: view()) and (animation-range: exit 0% exit 50%) and (timeline-scope: --hero) {
             position: sticky;
             top: var(--pad);
             /* shrinks towards the right, where it ends up */
@@ -64,6 +65,11 @@
     padding-inline: var(--pad);
     view-timeline: --hero;
 
+    /* photo and intro always side by side, so the intro can slide into the photo's place */
+    @media (width>=800px){
+        flex-wrap: nowrap;
+    }
+
     .photo-slot{
         flex: none;
         width: min(420px, 100%);
@@ -72,6 +78,29 @@
 
     .intro{
         flex: 1 1 auto;
+
+        @media (width>=800px) and (prefers-reduced-motion: no-preference) {
+            /* same check as the img, so they always animate together or not at all */
+            @supports (animation-timeline: view()) and (animation-range: exit 0% exit 50%) and (timeline-scope: --hero) {
+                /* top aligned with the photo, so both stick at the same moment */
+                align-self: flex-end;
+                /* sticks until the bottom of .hero, where the next section starts */
+                position: sticky;
+                top: var(--pad);
+                animation-name: intro-slide;
+                animation-timing-function: linear;
+                animation-fill-mode: both;
+                animation-timeline: --hero;
+                animation-range: exit calc(0% - var(--pad)) exit 50%;
+            }
+        }
+    }
+}
+
+@keyframes intro-slide {
+    to {
+        /* width of .photo-slot (always 420px from 800px) + gap */
+        translate: calc(-420px - 1rem) 0;
     }
 }
 
