@@ -34,6 +34,8 @@ nav{
     width: 100%;
     background-color: var(--color-glass);
     z-index: 10;
+    /* the glow of the outer links reaches past the screen edge, cut it off there */
+    overflow: clip;
 
     transform: translateY(0);
     transition: transform .3s ease;
@@ -50,6 +52,29 @@ nav{
 
         &::after{
             bottom: .5rem;
+        }
+
+        /* glow behind the link: a lying oval, solid right behind the text, fading out to the see-through nav */
+        /* the edges are transparent and not --color-glass, the nav background already shows through there */
+        &::before{
+            content: '';
+            position: absolute;
+            /* 3rem wider than the link on both sides, that is where it fades out */
+            inset-block: 0;
+            inset-inline: -3rem;
+            /* behind the text, but still in front of the nav background */
+            z-index: -1;
+            /* closest-side: an ellipse touching the edges of this wide box, so a lying oval */
+            /* solid up to halfway, so right behind the text it's fully opaque, then it fades out */
+            background: radial-gradient(closest-side, var(--color-background) 50%, transparent);
+            /* a gradient can't transition, so it fades in with opacity */
+            opacity: 0;
+            transition: opacity .2s;
+        }
+
+        &:hover::before,
+        &:focus-visible::before{
+            opacity: 1;
         }
     }
 }

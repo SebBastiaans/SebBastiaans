@@ -51,6 +51,12 @@ Reduced motion turns off all scaling.
 
 ➡️ **[Read how the project carousel works](docs/project-carousel.md)**
 
+### Navigation
+
+A fixed bar at the bottom of the screen ([`nav.svelte`](src/lib/components/nav.svelte)) with a see-through background (`--color-glass`). It slides away when you scroll down and comes back when you scroll up.
+
+On hover and keyboard focus a link gets a glow behind it: a `::before` that is 3rem wider than the link on both sides (`inset-inline: -3rem`), with `radial-gradient(closest-side, var(--color-background) 50%, transparent)`. `closest-side` makes an ellipse that touches the edges of this wide box, so it's a lying oval. It is solid up to halfway, right behind the text, and fades out to the nav from there. The nav has `overflow: clip`, so the glow of the outer links stops at the screen edge. The edge is `transparent` and not `--color-glass`, because the nav's own background already shows through there: two layers of glass would make a visible edge. A gradient can't transition, so the `::before` fades in with `opacity`. `z-index: -1` puts it behind the text but in front of the nav background, because the fixed nav with its `z-index` is its own stacking context.
+
 ### Dark mode
 
 The site follows the color scheme of the device (`prefers-color-scheme`). Dark mode turns the colors around: a near black background, broken white text (`#f3efe6`, softer than pure white) and a light pink accent (`#ffb3c7`) instead of blue.
