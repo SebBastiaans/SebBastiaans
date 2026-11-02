@@ -50,13 +50,13 @@
 
         {#if hasVideos && canControlVideos}
             <!-- WCAG 2.2.2: moving video that plays longer than 5 seconds must be pausable -->
+            <!-- the text says what the button does, so no aria-pressed: "Play videos, pressed" would be confusing -->
             <button
                 type="button"
                 class="pill project-video-toggle"
-                aria-pressed={videosPaused}
                 onclick={() => (videosPaused = !videosPaused)}
             >
-                Pause videos
+                {videosPaused ? 'Play videos' : 'Pause videos'}
             </button>
         {/if}
 

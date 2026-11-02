@@ -162,7 +162,7 @@ import projectPoster from '$lib/assets/pics/project.png?w=1600&format=webp'
 - Make the poster image with the same size as the video, for example a screenshot of the first frame.
 - On macOS you can find the video size with `mdls -name kMDItemPixelWidth -name kMDItemPixelHeight project.mp4`.
 
-Videos play muted and on a loop, only while they are on screen. A "Pause videos" button appears in the bar above the projects as soon as there is at least one video. [More about videos](docs/project-carousel.md#videos).
+Videos play muted and on a loop, only while they are on screen. A "Pause videos" button appears in the bar above the projects as soon as there is at least one video, it changes to "Play videos" while they are paused. [More about videos](docs/project-carousel.md#videos).
 
 ## Images and fonts
 
@@ -192,7 +192,7 @@ All custom properties (colors, page padding, sizes) live in `:root` in [`src/app
 Three global classes in `app.css` are shared by the components, so their styles only exist once:
 
 - `.visually-hidden`: hidden, but still read by screen readers. For example the `legend` of the project filter and the animation switch.
-- `.pill`: the round button with a border, at least 44px high. Used for the theme toggle, the play button and the "Pause videos" button. A button with `aria-pressed="true"` gets the filled look.
+- `.pill`: the round button with a border, at least 44px high. Used for the theme toggle, the play button and the "Pause videos" / "Play videos" button.
 - `.switch`: a `fieldset` with 2 or 3 radio buttons in one pill, with a knob that slides behind the chosen option. Used for the project filter (All, School, Personal) and the animation switch of the musical text (Weight, Equalizer).
   - The knob is a `::before` as wide as one option: `(100% - padding) / --switch-options`. `--switch-options` is 2, or 3 when there is a third label (`:has(label:nth-of-type(3))`).
   - `translate: 100%` or `200%` moves the knob exactly one or two options to the right, when the second or third radio button is checked. With reduced motion it jumps instead of sliding.

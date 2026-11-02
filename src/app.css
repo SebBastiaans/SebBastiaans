@@ -179,14 +179,6 @@ a{
     color: var(--color-text);
     font: inherit;
     cursor: pointer;
-    transition: background .2s, color .2s;
-
-    /* a pressed toggle button */
-    &[aria-pressed="true"]{
-        background: var(--color-primary);
-        color: var(--color-background);
-    }
-
     &:focus-visible{
         outline: 3px solid var(--color-text);
         outline-offset: 2px;

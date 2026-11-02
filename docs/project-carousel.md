@@ -277,13 +277,12 @@ A Svelte attachment with an `IntersectionObserver`: the video plays when at leas
 [WCAG 2.2.2 Pause, Stop, Hide](https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html): moving content that starts by itself and lasts longer than 5 seconds must be pausable. So when at least one project has a video, the bar above the projects gets a button:
 
 ```svelte
-<button type="button" aria-pressed={videosPaused} onclick={() => (videosPaused = !videosPaused)}>
-	Pause videos
+<button type="button" onclick={() => (videosPaused = !videosPaused)}>
+	{videosPaused ? 'Play videos' : 'Pause videos'}
 </button>
 ```
 
-- **A toggle button with `aria-pressed`** and a fixed label: screen readers announce "Pause videos, toggle button, pressed" or "not pressed". Changing the label instead ("Pause" / "Play") together with `aria-pressed` would make the state unclear.
-- **Pressed** gives it the same blue look as the chosen filter.
+- **The text says what the button does**: "Pause videos" while they play, "Play videos" while they are paused, just like the play button of the musical text and the theme toggle. Because the label describes the action, there is no `aria-pressed`: together with a changing label, screen readers would announce something confusing like "Play videos, pressed".
 - The attachment reads `videosPaused`, so Svelte runs it again when the button is pressed: the cleanup pauses the video and disconnects the observer, and the new run either stays paused or starts observing again.
 - **The button only appears when JS runs** (`canControlVideos` is set in an `$effect`), because without JS it can't do anything. Without JS the videos don't play anyway: there is no `autoplay` attribute, so only the poster is shown.
 - **Reduced motion**: `videosPaused` starts as `true` and the `$effect` only sets it to `false` when the visitor doesn't prefer reduced motion. So videos never start for those visitors, and they can still choose to play them with the button.
