@@ -1,5 +1,6 @@
 <script>
-    import profilePhoto from '$lib/assets/pics/IMG_7841-face.png';
+    // AVIF and WebP in 420px (the photo is at most 420px wide) and 840px for sharp screens, with a fallback
+    import profilePhoto from '$lib/assets/pics/IMG_7841-face.png?enhanced&w=840;420';
 
     const dodgeDistance = 100;
     const dodgeDuration = 1000;
@@ -28,7 +29,12 @@
 
 <!-- The img sits outside .hero, so it isn't part of the flex layout and can lay on top of .photo-slot.
      Its parent is .page-start in +page.svelte (header, hero and biography), so it sticks until above projects. -->
-<img class="profile-photo" src={profilePhoto} alt="" style:translate={dodge} onpointerenter={handlePointerEnter}>
+<!-- the picture has display: contents, so for sticky and the margins the img is still straight inside .page-start -->
+<picture>
+    <source type="image/avif" srcset={profilePhoto.sources.avif} sizes="420px">
+    <source type="image/webp" srcset={profilePhoto.sources.webp} sizes="420px">
+    <img class="profile-photo" src={profilePhoto.img.src} alt="" style:translate={dodge} onpointerenter={handlePointerEnter}>
+</picture>
 
 <div class="hero">
     <div class="photo-slot"></div>
@@ -40,6 +46,10 @@
 </div>
 
 <style>
+picture{
+    display: contents;
+}
+
 .profile-photo{
     display: block;
     width: var(--profile-photo-size);

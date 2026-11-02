@@ -1,18 +1,23 @@
-import fixTheFlow from '$lib/assets/pics/fix-the-flow.png'
-import theStartupResponsive from '$lib/assets/pics/the-startup-responsive.png'
-import profileCard from '$lib/assets/pics/profile-card.png'
-import teamSquadPage from '$lib/assets/pics/team-squad-page.png'
-import userExperienceEnhanced from '$lib/assets/pics/user-exp-enh.png'
-import pleasurableUi from '$lib/assets/pics/pleasurable-ui.png'
-import proofOfConcept from '$lib/assets/pics/proof-of-concept.png'
-import tribeForLifeSquadPage from '$lib/assets/pics/your-tibe-for-life-squadpage.png'
-import tribeForLifeProfileCard from '$lib/assets/pics/profile-card-fl.png'
+import fixTheFlow from '$lib/assets/pics/fix-the-flow.png?enhanced&w=2400;1600;1080;640'
+import theStartupResponsive from '$lib/assets/pics/the-startup-responsive.png?enhanced&w=2400;1600;1080;640'
+import profileCard from '$lib/assets/pics/profile-card.png?enhanced&w=2400;1600;1080;640'
+import teamSquadPage from '$lib/assets/pics/team-squad-page.png?enhanced&w=2400;1600;1080;640'
+import userExperienceEnhanced from '$lib/assets/pics/user-exp-enh.png?enhanced&w=2400;1600;1080;640'
+import pleasurableUi from '$lib/assets/pics/pleasurable-ui.png?enhanced&w=2400;1600;1080;640'
+import proofOfConcept from '$lib/assets/pics/proof-of-concept.png?enhanced&w=2400;1600;1080;640'
+import tribeForLifeSquadPage from '$lib/assets/pics/your-tibe-for-life-squadpage.png?enhanced&w=2400;1600;1080;640'
+import tribeForLifeProfileCard from '$lib/assets/pics/profile-card-fl.png?enhanced&w=2400;1600;1080;640'
 import tribeForLifeProfileCardVideo from '$lib/assets/videos/profile-card.mp4'
-import aiTradeTool from '$lib/assets/pics/ai-trade-tool.png'
+import aiTradeTool from '$lib/assets/pics/ai-trade-tool.png?enhanced&w=2400;1600;1080;640'
 import aiTradeToolVideo from '$lib/assets/videos/ai-trade-tool.mp4'
-import aiFramer from '$lib/assets/pics/ai-framer.png'
+import aiFramer from '$lib/assets/pics/ai-framer.png?enhanced&w=2400;1600;1080;640'
 import aiFramerVideo from '$lib/assets/videos/ai-framer.mp4'
+// the poster of a video can't be a <picture>, so it's one WebP
+import tribeForLifeProfileCardPoster from '$lib/assets/pics/profile-card-fl.png?w=1600&format=webp'
+import aiTradeToolPoster from '$lib/assets/pics/ai-trade-tool.png?w=1600&format=webp'
+import aiFramerPoster from '$lib/assets/pics/ai-framer.png?w=1600&format=webp'
 
+// image: ?enhanced makes AVIF and WebP versions in 4 widths, with a JPG or PNG fallback, shown in a <picture> in Projects.svelte
 // width and height of the image prevent layout shift while it loads
 // category is 'school' or 'personal', used by the filter in Projects.svelte
 const projects = [
@@ -94,6 +99,7 @@ const projects = [
 		href: 'https://github.com/SebBastiaans/your-tribe-for-life-profile-card',
 		image: tribeForLifeProfileCard,
 		video: tribeForLifeProfileCardVideo,
+		poster: tribeForLifeProfileCardPoster,
 		width: 3840,
 		height: 1982,
 		category: 'school'
@@ -104,6 +110,7 @@ const projects = [
 		href: 'https://github.com/SebBastiaans/ai-trade',
 		image: aiTradeTool,
 		video: aiTradeToolVideo,
+		poster: aiTradeToolPoster,
 		width: 1920,
 		height: 992,
 		category: 'personal'
@@ -114,6 +121,7 @@ const projects = [
 		href: 'https://github.com/SebBastiaans/AI-garden',
 		image: aiFramer,
 		video: aiFramerVideo,
+		poster: aiFramerPoster,
 		width: 3840,
 		height: 1982,
 		category: 'personal'

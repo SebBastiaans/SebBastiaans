@@ -1,13 +1,13 @@
 @font-face {
     font-family: 'inter';
-    src: url('./lib/assets/fonts/Inter-VariableFont_opsz,wght.ttf');
+    src: url('./lib/assets/fonts/Inter-VariableFont_opsz,wght.woff2') format('woff2');
     font-weight: 100 900;
     font-display: swap;
 }
 
 @font-face {
     font-family: 'ibm';
-    src: url('./lib/assets/fonts/IBMPlexSerif-Light.ttf');
+    src: url('./lib/assets/fonts/IBMPlexSerif-Light.woff2') format('woff2');
     font-weight: 300;
     font-style: normal;
     font-display: swap;
@@ -15,7 +15,7 @@
 
 @font-face {
     font-family: 'ibm';
-    src: url('./lib/assets/fonts/IBMPlexSerif-Regular.ttf');
+    src: url('./lib/assets/fonts/IBMPlexSerif-Regular.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -23,7 +23,7 @@
 
 @font-face {
     font-family: 'ibm';
-    src: url('./lib/assets/fonts/IBMPlexSerif-Medium.ttf');
+    src: url('./lib/assets/fonts/IBMPlexSerif-Medium.woff2') format('woff2');
     font-weight: 500;
     font-style: normal;
     font-display: swap;
@@ -31,7 +31,7 @@
 
 @font-face {
     font-family: 'ibm';
-    src: url('./lib/assets/fonts/IBMPlexSerif-SemiBold.ttf');
+    src: url('./lib/assets/fonts/IBMPlexSerif-SemiBold.woff2') format('woff2');
     font-weight: 600;
     font-style: normal;
     font-display: swap;
@@ -39,7 +39,7 @@
 
 @font-face {
     font-family: 'ibm';
-    src: url('./lib/assets/fonts/IBMPlexSerif-Bold.ttf');
+    src: url('./lib/assets/fonts/IBMPlexSerif-Bold.woff2') format('woff2');
     font-weight: bold;
     font-style: normal;
     font-display: swap;

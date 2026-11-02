@@ -108,7 +108,8 @@ The button in [`Footer.svelte`](src/lib/components/Footer.svelte) sets `data-the
 
 - **Remembered**: the choice is saved in `localStorage`. Until a visitor chooses, the site follows the device, also when the device changes.
 - **No flash of the wrong colors**: a small inline script in the `<head>` of [`src/app.html`](src/app.html) sets `data-theme` from `localStorage` before the page is drawn. In the component it would come too late, after the first paint.
-- **Accessible**: the text says what the button does: "Dark mode" in light mode, "Light mode" in dark mode. Because the label describes the action, there is no `aria-pressed`: together with a changing label, screen readers would announce something confusing like "Light mode, pressed". The ☾ / ☀ icon matches the text and is `aria-hidden`. 44px touch target and a visible focus ring.
+- **The text comes from CSS**: both texts are in the button, and the CSS hides the one that doesn't fit with `display: none`, using the same conditions as `color-scheme` in `app.css` (`[data-theme]`, and `prefers-color-scheme` when nothing is chosen). So JS doesn't need to keep track of the theme or listen to changes of the device. Only on click, JS looks up the current theme to switch to the other one.
+- **Accessible**: the text says what the button does: "Dark mode" in light mode, "Light mode" in dark mode. `display: none` also takes the hidden text out of the name screen readers hear. Because the label describes the action, there is no `aria-pressed`: together with a changing label, screen readers would announce something confusing like "Light mode, pressed". The ☾ / ☀ icon matches the text and is `aria-hidden`. 44px touch target and a visible focus ring.
 - **Without JS** the button isn't shown (it couldn't do anything) and the site follows the device.
 - `try/catch` around `localStorage`, because it can be blocked (for example in some private modes): then the choice simply isn't remembered.
 - The social media icons in [`Contact.svelte`](src/lib/components/Contact.svelte) are not `<img>`s but a `<span>` with the SVG as a CSS `mask-image` and `background-color: currentColor`. The SVG only gives the shape, the color is the text color, so the icons follow dark mode (an `<img>` can't use the text color). The `url()` needs quotes, because Vite inlines small SVGs as data URLs that contain `'`. The icons are `aria-hidden`, because the name next to them is already the link text.
@@ -119,14 +120,16 @@ To test the device setting: DevTools → Rendering → Emulate CSS media feature
 
 ### Adding a project
 
-Add an object to the `projects` array in [`src/routes/+page.server.js`](src/routes/+page.server.js):
+Import the image at the top of [`src/routes/+page.server.js`](src/routes/+page.server.js) with `?enhanced`, and add an object to the `projects` array:
 
 ```js
+import projectImage from '$lib/assets/pics/project.png?enhanced&w=2400;1600;1080;640'
+
 {
 	title: 'Project name',
 	description: 'One or two sentences about the project.',
 	href: 'https://github.com/SebBastiaans/project',
-	image: projectImage, // imported at the top of the file
+	image: projectImage
 	width: 2880, // real pixel size of the image
 	height: 1984,
 	category: 'school' // or 'personal'
@@ -135,17 +138,21 @@ Add an object to the `projects` array in [`src/routes/+page.server.js`](src/rout
 
 On macOS you can find the image size with `sips -g pixelWidth -g pixelHeight image.png`.
 
+Just add the PNG or JPG as it is, big is fine. `?enhanced` (from [`@sveltejs/enhanced-img`](https://svelte.dev/docs/kit/images)) makes small versions while building, see [Images and fonts](#images-and-fonts).
+
 #### With a video instead of a photo
 
-Add a `video` next to the `image`. The image is still required: it is shown as the first frame (poster) without JavaScript, with reduced motion and while the video loads.
+Add a `video` and a `poster` next to the `image`. The poster is shown as the first frame without JavaScript, with reduced motion and while the video loads. A poster can't be a `<picture>`, so it's one WebP made from the same image.
 
 ```js
 import projectVideo from '$lib/assets/videos/project.mp4'
+import projectPoster from '$lib/assets/pics/project.png?w=1600&format=webp'
 
 {
 	// …same as above
 	image: projectImage, // a still from the video
 	video: projectVideo,
+	poster: projectPoster,
 	width: 1920, // real pixel size of the video
 	height: 1080
 }
@@ -156,6 +163,25 @@ import projectVideo from '$lib/assets/videos/project.mp4'
 - On macOS you can find the video size with `mdls -name kMDItemPixelWidth -name kMDItemPixelHeight project.mp4`.
 
 Videos play muted and on a loop, only while they are on screen. A "Pause videos" button appears in the bar above the projects as soon as there is at least one video. [More about videos](docs/project-carousel.md#videos).
+
+## Images and fonts
+
+**Images** are imported with `?enhanced` from [`@sveltejs/enhanced-img`](https://svelte.dev/docs/kit/images) (plugin in [`vite.config.js`](vite.config.js)). While building it makes AVIF and WebP versions in a few widths, and a JPG fallback (PNG when the image is transparent). The import gives an object, which the components put in a `<picture>`:
+
+```svelte
+<picture>
+	<source type="image/avif" srcset={image.sources.avif} {sizes}>
+	<source type="image/webp" srcset={image.sources.webp} {sizes}>
+	<img src={image.img.src} alt="" {width} {height} loading="lazy">
+</picture>
+```
+
+- The browser takes the first `<source>` with a format it supports, and from its `srcset` the width that fits `sizes` and the pixel density of the screen. Browsers without AVIF or WebP get the `<img>`.
+- The `<picture>` has `display: contents`: it has no box of its own, so for the layout, sticky and the CSS the `<img>` still sits where it was.
+- The originals stay in `src/lib/assets/pics`, the small versions only exist in the build. The first build after adding an image is slower, because AVIF takes a while.
+- Result: the project images went from up to 6 MB per PNG to 10 to 70 KB per AVIF. A full visit on a sharp laptop screen loads about 875 KB of images and fonts.
+
+**Fonts** are WOFF2, the compressed format for the web: about 70% smaller than TTF (Inter: 875 KB → 349 KB). Only the IBM Plex Serif weights the site uses are there: Light to Bold, no italics. To convert a new font: [`wawoff2`](https://www.npmjs.com/package/wawoff2), or an online converter.
 
 ## Conventions
 

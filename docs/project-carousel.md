@@ -31,7 +31,11 @@ Every project has `width` and `height`, the real pixel size of its image. They e
 
 <ol class="project-list">
 	<li class="project-card" data-category="school">
-		<img src="…" alt="" width="2880" height="1984" loading="lazy">
+		<picture>
+			<source type="image/avif" srcset="…">
+			<source type="image/webp" srcset="…">
+			<img src="…" alt="" width="2880" height="1984" loading="lazy">
+		</picture>
 		<h3><a href="…">Milledoni</a></h3>
 		<p>Designing and building an interactive website.</p>
 	</li>
@@ -242,19 +246,24 @@ A project can have a `video` instead of only an `image`. How to add one is in th
 
 ```svelte
 {#if video}
-	<video class="project-media" src={video} poster={image} {width} {height}
+	<video class="project-media" src={video} {poster} {width} {height}
 		muted loop playsinline preload="none" aria-hidden="true"
 		{@attach (element) => autoplayVideo(element, videosPaused)}></video>
 {:else}
-	<img class="project-media" src={image} alt="" {width} {height} loading="lazy">
+	<picture>
+		<source type="image/avif" srcset={image.sources.avif} {sizes}>
+		<source type="image/webp" srcset={image.sources.webp} {sizes}>
+		<img class="project-media" src={image.img.src} alt="" {width} {height} loading="lazy">
+	</picture>
 {/if}
 ```
 
-- **The image stays required** and becomes the `poster`. That's what you see without JS, with reduced motion, when the browser blocks autoplay and while the video loads. So a video project never shows an empty box.
+- **The poster** is a WebP of the project image (a `poster` can't be a `<picture>`, see [Images and fonts](../README.md#images-and-fonts)). The browser loads it right away, also with `preload="none"`, so it's kept at 1600px wide. That's what you see without JS, with reduced motion, when the browser blocks autoplay and while the video loads. So a video project never shows an empty box.
 - **`width` and `height`** work on `<video>` just like on `<img>`: the browser uses them for the aspect ratio before anything is loaded, so there is no layout shift.
 - **`preload="none"`**: nothing of the video is downloaded until it plays. With a few videos on the page, that keeps the first load light.
 - **`muted` and `playsinline`**: browsers only allow autoplay for muted videos, and `playsinline` stops iOS from opening the video full screen.
 - **`aria-hidden="true"`**: the video is decorative, like the images with `alt=""`. The project title in the card is the link and its name. Because it is muted, it needs no captions.
+- The `<picture>` has `display: contents`, so the `<img>` inside is the grid item, just like the `<video>`.
 - Both elements share the class `.project-media`, so all the CSS (aspect ratio, `object-fit`, the image column on wide screens, the focus ring and the scroll-driven scale) works for images and videos alike.
 
 ### Playing only on screen: `autoplay-video.js`

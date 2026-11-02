@@ -22,6 +22,9 @@
     let active = $state(null);
 
     const formatNumber = (number) => String(number).padStart(2, '0');
+
+    // how wide the project images are shown, so the browser can pick a width from the srcset (--project-image-width is 55cqi)
+    const sizes = '(min-width: 48rem) 55vw, 100vw';
 </script>
 
 <section id="projects" class="projects" aria-labelledby="projects-title">
@@ -83,15 +86,15 @@
         {/if}
 
         <ol class="project-list" {@attach (list) => stackCarousel(list, (newActive) => (active = newActive))}>
-            {#each projects as { title, description, href, image, video, width, height, category }}
+            {#each projects as { title, description, href, image, video, poster, width, height, category }}
                 <li class="project-card" data-category={category}>
                     {#if video}
                         <!-- decorative like the images: muted, no controls, the title is the link -->
-                        <!-- the image is the poster: shown without JS, with reduced motion and while loading -->
+                        <!-- the poster is a still of the video: shown without JS, with reduced motion and while loading -->
                         <video
                             class="project-media"
                             src={video}
-                            poster={image}
+                            {poster}
                             {width}
                             {height}
                             muted
@@ -102,7 +105,13 @@
                             {@attach (element) => autoplayVideo(element, videosPaused)}
                         ></video>
                     {:else}
-                        <img class="project-media" src={image} alt="" {width} {height} loading="lazy">
+                        <!-- the browser takes the first format it supports, in the width that fits: AVIF, then WebP, then the JPG or PNG of the img -->
+                        <!-- sizes: full width on small screens, 55% next to the text when the stage is 48rem or wider -->
+                        <picture>
+                            <source type="image/avif" srcset={image.sources.avif} {sizes}>
+                            <source type="image/webp" srcset={image.sources.webp} {sizes}>
+                            <img class="project-media" src={image.img.src} alt="" {width} {height} loading="lazy">
+                        </picture>
                     {/if}
                     <h3><a {href}>{title}</a></h3>
                     <p>{description}</p>
@@ -191,6 +200,11 @@
         scroll-snap-align: center;
         /* timeline that runs while the card scrolls through the screen, used by the image and text */
         view-timeline: --project-card block;
+
+        /* no box of its own, so the img inside is the grid item, just like the video */
+        picture{
+            display: contents;
+        }
 
         .project-media{
             /* own aspect ratio, from the width and height attributes */
