@@ -8,6 +8,10 @@ import proofOfConcept from '$lib/assets/pics/proof-of-concept.png'
 import tribeForLifeSquadPage from '$lib/assets/pics/your-tibe-for-life-squadpage.png'
 import tribeForLifeProfileCard from '$lib/assets/pics/profile-card-fl.png'
 import tribeForLifeProfileCardVideo from '$lib/assets/videos/profile-card.mp4'
+import aiTradeTool from '$lib/assets/pics/ai-trade-tool.png'
+import aiTradeToolVideo from '$lib/assets/videos/ai-trade-tool.mp4'
+import aiFramer from '$lib/assets/pics/ai-framer.png'
+import aiFramerVideo from '$lib/assets/videos/ai-framer.mp4'
 
 // width and height of the image prevent layout shift while it loads
 // category is 'school' or 'personal', used by the filter in projects.svelte
@@ -93,6 +97,26 @@ const projects = [
 		width: 3840,
 		height: 1982,
 		category: 'school'
+	},
+	{
+		title: 'Automated AI trade tool',
+		description: 'Seeing if there is an ulimited money glitch. Using API for live prices.',
+		href: 'https://github.com/SebBastiaans/ai-trade',
+		image: aiTradeTool,
+		video: aiTradeToolVideo,
+		width: 1920,
+		height: 992,
+		category: 'personal'
+	},
+	{
+		title: 'AI Framer testing',
+		description: 'Experimenting with AI tools for web.',
+		href: 'https://github.com/SebBastiaans/AI-garden',
+		image: aiFramer,
+		video: aiFramerVideo,
+		width: 3840,
+		height: 1982,
+		category: 'personal'
 	}
 ]
 
