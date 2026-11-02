@@ -1,11 +1,16 @@
 <section id="biography">
     <h2>Biography</h2>
+
+    <h3>Web</h3>
     <ul>
         <li>Specializing in <span class="hint" data-tooltip="Try different view width's in your dev tools ;)">responsive</span>, accesible, performing, progressive enhanced websites</li>
         <li>Understanding design, translating it to code</li>
         <li>Scrumming, communicating, collaborating</li>
         <li>Soon to be AI prompt whisperer</li>
     </ul>
+
+    <br>
+    <h3>Just like creating stuff</h3>
 </section>
 
 <style>

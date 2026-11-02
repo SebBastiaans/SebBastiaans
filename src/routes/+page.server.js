@@ -6,6 +6,8 @@ import userExperienceEnhanced from '$lib/assets/pics/user-exp-enh.png'
 import pleasurableUi from '$lib/assets/pics/pleasurable-ui.png'
 import proofOfConcept from '$lib/assets/pics/proof-of-concept.png'
 import tribeForLifeSquadPage from '$lib/assets/pics/your-tibe-for-life-squadpage.png'
+import tribeForLifeProfileCard from '$lib/assets/pics/profile-card-fl.png'
+import tribeForLifeProfileCardVideo from '$lib/assets/videos/profile-card.mp4'
 
 // width and height of the image prevent layout shift while it loads
 // category is 'school' or 'personal', used by the filter in projects.svelte
@@ -74,10 +76,20 @@ const projects = [
 		category: 'school'
 	},
 	{
-		title: 'Your Tribe squad page',
+		title: 'Your tribe for life squad page',
 		description: 'Remaking a squad page using SvelteKit.',
 		href: 'https://github.com/SebBastiaans/your-tribe-for-life-squad-page',
 		image: tribeForLifeSquadPage,
+		width: 3840,
+		height: 1982,
+		category: 'school'
+	},
+	{
+		title: 'Your Tribe for life profile card',
+		description: 'Remaking my profile card using SvelteKit.',
+		href: 'https://github.com/SebBastiaans/your-tribe-for-life-profile-card',
+		image: tribeForLifeProfileCard,
+		video: tribeForLifeProfileCardVideo,
 		width: 3840,
 		height: 1982,
 		category: 'school'
