@@ -22,6 +22,7 @@ src/
 │   └── +page.svelte            the home page, puts the components together
 └── lib/
     ├── stack-carousel.js       JS enhancement for the project carousel
+    ├── autoplay-video.js       plays project videos only while they are on screen
     └── components/
         ├── header.svelte       scroll-driven title marquee
         ├── hero.svelte
@@ -67,6 +68,28 @@ Add an object to the `projects` array in [`src/routes/+page.server.js`](src/rout
 ```
 
 On macOS you can find the image size with `sips -g pixelWidth -g pixelHeight image.png`.
+
+#### With a video instead of a photo
+
+Add a `video` next to the `image`. The image is still required: it is shown as the first frame (poster) without JavaScript, with reduced motion and while the video loads.
+
+```js
+import projectVideo from '$lib/assets/videos/project.mp4'
+
+{
+	// …same as above
+	image: projectImage, // a still from the video
+	video: projectVideo,
+	width: 1920, // real pixel size of the video
+	height: 1080
+}
+```
+
+- Use an **MP4 (H.264)** without sound, so it plays in every browser. Keep it short and small: a few seconds and preferably under 5 MB.
+- Make the poster image with the same size as the video, for example a screenshot of the first frame.
+- On macOS you can find the video size with `mdls -name kMDItemPixelWidth -name kMDItemPixelHeight project.mp4`.
+
+Videos play muted and on a loop, only while they are on screen. A "Pause videos" button appears in the bar above the projects as soon as there is at least one video. [More about videos](docs/project-carousel.md#videos).
 
 ## Conventions
 

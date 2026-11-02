@@ -9,6 +9,7 @@ Inspired by the projects page of [Mainly Photography Studio](https://mainlyphoto
 - [`src/routes/+page.server.js`](../src/routes/+page.server.js): the project data
 - [`src/lib/components/projects.svelte`](../src/lib/components/projects.svelte): HTML and CSS
 - [`src/lib/stack-carousel.js`](../src/lib/stack-carousel.js): the JavaScript enhancement
+- [`src/lib/autoplay-video.js`](../src/lib/autoplay-video.js): plays videos only while they are on screen
 - [`src/app.css`](../src/app.css): scroll snapping on `html`
 
 ---
@@ -230,6 +231,51 @@ When the text fits next to the images, the title and description don't move with
 
 Svelte removes selectors it can't find in the markup. `data-enhanced` is added later by JS, so only that attribute is marked `:global`. The rest of the rule stays scoped to the component.
 
+## 5. Videos
+
+A project can have a `video` instead of only an `image`. How to add one is in the [README](../README.md#with-a-video-instead-of-a-photo).
+
+### Markup
+
+```svelte
+{#if video}
+	<video class="project-media" src={video} poster={image} {width} {height}
+		muted loop playsinline preload="none" aria-hidden="true"
+		{@attach (element) => autoplayVideo(element, videosPaused)}></video>
+{:else}
+	<img class="project-media" src={image} alt="" {width} {height} loading="lazy">
+{/if}
+```
+
+- **The image stays required** and becomes the `poster`. That's what you see without JS, with reduced motion, when the browser blocks autoplay and while the video loads. So a video project never shows an empty box.
+- **`width` and `height`** work on `<video>` just like on `<img>`: the browser uses them for the aspect ratio before anything is loaded, so there is no layout shift.
+- **`preload="none"`**: nothing of the video is downloaded until it plays. With a few videos on the page, that keeps the first load light.
+- **`muted` and `playsinline`**: browsers only allow autoplay for muted videos, and `playsinline` stops iOS from opening the video full screen.
+- **`aria-hidden="true"`**: the video is decorative, like the images with `alt=""`. The project title in the card is the link and its name. Because it is muted, it needs no captions.
+- Both elements share the class `.project-media`, so all the CSS (aspect ratio, `object-fit`, the image column on wide screens, the focus ring and the scroll-driven scale) works for images and videos alike.
+
+### Playing only on screen: `autoplay-video.js`
+
+A Svelte attachment with an `IntersectionObserver`: the video plays when at least a quarter of it is on screen and pauses when it scrolls away. Videos outside the screen don't use battery and data, and you see the video in the middle move, like on Mainly.
+
+`play()` returns a promise that fails when the browser blocks autoplay (for example in low power mode). The `.catch()` ignores that, and the poster simply stays visible.
+
+### Pause button
+
+[WCAG 2.2.2 Pause, Stop, Hide](https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html): moving content that starts by itself and lasts longer than 5 seconds must be pausable. So when at least one project has a video, the bar above the projects gets a button:
+
+```svelte
+<button type="button" aria-pressed={videosPaused} onclick={() => (videosPaused = !videosPaused)}>
+	Pause videos
+</button>
+```
+
+- **A toggle button with `aria-pressed`** and a fixed label: screen readers announce "Pause videos, toggle button, pressed" or "not pressed". Changing the label instead ("Pause" / "Play") together with `aria-pressed` would make the state unclear.
+- **Pressed** gives it the same blue look as the chosen filter.
+- The attachment reads `videosPaused`, so Svelte runs it again when the button is pressed: the cleanup pauses the video and disconnects the observer, and the new run either stays paused or starts observing again.
+- **The button only appears when JS runs** (`canControlVideos` is set in an `$effect`), because without JS it can't do anything. Without JS the videos don't play anyway: there is no `autoplay` attribute, so only the poster is shown.
+- **Reduced motion**: `videosPaused` starts as `true` and the `$effect` only sets it to `false` when the visitor doesn't prefer reduced motion. So videos never start for those visitors, and they can still choose to play them with the button.
+
 ## Accessibility checklist
 
 - [x] Filter is a native radio group with a (visually hidden) `legend`
@@ -241,6 +287,7 @@ Svelte removes selectors it can't find in the markup. `data-enhanced` is added l
 - [x] No motion with `prefers-reduced-motion: reduce`
 - [x] Works without JavaScript and without modern CSS
 - [x] Counter and details panel are decorative (`aria-hidden`), no announcements while scrolling
+- [x] Videos are muted, can be paused with a button (WCAG 2.2.2) and don't start with reduced motion
 
 ## Settings to tweak
 
@@ -253,3 +300,4 @@ Svelte removes selectors it can't find in the markup. `data-enhanced` is added l
 | Size of the title in the details panel | `* .14` in `.project-details-title` in `projects.svelte`. Higher means bigger, but check that the longest word still fits |
 | Fade between projects in the details panel | `in:fade={{ duration: 300 }}` in `projects.svelte` |
 | Snap strength | `scroll-snap-type` in `app.css` (`proximity` or `mandatory`) |
+| How much of a video must be on screen before it plays | `threshold: 0.25` in `autoplay-video.js` |

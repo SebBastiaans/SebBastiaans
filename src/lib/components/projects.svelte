@@ -1,10 +1,22 @@
 <script>
     import { fade } from 'svelte/transition';
     import { stackCarousel } from '$lib/stack-carousel.js';
+    import { autoplayVideo } from '$lib/autoplay-video.js';
 
     let { projects } = $props();
 
     const hasPersonalProjects = $derived(projects.some(({ category }) => category === 'personal'));
+    const hasVideos = $derived(projects.some(({ video }) => video));
+
+    // the pause button only works with JS, so it's only shown once JS runs
+    let canControlVideos = $state(false);
+    // paused until JS knows whether the visitor prefers reduced motion
+    let videosPaused = $state(true);
+
+    $effect(() => {
+        canControlVideos = true;
+        videosPaused = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    });
 
     // { index, total, projectIndex } of the project in the middle of the screen, set by stack-carousel.js
     let active = $state(null);
@@ -32,6 +44,18 @@
             </label>
         </fieldset>
 
+        {#if hasVideos && canControlVideos}
+            <!-- WCAG 2.2.2: moving video that plays longer than 5 seconds must be pausable -->
+            <button
+                type="button"
+                class="project-video-toggle"
+                aria-pressed={videosPaused}
+                onclick={() => (videosPaused = !videosPaused)}
+            >
+                Pause videos
+            </button>
+        {/if}
+
         {#if active}
             <!-- visual only: screen readers already hear "list, 8 items" and the position in the list -->
             <p class="project-counter" aria-hidden="true">
@@ -58,9 +82,27 @@
         {/if}
 
         <ol class="project-list" {@attach (list) => stackCarousel(list, (newActive) => (active = newActive))}>
-            {#each projects as { title, description, href, image, width, height, category }}
+            {#each projects as { title, description, href, image, video, width, height, category }}
                 <li class="project-card" data-category={category}>
-                    <img src={image} alt="" {width} {height} loading="lazy">
+                    {#if video}
+                        <!-- decorative like the images: muted, no controls, the title is the link -->
+                        <!-- the image is the poster: shown without JS, with reduced motion and while loading -->
+                        <video
+                            class="project-media"
+                            src={video}
+                            poster={image}
+                            {width}
+                            {height}
+                            muted
+                            loop
+                            playsinline
+                            preload="none"
+                            aria-hidden="true"
+                            {@attach (element) => autoplayVideo(element, videosPaused)}
+                        ></video>
+                    {:else}
+                        <img class="project-media" src={image} alt="" {width} {height} loading="lazy">
+                    {/if}
                     <h3><a {href}>{title}</a></h3>
                     <p>{description}</p>
                 </li>
@@ -92,9 +134,39 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        /* on small screens the video button and counter go to a second line when they don't fit */
+        flex-wrap: wrap;
         gap: .5rem;
         padding: .75rem var(--_pad);
         background-color: rgba(255, 255, 255, 0.414);
+    }
+
+    .project-video-toggle{
+        --_background: white;
+        --_color: black;
+
+        /* pushes the button and the counter to the right */
+        margin-inline-start: auto;
+        /* 44px touch target, same look as the filter */
+        min-height: 2.75rem;
+        padding-inline: 1rem;
+        border: 2px solid blue;
+        border-radius: 2rem;
+        background: var(--_background);
+        color: var(--_color);
+        font: inherit;
+        cursor: pointer;
+        transition: background .2s, color .2s;
+
+        &[aria-pressed="true"]{
+            --_background: blue;
+            --_color: white;
+        }
+
+        &:focus-visible{
+            outline: 3px solid black;
+            outline-offset: 2px;
+        }
     }
 
     .project-counter{
@@ -194,10 +266,12 @@
         /* timeline that runs while the card scrolls through the screen, used by the image and text */
         view-timeline: --project-card block;
 
-        img{
+        .project-media{
             /* own aspect ratio, from the width and height attributes */
+            display: block;
             width: 100%;
             height: auto;
+            object-fit: cover;
             /* shrink towards the right edge, so the carousel is aligned right */
             transform-origin: right center;
         }
@@ -239,7 +313,7 @@
         }
 
         /* focus ring on the image, the same area as the clickable link (the h3 itself can be invisible) */
-        &:has(a:focus-visible) img{
+        &:has(a:focus-visible) .project-media{
             outline: 3px solid blue;
             outline-offset: -3px;
         }
@@ -298,7 +372,7 @@
             column-gap: var(--_gap);
             padding-inline-start: var(--_pad);
 
-            img{
+            .project-media{
                 grid-column: 2;
                 grid-row: 1 / -1;
             }
@@ -334,7 +408,7 @@
     @media (prefers-reduced-motion: no-preference) {
         @supports (animation-timeline: view()) {
             /* fallback without JS, with JS the cards are scaled by stack-carousel.js */
-            .project-list:not([data-enhanced]) .project-card img{
+            .project-list:not([data-enhanced]) .project-card .project-media{
                 animation: project-scale linear both;
                 animation-timeline: --project-card;
             }
