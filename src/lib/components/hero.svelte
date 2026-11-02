@@ -26,8 +26,8 @@
     }
 </script>
 
-<!-- The img sits outside .hero so it can stay sticky over the whole page.
-     .photo-slot keeps its place in the hero layout. -->
+<!-- The img sits outside .hero, so it isn't part of the flex layout and can lay on top of .photo-slot.
+     Its parent is .page-start in +page.svelte (header, hero and biography), so it sticks until above projects. -->
 <img class="profile-photo" src={profilePhoto} alt="" style:translate={dodge} onpointerenter={handlePointerEnter}>
 
 <div class="hero">
@@ -40,11 +40,6 @@
 </div>
 
 <style>
-:global(body){
-    /* lets the img use the --hero timeline even though it isn't inside .hero */
-    timeline-scope: --hero;
-}
-
 .profile-photo{
     display: block;
     width: var(--profile-photo-size);
@@ -148,7 +143,7 @@
     }
     100% {
         /* real circle, small as an icon (a polygon can't morph into circle(), so it switches at the very end) */
-        scale: .12;
+        scale: var(--profile-icon-scale);
         /* right side of the screen, same padding as on the left */
         margin-inline-start: calc(100% - var(--hero-padding) - var(--profile-photo-size));
         clip-path: circle(50%);

@@ -160,6 +160,8 @@
     --hero-padding: 0px;
     /* 100% is the width of the hero, because the value is only filled in where it is used */
     --profile-photo-size: min(420px, 100% - 2 * var(--hero-padding));
+    /* the profile photo ends as a small round icon, this is its size compared to the photo */
+    --profile-icon-scale: .12;
 
     /* project carousel on wide screens: the images get a fixed part of the width, the text gets the rest */
     /* cqi is the width of .project-stage, because the value is only filled in where it is used */
@@ -178,6 +180,8 @@ html {
 }
 
 body {
+    /* lets the profile photo use the --hero timeline of .hero, although the photo isn't inside .hero */
+    timeline-scope: --hero;
     min-height: 100%;
     background-color: var(--color-page);
     background-image:

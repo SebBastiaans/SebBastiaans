@@ -10,6 +10,7 @@
 
 <style>
 #biography{
+    min-height: 100dvh;
     .hint{
         position: relative;
         cursor: help;

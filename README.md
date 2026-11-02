@@ -51,6 +51,16 @@ Reduced motion turns off all scaling.
 
 ➡️ **[Read how the project carousel works](docs/project-carousel.md)**
 
+### Hero
+
+The profile photo in [`hero.svelte`](src/lib/components/hero.svelte) is `position: sticky` and morphs while you scroll (square → M → E → circle), with a CSS scroll-driven animation on the `--hero` view timeline. Without support or with reduced motion it stays a normal square photo.
+
+- The `<img>` sits outside `.hero`, so it isn't part of the flex layout and can lay on top of `.photo-slot`.
+- A sticky element only sticks until the end of its parent. The photo's parent is `.page-start` in [`+page.svelte`](src/routes/+page.svelte), around header, hero and biography. So after morphing into a round icon, it scrolls along through biography and stops above projects.
+- The photo has a negative `margin-bottom` of its own size (to lay on top of `.photo-slot`), so for sticky it counts as 0px high: its *top* would stop right at the edge of projects, and the icon would hang over it. `.page-start` has a `padding-bottom` of exactly the icon's size (`--profile-photo-size` × `--profile-icon-scale`), and a sticky element never moves into its parent's padding, so the icon stops above projects.
+- `--profile-icon-scale` (`.12` in `app.css`) is used both by the end of the morph animation and by that padding, so they always match.
+- `timeline-scope: --hero` on `body` (in `app.css`) lets the img use the `--hero` timeline of `.hero`, even though it isn't inside `.hero`.
+
 ### Navigation
 
 A fixed bar at the bottom of the screen ([`nav.svelte`](src/lib/components/nav.svelte)) with a see-through background (`--color-glass`). It slides away when you scroll down and comes back when you scroll up.

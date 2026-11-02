@@ -10,7 +10,8 @@
     const { projects } = $derived(data);
 </script>
 
-<div>
+<!-- the sticky profile photo in the hero stays inside this, so it stops above projects -->
+<div class="page-start">
     <Header />
 
     <Hero />
@@ -25,7 +26,11 @@
 <Nav />
 
 <style>
-    div{
+    .page-start{
         min-height: 100dvh;
+        /* the photo counts as 0px high for sticky (negative margin), so its top would stop right at the edge
+           of projects and the round icon would hang over it. A sticky element never moves into the padding
+           of its parent, so this room for the icon makes it stop above projects */
+        padding-bottom: calc(var(--profile-photo-size) * var(--profile-icon-scale));
     }
 </style>
