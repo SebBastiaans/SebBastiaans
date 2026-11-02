@@ -120,6 +120,22 @@ const projects = [
 	}
 ]
 
-export const load = () => {
-	return { projects }
+// the song in Biography.svelte: a 30 second preview from Apple, looked up at build time because Apple can change the preview url
+// the id is the ?i= in the url of the song on music.apple.com
+const favoriteSongId = 1441492959
+
+async function getFavoriteSong(fetch) {
+	try {
+		const response = await fetch(`https://itunes.apple.com/lookup?id=${favoriteSongId}&country=nl`)
+		const [song] = (await response.json()).results
+
+		return { previewUrl: song.previewUrl, appleMusicUrl: song.trackViewUrl }
+	} catch {
+		// no internet or Apple is down while building: the site just builds without the song
+		return null
+	}
+}
+
+export const load = async ({ fetch }) => {
+	return { projects, favoriteSong: await getFavoriteSong(fetch) }
 }

@@ -8,7 +8,7 @@
     import Footer from '$lib/components/Footer.svelte';
 
     let { data } = $props();
-    const { projects } = $derived(data);
+    const { projects, favoriteSong } = $derived(data);
 </script>
 
 <!-- the sticky profile photo in the hero stays inside this, so it stops above projects -->
@@ -17,7 +17,7 @@
 
     <Hero />
     
-    <Biography />
+    <Biography {favoriteSong} />
 </div>
 
 <Projects {projects} />

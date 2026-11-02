@@ -28,6 +28,7 @@ src/
         ├── Hero.svelte
         ├── Nav.svelte
         ├── Biography.svelte
+        ├── MusicalText.svelte  text that bounces on the beat of a song
         ├── Projects.svelte     project filter and carousel
         ├── Contact.svelte
         └── Footer.svelte       dark mode toggle
@@ -61,6 +62,22 @@ The profile photo in [`Hero.svelte`](src/lib/components/Hero.svelte) is `positio
 - The photo has a negative `margin-bottom` of its own size (to lay on top of `.photo-slot`), so for sticky it counts as 0px high: its *top* would stop right at the edge of projects, and the icon would hang over it. `.page-start` has a `padding-bottom` of exactly the icon's size (`--profile-photo-size` × `--profile-icon-scale`), and a sticky element never moves into its parent's padding, so the icon stops above projects.
 - `--profile-icon-scale` (`.12` in `app.css`) is used both by the end of the morph animation and by that padding, so they always match.
 - `timeline-scope: --hero` on `body` (in `app.css`) lets the img use the `--hero` timeline of `.hero`, even though it isn't inside `.hero`.
+
+### Musical text
+
+In the biography you can play my favorite song, *What Goes Around...Comes Around* by Justin Timberlake, and the text bounces along on the beat. [`MusicalText.svelte`](src/lib/components/MusicalText.svelte) measures the bass of the song live with the Web Audio API, and the variable font Inter (weight 100 to 900) makes the weight change smoothly.
+
+- The song is the 30 second preview from Apple. [`+page.server.js`](src/routes/+page.server.js) looks up its url at build time, with a link to the song in Apple Music next to the button.
+- Two animations, with a switch next to the play button:
+  - **Weight**: every letter gets bolder and taller on the kick, a few frames later than the one before it, so the beat rolls through the text like a wave.
+  - **Equalizer**: every letter is a bar of an equalizer, like the lights on a studio panel: the first letter shows the deep bass, the last one the highest sounds, and every letter shoots up as loud as its band is. The letters are bolder, closer together and already a bit stretched. Inter has no height axis (only weight and optical size), so this is `scale` on the y-axis.
+- On screens from 1024px wide it's a column on the right of the biography, aligned to the bottom and sticky at the bottom of the screen while the biography is in view.
+- The text is always one line and gets smaller when the page isn't wide enough: `font-size: min(5rem, 100cqi / var(--text-ems))`, where JS measures the width of the text in em once.
+- **Without JS** the play button isn't shown and the text stays thin and still. Without internet while building, the site builds without the song.
+- **Reduced motion**: the song still plays, but the text doesn't move.
+- Screen readers read the text in one go: the letters are `aria-hidden` and a visually hidden copy holds the whole text.
+
+➡️ **[Read how the musical text works](docs/musical-text.md)**
 
 ### Navigation
 
