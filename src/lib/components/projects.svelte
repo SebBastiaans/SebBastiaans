@@ -1,4 +1,6 @@
 <script>
+    import { stackCarousel } from '$lib/stack-carousel.js';
+
     let { projects } = $props();
 
     const hasPersonalProjects = $derived(projects.some(({ category }) => category === 'personal'));
@@ -23,10 +25,10 @@
         </label>
     </fieldset>
 
-    <ol class="project-list">
-        {#each projects as { title, description, href, image, category }}
+    <ol class="project-list" {@attach stackCarousel}>
+        {#each projects as { title, description, href, image, width, height, category }}
             <li class="project-card" data-category={category}>
-                <img src={image} alt="" loading="lazy">
+                <img src={image} alt="" {width} {height} loading="lazy">
                 <h3><a {href}>{title}</a></h3>
                 <p>{description}</p>
             </li>
@@ -43,8 +45,6 @@
 #projects{
     /* same side padding as the other sections, but the carousel goes edge to edge */
     --_pad: clamp(.5rem, calc(.5rem + (100vw - 375px) * 2.5rem / 1065px), 3rem);
-    /* 44px buttons + padding of the sticky filter, so a card fits right below it */
-    --_filter-height: 4.25rem;
 
     padding-inline: 0;
 
@@ -110,24 +110,32 @@
     .project-list{
         /* the cards respond to the width of the list, not the screen */
         container-type: inline-size;
+        /* stack-carousel.js measures the cards from the top of the list */
+        position: relative;
+
+        /* JS moves and scales the cards, from the right top so they stay aligned right */
+        /* :global because Svelte can't see that JS adds data-enhanced, it would remove this rule */
+        &:global([data-enhanced]) .project-card{
+            transform-origin: right top;
+            will-change: transform;
+        }
     }
 
     /* mobile: only the image, the text is still there for screen readers */
     .project-card{
         position: relative;
-        height: calc(100svh - var(--_filter-height));
         display: grid;
-        /* settle a card right below the filter when you stop scrolling near it */
-        scroll-snap-align: end;
+        /* settle a card in the middle of the screen when you stop scrolling near it */
+        scroll-snap-align: center;
         /* timeline that runs while the card scrolls through the screen, used by the image and text */
         view-timeline: --project-card block;
 
         img{
+            /* own aspect ratio, from the width and height attributes */
             width: 100%;
-            height: 100%;
-            min-height: 0;
-            object-fit: cover;
-            object-position: top;
+            height: auto;
+            /* shrink towards the right edge, so the carousel is aligned right */
+            transform-origin: right center;
         }
 
         h3{
@@ -172,12 +180,14 @@
     /* text next to the image, only when there is room for both */
     @container (min-width: 48rem){
         .project-card{
-            grid-template-columns: minmax(0, 1fr) minmax(16rem, 24rem);
+            /* text on the left, image on the right edge */
+            grid-template-columns: minmax(16rem, 24rem) minmax(0, 1fr);
             grid-template-rows: 1fr auto;
             column-gap: 2rem;
-            padding-inline-end: var(--_pad);
+            padding-inline-start: var(--_pad);
 
             img{
+                grid-column: 2;
                 grid-row: 1 / -1;
             }
 
@@ -202,7 +212,8 @@
     /* carousel: the card in the middle of the screen is big, cards at the edges shrink */
     @media (prefers-reduced-motion: no-preference) {
         @supports (animation-timeline: view()) {
-            .project-card img{
+            /* fallback without JS, with JS the cards are scaled by stack-carousel.js */
+            .project-list:not([data-enhanced]) .project-card img{
                 animation: project-scale linear both;
                 animation-timeline: --project-card;
             }
