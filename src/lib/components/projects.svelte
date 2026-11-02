@@ -332,6 +332,7 @@
                 display: block;
                 /* the panel lets clicks through, only the text itself is clickable */
                 pointer-events: auto;
+                width: fit-content;
             }
 
             p{
