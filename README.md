@@ -24,13 +24,13 @@ src/
     ├── stack-carousel.js       JS enhancement for the project carousel
     ├── autoplay-video.js       plays project videos only while they are on screen
     └── components/
-        ├── header.svelte       scroll-driven title marquee
-        ├── hero.svelte
-        ├── nav.svelte
-        ├── biography.svelte
-        ├── projects.svelte     project filter and carousel
-        ├── contact.svelte
-        └── footer.svelte       dark mode toggle
+        ├── Header.svelte       scroll-driven title marquee
+        ├── Hero.svelte
+        ├── Nav.svelte
+        ├── Biography.svelte
+        ├── Projects.svelte     project filter and carousel
+        ├── Contact.svelte
+        └── Footer.svelte       dark mode toggle
 ```
 
 ## Features
@@ -54,7 +54,7 @@ Reduced motion turns off all scaling.
 
 ### Hero
 
-The profile photo in [`hero.svelte`](src/lib/components/hero.svelte) is `position: sticky` and morphs while you scroll (square → M → E → circle), with a CSS scroll-driven animation on the `--hero` view timeline. Without support or with reduced motion it stays a normal square photo.
+The profile photo in [`Hero.svelte`](src/lib/components/Hero.svelte) is `position: sticky` and morphs while you scroll (square → M → E → circle), with a CSS scroll-driven animation on the `--hero` view timeline. Without support or with reduced motion it stays a normal square photo.
 
 - The `<img>` sits outside `.hero`, so it isn't part of the flex layout and can lay on top of `.photo-slot`.
 - A sticky element only sticks until the end of its parent. The photo's parent is `.page-start` in [`+page.svelte`](src/routes/+page.svelte), around header, hero and biography. So after morphing into a round icon, it scrolls along through biography and stops above projects.
@@ -64,7 +64,7 @@ The profile photo in [`hero.svelte`](src/lib/components/hero.svelte) is `positio
 
 ### Navigation
 
-A fixed bar at the bottom of the screen ([`nav.svelte`](src/lib/components/nav.svelte)) with a see-through background (`--color-glass`). It slides away when you scroll down and comes back when you scroll up.
+A fixed bar at the bottom of the screen ([`Nav.svelte`](src/lib/components/Nav.svelte)) with a see-through background (`--color-glass`). It slides away when you scroll down and comes back when you scroll up.
 
 **The URL follows the scroll position.** While you scroll, the URL changes to the section you are in (`/#biography`, `/#projects`, `/#contact`), so a copied link opens at the same spot. Above the first section (header and hero) the hash is removed.
 
@@ -86,14 +86,14 @@ The site follows the color scheme of the device (`prefers-color-scheme`), and th
 
 #### Theme toggle
 
-The button in [`footer.svelte`](src/lib/components/footer.svelte) sets `data-theme="light"` or `"dark"` on `<html>`. In `app.css`, `:root[data-theme="dark"]` sets `color-scheme: dark` (and the light one `light`), which overrides the device setting, so every `light-dark()` color switches along.
+The button in [`Footer.svelte`](src/lib/components/Footer.svelte) sets `data-theme="light"` or `"dark"` on `<html>`. In `app.css`, `:root[data-theme="dark"]` sets `color-scheme: dark` (and the light one `light`), which overrides the device setting, so every `light-dark()` color switches along.
 
 - **Remembered**: the choice is saved in `localStorage`. Until a visitor chooses, the site follows the device, also when the device changes.
 - **No flash of the wrong colors**: a small inline script in the `<head>` of [`src/app.html`](src/app.html) sets `data-theme` from `localStorage` before the page is drawn. In the component it would come too late, after the first paint.
 - **Accessible**: the text says what the button does: "Dark mode" in light mode, "Light mode" in dark mode. Because the label describes the action, there is no `aria-pressed`: together with a changing label, screen readers would announce something confusing like "Light mode, pressed". The ☾ / ☀ icon matches the text and is `aria-hidden`. 44px touch target and a visible focus ring.
 - **Without JS** the button isn't shown (it couldn't do anything) and the site follows the device.
 - `try/catch` around `localStorage`, because it can be blocked (for example in some private modes): then the choice simply isn't remembered.
-- The social media icons in [`contact.svelte`](src/lib/components/contact.svelte) are not `<img>`s but a `<span>` with the SVG as a CSS `mask-image` and `background-color: currentColor`. The SVG only gives the shape, the color is the text color, so the icons follow dark mode (an `<img>` can't use the text color). The `url()` needs quotes, because Vite inlines small SVGs as data URLs that contain `'`. The icons are `aria-hidden`, because the name next to them is already the link text.
+- The social media icons in [`Contact.svelte`](src/lib/components/Contact.svelte) are not `<img>`s but a `<span>` with the SVG as a CSS `mask-image` and `background-color: currentColor`. The SVG only gives the shape, the color is the text color, so the icons follow dark mode (an `<img>` can't use the text color). The `url()` needs quotes, because Vite inlines small SVGs as data URLs that contain `'`. The icons are `aria-hidden`, because the name next to them is already the link text.
 - Dark mode gets a slightly bigger line height (`--line-height`: 1.5 instead of 1.4), because light text on a dark background looks thinner and tighter.
 - Every text and background combination passes WCAG AAA (at least 7:1): broken white on the background is 16.3:1, pink on the background 11.2:1.
 

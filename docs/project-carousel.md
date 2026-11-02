@@ -7,7 +7,7 @@ Inspired by the projects page of [Mainly Photography Studio](https://mainlyphoto
 **Files**
 
 - [`src/routes/+page.server.js`](../src/routes/+page.server.js): the project data
-- [`src/lib/components/projects.svelte`](../src/lib/components/projects.svelte): HTML and CSS
+- [`src/lib/components/Projects.svelte`](../src/lib/components/Projects.svelte): HTML and CSS
 - [`src/lib/stack-carousel.js`](../src/lib/stack-carousel.js): the JavaScript enhancement
 - [`src/lib/autoplay-video.js`](../src/lib/autoplay-video.js): plays videos only while they are on screen
 - [`src/app.css`](../src/app.css): scroll snapping on `html`
@@ -85,7 +85,7 @@ On wide screens the `::before` only covers the image column (`inset-inline-start
 	--project-text-width: calc(100cqi - var(--project-image-width) - var(--project-gap) - var(--page-padding));
 }
 
-/* projects.svelte */
+/* Projects.svelte */
 .project-stage { container-type: inline-size; }
 
 @container (min-width: 48rem) {
@@ -297,10 +297,10 @@ A Svelte attachment with an `IntersectionObserver`: the video plays when at leas
 | What | Where |
 | --- | --- |
 | Smallest scale at the edges | `edgeScale` in `stack-carousel.js` and `scale(.72)` in the `project-scale` keyframes |
-| When the text goes next to the image | `@container (min-width: 48rem)` in `projects.svelte` |
+| When the text goes next to the image | `@container (min-width: 48rem)` in `Projects.svelte` |
 | Width of the images on wide screens (the text gets the rest) | `--project-image-width` in `:root` in `app.css` |
 | Space between text and images | `--project-gap` in `:root` in `app.css` |
-| Size of the title in the details panel | `* .14` in `.project-details-title` in `projects.svelte`. Higher means bigger, but check that the longest word still fits |
-| Fade between projects in the details panel | `in:fade={{ duration: 300 }}` in `projects.svelte` |
+| Size of the title in the details panel | `* .14` in `.project-details-title` in `Projects.svelte`. Higher means bigger, but check that the longest word still fits |
+| Fade between projects in the details panel | `in:fade={{ duration: 300 }}` in `Projects.svelte` |
 | Snap strength | `scroll-snap-type` in `app.css` (`proximity` or `mandatory`) |
 | How much of a video must be on screen before it plays | `threshold: 0.25` in `autoplay-video.js` |

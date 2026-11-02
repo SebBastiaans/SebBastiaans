@@ -14,7 +14,7 @@ import aiFramer from '$lib/assets/pics/ai-framer.png'
 import aiFramerVideo from '$lib/assets/videos/ai-framer.mp4'
 
 // width and height of the image prevent layout shift while it loads
-// category is 'school' or 'personal', used by the filter in projects.svelte
+// category is 'school' or 'personal', used by the filter in Projects.svelte
 const projects = [
 	{
 		title: 'Milledoni',

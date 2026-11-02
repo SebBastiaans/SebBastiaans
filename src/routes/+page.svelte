@@ -1,11 +1,11 @@
 <script>
-    import Header from '$lib/components/header.svelte';
-    import Hero from '$lib/components/hero.svelte';
-    import Nav from '$lib/components/nav.svelte';
-    import Biography from '$lib/components/biography.svelte';
-    import Projects from '$lib/components/projects.svelte';
-    import Contact from '$lib/components/contact.svelte';
-    import Footer from '$lib/components/footer.svelte';
+    import Header from '$lib/components/Header.svelte';
+    import Hero from '$lib/components/Hero.svelte';
+    import Nav from '$lib/components/Nav.svelte';
+    import Biography from '$lib/components/Biography.svelte';
+    import Projects from '$lib/components/Projects.svelte';
+    import Contact from '$lib/components/Contact.svelte';
+    import Footer from '$lib/components/Footer.svelte';
 
     let { data } = $props();
     const { projects } = $derived(data);

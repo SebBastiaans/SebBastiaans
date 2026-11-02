@@ -118,7 +118,7 @@
 }
 
 :root {
-    /* follows the device by default, the theme toggle in footer.svelte can force one with data-theme (see below).
+    /* follows the device by default, the theme toggle in Footer.svelte can force one with data-theme (see below).
        It also makes scrollbars and form controls follow along */
     color-scheme: light dark;
 
