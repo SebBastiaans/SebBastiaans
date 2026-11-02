@@ -1,16 +1,20 @@
-// Svelte attachment for the project list, used as <ol {@attach stackCarousel}>
+// Svelte attachment for the project list, used as <ol {@attach (list) => stackCarousel(list, onActiveChange)}>
 // The card in the middle of the screen is full size, cards towards the edges shrink,
 // and every card is moved so they stay glued to each other without gaps.
 // Scrolling stays native: the cards keep their place in the page, this only moves them visually.
+// onActiveChange gets the card in the middle, or null when the carousel is off:
+// { index, total } count only the visible cards (for the counter),
+// projectIndex is the position in the whole list (to find its project data, also when filtered)
 
 const centerScale = 1
 const edgeScale = 0.72
 
-export function stackCarousel(list) {
+export function stackCarousel(list, onActiveChange = () => {}) {
 	const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
 	// fires when the list changes size, for example when the filter hides cards
 	const resizeObserver = new ResizeObserver(requestUpdate)
 	let frame = 0
+	let lastActive = ''
 
 	reducedMotion.addEventListener('change', toggle)
 	toggle()
@@ -49,6 +53,18 @@ export function stackCarousel(list) {
 		for (const card of list.children) {
 			card.style.transform = ''
 		}
+
+		reportActive(null)
+	}
+
+	// only tell the component when the active card or the number of cards changes, not every frame
+	function reportActive(active) {
+		const key = active ? `${active.index}/${active.total}/${active.projectIndex}` : ''
+
+		if (key === lastActive) return
+
+		lastActive = key
+		onActiveChange(active)
 	}
 
 	// at most one update per frame, however often the browser fires scroll events
@@ -66,7 +82,10 @@ export function stackCarousel(list) {
 			.filter((card) => card.offsetParent !== null)
 			.map((card) => ({ card, top: card.offsetTop, height: card.offsetHeight }))
 
-		if (boxes.length === 0) return
+		if (boxes.length === 0) {
+			reportActive(null)
+			return
+		}
 
 		const viewportHeight = window.innerHeight
 		// the middle of the screen, measured from the top of the list
@@ -100,6 +119,11 @@ export function stackCarousel(list) {
 		}
 
 		place(boxes[anchorIndex], anchorTop, anchorScale)
+		reportActive({
+			index: anchorIndex,
+			total: boxes.length,
+			projectIndex: [...list.children].indexOf(boxes[anchorIndex].card)
+		})
 
 		// 2. stack the cards below the anchor, each one starts where the previous one ends
 		let edge = anchorTop + boxes[anchorIndex].height * anchorScale

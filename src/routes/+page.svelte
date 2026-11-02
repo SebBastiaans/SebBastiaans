@@ -10,22 +10,22 @@
     const { projects } = $derived(data);
 </script>
 
-<!-- <div> -->
+<div>
     <Header />
 
     <Hero />
-<!-- </div> -->
-
-<!-- <Nav /> -->
-
-<Biography />
+    
+    <Biography />
+</div>
 
 <Projects {projects} />
 
 <Contact />
 
+<Nav />
+
 <style>
     div{
-        height: 100dvh;
+        min-height: 100dvh;
     }
 </style>
