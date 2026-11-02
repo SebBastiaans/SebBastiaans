@@ -118,10 +118,33 @@
 }
 
 :root {
-    /* colors */
+    /* tells the browser both schemes are supported, so scrollbars and form controls follow along */
+    color-scheme: light dark;
+
+    /* colors, light scheme */
     --color-primary: blue;
     --color-background: white;
     --color-text: black;
+    /* the page behind everything: off-white with a grid of thin lines */
+    --color-page: #fafafa;
+    --color-grid: #ddd;
+    /* see-through background for sticky bars, the content shows through */
+    --color-glass: color-mix(in srgb, var(--color-background) 41%, transparent);
+
+    /* light text on a dark background looks thinner and tighter, so it gets a bit more line height */
+    --line-height: 1.4;
+
+    @media (prefers-color-scheme: dark) {
+        /* colors, dark scheme: the light scheme turned around, with a light pink accent */
+        --color-primary: #ffb3c7;
+        --color-background: #121212;
+        /* broken white, softer on the eyes than pure white */
+        --color-text: #f3efe6;
+        --color-page: #0a0a0a;
+        --color-grid: #262626;
+
+        --line-height: 1.5;
+    }
 
     /* side padding of the page, from .5rem on a 375px screen to 3rem on a 1440px screen */
     --page-padding: clamp(.5rem, calc(.5rem + (100vw - 375px) * 2.5rem / 1065px), 3rem);
@@ -154,10 +177,21 @@ html {
     scroll-snap-type: y proximity;
 }
 
+body {
+    min-height: 100%;
+    background-color: var(--color-page);
+    background-image:
+        linear-gradient(var(--color-grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--color-grid) 1px, transparent 1px);
+    background-size: 20px 20px;
+    /* headings and list items inherit this, p, a and span get it below */
+    color: var(--color-text);
+}
+
 * {
     margin: 0;
     padding: 0;
-    line-height: 1.4;
+    line-height: var(--line-height);
     box-sizing: border-box;
     font-family: inter, sans-serif;
     list-style: none;
@@ -197,7 +231,6 @@ a:hover::after{
 section{
     margin-top: 1rem;
     padding-inline: var(--page-padding);
-    /* height: 100dvh; */
 
     h2 {
         transform: scaleY(var(--heading-stretch));

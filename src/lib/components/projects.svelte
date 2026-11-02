@@ -136,7 +136,7 @@
         flex-wrap: wrap;
         gap: .5rem;
         padding: .75rem var(--page-padding);
-        background-color: rgba(255, 255, 255, 0.414);
+        background-color: var(--color-glass);
     }
 
     .project-video-toggle{

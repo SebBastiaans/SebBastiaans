@@ -32,7 +32,7 @@ nav{
     position: fixed;
     bottom: 0;
     width: 100%;
-    background-color: rgba(255, 255, 255, 0.414);
+    background-color: var(--color-glass);
     z-index: 10;
 
     transform: translateY(0);
