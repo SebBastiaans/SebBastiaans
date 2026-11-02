@@ -1,10 +1,26 @@
 <script>
     import { onMount } from 'svelte';
+    import { replaceState } from '$app/navigation';
 
     let hidden = $state(false);
 
     onMount(() => {
         let lastScrollY = window.scrollY;
+        let currentSection = window.location.hash.slice(1);
+        const sections = document.querySelectorAll('section[id]');
+
+        // a section counts as "current" when it crosses a thin line in the middle of the screen
+        const sectionObserver = new IntersectionObserver(handleSections, {
+            rootMargin: '-50% 0px -50% 0px'
+        });
+
+        window.addEventListener('scroll', handleScroll);
+        sections.forEach((section) => sectionObserver.observe(section));
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            sectionObserver.disconnect();
+        };
 
         function handleScroll() {
             const currentScrollY = window.scrollY;
@@ -12,9 +28,24 @@
             lastScrollY = currentScrollY;
         }
 
-        window.addEventListener('scroll', handleScroll);
+        function handleSections(entries) {
+            for (const { target, isIntersecting } of entries) {
+                if (isIntersecting) {
+                    updateUrl(target.id);
+                } else if (target.id === currentSection) {
+                    // left the current section without entering a new one, for example back up to the hero
+                    updateUrl('');
+                }
+            }
+        }
 
-        return () => window.removeEventListener('scroll', handleScroll);
+        // replaceState and not pushState: the url follows along, but scrolling adds no steps to the back button
+        function updateUrl(id) {
+            if (id === currentSection) return;
+
+            currentSection = id;
+            replaceState(id ? `#${id}` : window.location.pathname, {});
+        }
     });
 </script>
 
