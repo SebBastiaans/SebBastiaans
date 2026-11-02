@@ -69,6 +69,9 @@
         --line-height: 1.5;
     }
 
+    /* rounded ends of the buttons and switches (.pill and .switch below) */
+    --radius-pill: .5rem;
+
     /* side padding of the page, from .5rem on a 375px screen to 3rem on a 1440px screen */
     --page-padding: clamp(.5rem, calc(.5rem + (100vw - 375px) * 2.5rem / 1065px), 3rem);
 
@@ -174,7 +177,7 @@ a{
     gap: .5rem;
     padding-inline: 1rem;
     border: 2px solid var(--color-primary);
-    border-radius: 2rem;
+    border-radius: var(--radius-pill);
     background: var(--color-background);
     color: var(--color-text);
     font: inherit;
@@ -199,7 +202,7 @@ a{
     margin: 0;
     padding: var(--switch-padding);
     border: 2px solid var(--color-primary);
-    border-radius: 2rem;
+    border-radius: var(--radius-pill);
     background: var(--color-background);
 
     &:has(label:nth-of-type(3)){
@@ -213,7 +216,7 @@ a{
         inset-block: var(--switch-padding);
         inset-inline-start: var(--switch-padding);
         width: calc((100% - 2 * var(--switch-padding)) / var(--switch-options));
-        border-radius: 2rem;
+        border-radius: var(--radius-pill);
         background: var(--color-primary);
         transition: translate .25s ease;
 
@@ -239,7 +242,7 @@ a{
         align-items: center;
         justify-content: center;
         padding-inline: 1rem;
-        border-radius: 2rem;
+        border-radius: var(--radius-pill);
         color: var(--color-text);
         cursor: pointer;
         transition: color .25s;
