@@ -43,6 +43,8 @@
 #projects{
     /* same side padding as the other sections, but the carousel goes edge to edge */
     --_pad: clamp(.5rem, calc(.5rem + (100vw - 375px) * 2.5rem / 1065px), 3rem);
+    /* 44px buttons + padding of the sticky filter, so a card fits right below it */
+    --_filter-height: 4.25rem;
 
     padding-inline: 0;
 
@@ -113,8 +115,12 @@
     /* mobile: only the image, the text is still there for screen readers */
     .project-card{
         position: relative;
-        height: 100svh;
+        height: calc(100svh - var(--_filter-height));
         display: grid;
+        /* settle a card right below the filter when you stop scrolling near it */
+        scroll-snap-align: end;
+        /* timeline that runs while the card scrolls through the screen, used by the image and text */
+        view-timeline: --project-card block;
 
         img{
             width: 100%;
@@ -193,6 +199,25 @@
         }
     }
 
+    /* carousel: the card in the middle of the screen is big, cards at the edges shrink */
+    @media (prefers-reduced-motion: no-preference) {
+        @supports (animation-timeline: view()) {
+            .project-card img{
+                animation: project-scale linear both;
+                animation-timeline: --project-card;
+            }
+
+            /* only fade the text when it is visible, on mobile it has to stay invisible */
+            @container (min-width: 48rem){
+                .project-card h3,
+                .project-card p{
+                    animation: project-fade linear both;
+                    animation-timeline: --project-card;
+                }
+            }
+        }
+    }
+
     /* filter: hide the cards that don't match the chosen category */
     &:has(input[value="school"]:checked) .project-card:not([data-category="school"]),
     &:has(input[value="personal"]:checked) .project-card:not([data-category="personal"]){
@@ -202,6 +227,33 @@
     &:has(input[value="personal"]:checked) .project-empty{
         display: block;
         padding: 2rem var(--_pad);
+    }
+}
+
+/* 0% = card enters at the bottom, 50% = card in the middle, 100% = card leaves at the top */
+@keyframes project-scale{
+    0%{
+        transform: scale(.72);
+        animation-timing-function: ease-in-out;
+    }
+    50%{
+        transform: scale(1);
+        animation-timing-function: ease-in-out;
+    }
+    100%{
+        transform: scale(.72);
+    }
+}
+
+@keyframes project-fade{
+    0%, 25%{
+        opacity: 0;
+    }
+    40%, 60%{
+        opacity: 1;
+    }
+    75%, 100%{
+        opacity: 0;
     }
 }
 </style>
