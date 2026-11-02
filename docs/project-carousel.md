@@ -73,30 +73,33 @@ Never `display: none` here: then the only thing left is an image with `alt=""`, 
 
 **Stretched link**: the link gets a `::before` with `position: absolute; inset: 0`, so the whole card is clickable while there is only one link per project in the tab order. The global `a { position: relative }` from `app.css` is set back to `static` on this link, otherwise the `::before` would only cover the title. Keyboard focus gives the image an outline via `.project-card:has(a:focus-visible) img`, so the focus ring shows exactly the clickable area. It's on the image and not on the link itself, because the `h3` (and so the link and its `::before`) has `opacity: 0` on mobile and with JS.
 
-On wide screens the `::before` only covers the image column (`inset-inline-start: auto; width: var(--_image-width)`). Otherwise the empty space next to the image would be one big link, and it's easy to click it by accident.
+On wide screens the `::before` only covers the image column (`inset-inline-start: auto; width: var(--project-image-width)`). Otherwise the empty space next to the image would be one big link, and it's easy to click it by accident.
 
 ### Container query: text next to the image when it fits
 
 ```css
-.project-stage {
-	container-type: inline-size;
-	--_gap: 2rem;
-	--_image-width: 55cqi;
-	--_text-width: calc(100cqi - var(--_image-width) - var(--_gap) - var(--_pad));
+/* app.css */
+:root {
+	--project-gap: 2rem;
+	--project-image-width: 55cqi;
+	--project-text-width: calc(100cqi - var(--project-image-width) - var(--project-gap) - var(--page-padding));
 }
+
+/* projects.svelte */
+.project-stage { container-type: inline-size; }
 
 @container (min-width: 48rem) {
 	.project-card {
-		grid-template-columns: minmax(0, 1fr) var(--_image-width);
+		grid-template-columns: minmax(0, 1fr) var(--project-image-width);
 	}
 }
 ```
 
 The cards respond to the width of `.project-stage` (the wrapper around the list), not the screen. When the stage is at least 48rem wide, the text goes in a column on the left and the image stays on the right edge. If the list is ever placed somewhere narrower, the text stays hidden as long as it doesn't fit.
 
-**The images get a fixed part of the width, the text gets the rest.** `cqi` is 1% of the width of the stage, so the images are always 55% of it, and `--_text-width` is what's left after the gap and the side padding. The other way around (a fixed text column and images filling the rest) made the images huge on wide screens, so they came far into the left half and under the title.
+**The images get a fixed part of the width, the text gets the rest.** `cqi` is 1% of the width of the stage, so the images are always 55% of it, and `--project-text-width` is what's left after the gap and the side padding. The other way around (a fixed text column and images filling the rest) made the images huge on wide screens, so they came far into the left half and under the title.
 
-The custom properties are only substituted where they are used, so `cqi` is measured against the container of the element that uses them: the stage, for the cards, the panel and the title alike.
+**Why `cqi` works in `:root`.** The properties are declared on `:root`, but `:root` is not a container. That's fine: a custom property without `@property` keeps its value as text, and units like `cqi` and `%` are only calculated where the property is used with `var()`. So `55cqi` is measured against the container of the element that uses it: the stage, for the cards, the panel and the title alike. Other `var()` references inside a custom property (like `--page-padding`) are filled in on `:root` itself.
 
 ### Scroll snapping
 
@@ -216,7 +219,7 @@ When the text fits next to the images, the title and description don't move with
 - `.project-details` is `position: absolute` over the left column of the list, as high as the whole list. It has `pointer-events: none`, so clicks go through to the card links.
 - Inside it, `.project-details-content` is `position: sticky; top: 0; height: 100svh` with the text centred. It stays in the middle of the screen while the list scrolls by, and leaves with the list at the end.
 - `stackCarousel` reports `projectIndex`, the position of the middle card in the **whole** list. The counter's `index` only counts visible cards, so it can't be used to look up the project when the filter is on.
-- The title may never overlap the images. The panel is exactly `--_pad + --_text-width` wide, the same as the text column of the cards, and the title size is `clamp(1.5rem, calc(var(--_text-width) * .14), 4.5rem)`. A long word like "Frankendael" is about 6em wide in IBM Plex Serif, so at 14% of the column it still fits on one line. For even longer words, `hyphens: auto` (works because of `<html lang="en">`) and `overflow-wrap: break-word` break the word instead of letting it run into the images. The title inside the cards (without JS) has the same safety net.
+- The title may never overlap the images. The panel is exactly `--page-padding + --project-text-width` wide, the same as the text column of the cards, and the title size is `clamp(1.5rem, calc(var(--project-text-width) * .14), 4.5rem)`. A long word like "Frankendael" is about 6em wide in IBM Plex Serif, so at 14% of the column it still fits on one line. For even longer words, `hyphens: auto` (works because of `<html lang="en">`) and `overflow-wrap: break-word` break the word instead of letting it run into the images. The title inside the cards (without JS) has the same safety net.
 - `{#key active.projectIndex}` with `in:fade` fades the new title and description in when the project changes.
 - The panel is `aria-hidden="true"`: screen readers already read the title and description in the card itself, which stays in the HTML (visually hidden, like on mobile).
 - The title and description in the panel are wrapped in a link to the same project, so the text is clickable like the image. The panel has `pointer-events: none` and only the link sets it back to `auto`, so the empty space around the text is not clickable. The link has `tabindex="-1"`: the keyboard already reaches the project through the link in the card, and a focusable element inside `aria-hidden` would be focusable without a name for screen readers.
@@ -295,8 +298,8 @@ A Svelte attachment with an `IntersectionObserver`: the video plays when at leas
 | --- | --- |
 | Smallest scale at the edges | `edgeScale` in `stack-carousel.js` and `scale(.72)` in the `project-scale` keyframes |
 | When the text goes next to the image | `@container (min-width: 48rem)` in `projects.svelte` |
-| Width of the images on wide screens (the text gets the rest) | `--_image-width` on `.project-stage` in `projects.svelte` |
-| Space between text and images | `--_gap` on `.project-stage` in `projects.svelte` |
+| Width of the images on wide screens (the text gets the rest) | `--project-image-width` in `:root` in `app.css` |
+| Space between text and images | `--project-gap` in `:root` in `app.css` |
 | Size of the title in the details panel | `* .14` in `.project-details-title` in `projects.svelte`. Higher means bigger, but check that the longest word still fits |
 | Fade between projects in the details panel | `in:fade={{ duration: 300 }}` in `projects.svelte` |
 | Snap strength | `scroll-snap-type` in `app.css` (`proximity` or `mandatory`) |

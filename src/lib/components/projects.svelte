@@ -118,13 +118,11 @@
 
 <style>
 #projects{
-    /* same side padding as the other sections, but the carousel goes edge to edge */
-    --_pad: clamp(.5rem, calc(.5rem + (100vw - 375px) * 2.5rem / 1065px), 3rem);
-
+    /* the carousel goes edge to edge, the parts inside get --page-padding themselves */
     padding-inline: 0;
 
     h2{
-        margin-inline: var(--_pad);
+        margin-inline: var(--page-padding);
     }
 
     .project-toolbar{
@@ -137,34 +135,31 @@
         /* on small screens the video button and counter go to a second line when they don't fit */
         flex-wrap: wrap;
         gap: .5rem;
-        padding: .75rem var(--_pad);
+        padding: .75rem var(--page-padding);
         background-color: rgba(255, 255, 255, 0.414);
     }
 
     .project-video-toggle{
-        --_background: white;
-        --_color: black;
-
         /* pushes the button and the counter to the right */
         margin-inline-start: auto;
         /* 44px touch target, same look as the filter */
         min-height: 2.75rem;
         padding-inline: 1rem;
-        border: 2px solid blue;
+        border: 2px solid var(--color-primary);
         border-radius: 2rem;
-        background: var(--_background);
-        color: var(--_color);
+        background: var(--color-background);
+        color: var(--color-text);
         font: inherit;
         cursor: pointer;
         transition: background .2s, color .2s;
 
         &[aria-pressed="true"]{
-            --_background: blue;
-            --_color: white;
+            background: var(--color-primary);
+            color: var(--color-background);
         }
 
         &:focus-visible{
-            outline: 3px solid black;
+            outline: 3px solid var(--color-text);
             outline-offset: 2px;
         }
     }
@@ -193,29 +188,26 @@
         }
 
         label{
-            --_background: white;
-            --_color: black;
-
             /* 44px touch target */
             min-height: 2.75rem;
             display: inline-flex;
             align-items: center;
             padding-inline: 1rem;
-            border: 2px solid blue;
+            border: 2px solid var(--color-primary);
             border-radius: 2rem;
-            background: var(--_background);
-            color: var(--_color);
+            background: var(--color-background);
+            color: var(--color-text);
             cursor: pointer;
             transition: background .2s, color .2s;
 
             &:has(input:checked){
-                --_background: blue;
-                --_color: white;
+                background: var(--color-primary);
+                color: var(--color-background);
             }
 
             /* the input is still there for keyboard and screen readers, the label shows the focus */
             &:has(input:focus-visible){
-                outline: 3px solid black;
+                outline: 3px solid var(--color-text);
                 outline-offset: 2px;
             }
 
@@ -228,12 +220,6 @@
     }
 
     .project-stage{
-        /* wide screens: the images get a fixed part of the width, the text gets the rest */
-        /* cqi is the width of this stage, so both columns grow and shrink with it */
-        --_gap: 2rem;
-        --_image-width: 55cqi;
-        --_text-width: calc(100cqi - var(--_image-width) - var(--_gap) - var(--_pad));
-
         /* the cards and the details respond to the width of the stage, not the screen */
         container-type: inline-size;
         /* .project-details is placed over the left side of the list */
@@ -314,7 +300,7 @@
 
         /* focus ring on the image, the same area as the clickable link (the h3 itself can be invisible) */
         &:has(a:focus-visible) .project-media{
-            outline: 3px solid blue;
+            outline: 3px solid var(--color-primary);
             outline-offset: -3px;
         }
     }
@@ -328,8 +314,8 @@
             inset-block: 0;
             inset-inline-start: 0;
             z-index: 1;
-            width: calc(var(--_pad) + var(--_text-width));
-            padding-inline-start: var(--_pad);
+            width: calc(var(--page-padding) + var(--project-text-width));
+            padding-inline-start: var(--page-padding);
             /* clicks go through to the card link underneath */
             pointer-events: none;
         }
@@ -357,7 +343,7 @@
                 margin-bottom: .75rem;
                 font-family: 'ibm', serif;
                 /* follows the text column: a long word like "Frankendael" (about 6em wide) still fits on one line */
-                font-size: clamp(1.5rem, calc(var(--_text-width) * .14), 4.5rem);
+                font-size: clamp(1.5rem, calc(var(--project-text-width) * .14), 4.5rem);
                 line-height: 1.05;
                 /* safety net for even longer words: hyphenate, and break if that's not enough */
                 hyphens: auto;
@@ -367,10 +353,10 @@
 
         .project-card{
             /* text on the left, image on the right edge */
-            grid-template-columns: minmax(0, 1fr) var(--_image-width);
+            grid-template-columns: minmax(0, 1fr) var(--project-image-width);
             grid-template-rows: 1fr auto;
-            column-gap: var(--_gap);
-            padding-inline-start: var(--_pad);
+            column-gap: var(--project-gap);
+            padding-inline-start: var(--page-padding);
 
             .project-media{
                 grid-column: 2;
@@ -380,7 +366,7 @@
             /* the stretched link only covers the image column, not the empty space next to it */
             h3 a::before{
                 inset-inline-start: auto;
-                width: var(--_image-width);
+                width: var(--project-image-width);
             }
         }
 
@@ -432,7 +418,7 @@
 
     &:has(input[value="personal"]:checked) .project-empty{
         display: block;
-        padding: 2rem var(--_pad);
+        padding: 2rem var(--page-padding);
     }
 }
 

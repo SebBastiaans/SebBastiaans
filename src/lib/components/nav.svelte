@@ -27,7 +27,7 @@
 <style>
 nav{
     display: flex;
-    border-block: solid black 2px;
+    border-block: solid var(--color-text) 2px;
     justify-content: space-around;
     position: fixed;
     bottom: 0;
@@ -44,7 +44,7 @@ nav{
 
     a{
         text-decoration: none;
-        color: black;
+        color: var(--color-text);
         padding: .5rem;
         scroll-behavior: smooth;
 

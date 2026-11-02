@@ -45,22 +45,13 @@
     timeline-scope: --hero;
 }
 
-.profile-photo, .hero{
-    --pad: 0px;
-
-    @media (width>=420px){
-        --pad: clamp(.5rem, calc(.5rem + (100vw - 375px) * 2.5rem / 1065px), 3rem);
-    }
-}
-
 .profile-photo{
-    --size: min(420px, 100% - 2 * var(--pad));
     display: block;
-    width: var(--size);
+    width: var(--profile-photo-size);
     aspect-ratio: 1/1;
-    margin-inline-start: var(--pad);
+    margin-inline-start: var(--hero-padding);
     /* takes up no space, the img lays on top of .photo-slot */
-    margin-bottom: calc(-1 * var(--size));
+    margin-bottom: calc(-1 * var(--profile-photo-size));
     position: relative;
     z-index: 5;
 
@@ -68,15 +59,15 @@
         /* without support the img just stays a normal square photo in the hero */
         @supports (animation-timeline: view()) and (animation-range: exit 0% exit 50%) and (timeline-scope: --hero) {
             position: sticky;
-            top: var(--pad);
+            top: var(--hero-padding);
             /* shrinks towards the right, where it ends up */
             transform-origin: top right;
             animation-name: photo-morph;
             animation-timing-function: linear;
             animation-fill-mode: both;
-            /* starts when the img sticks, at --pad from the top of the viewport */
+            /* starts when the img sticks, at --hero-padding from the top of the viewport */
             animation-timeline: --hero;
-            animation-range: exit calc(0% - var(--pad)) exit 50%;
+            animation-range: exit calc(0% - var(--hero-padding)) exit 50%;
             /* for the dodge on hover (set in the script), only possible at the end of the animation,
                see pointer-events in photo-morph. translate instead of transform, because transform
                would be scaled down along with the animated scale */
@@ -90,7 +81,7 @@
     flex-wrap: wrap;
     align-items: center;
     gap: 1rem;
-    padding-inline: var(--pad);
+    padding-inline: var(--hero-padding);
     view-timeline: --hero;
 
     /* photo and intro always side by side, so the intro can slide into the photo's place */
@@ -114,12 +105,12 @@
                 align-self: flex-end;
                 /* sticks until the bottom of .hero, where the next section starts */
                 position: sticky;
-                top: var(--pad);
+                top: var(--hero-padding);
                 animation-name: intro-slide;
                 animation-timing-function: linear;
                 animation-fill-mode: both;
                 animation-timeline: --hero;
-                animation-range: exit calc(0% - var(--pad)) exit 50%;
+                animation-range: exit calc(0% - var(--hero-padding)) exit 50%;
             }
         }
     }
@@ -136,7 +127,7 @@
 @keyframes photo-morph {
     0% {
         scale: 1;
-        margin-inline-start: var(--pad);
+        margin-inline-start: var(--hero-padding);
         clip-path: polygon(0% 100%, 0% 0%, 20% 0%, 50% 0%, 80% 0%, 100% 0%, 100% 100%, 80% 100%, 65% 100%, 50% 100%, 35% 100%, 20% 100%);
     }
     25%, 35% {
@@ -159,7 +150,7 @@
         /* real circle, small as an icon (a polygon can't morph into circle(), so it switches at the very end) */
         scale: .12;
         /* right side of the screen, same padding as on the left */
-        margin-inline-start: calc(100% - var(--pad) - var(--size));
+        margin-inline-start: calc(100% - var(--hero-padding) - var(--profile-photo-size));
         clip-path: circle(50%);
         pointer-events: auto;
     }

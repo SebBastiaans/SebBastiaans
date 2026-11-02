@@ -6,9 +6,8 @@
 
 <style>
 h1{
-    --stretch: clamp(.5, calc(1.5 - 0.5 * (100vw - 375px) / 825px), 1.5);
     @media (prefers-reduced-motion: reduce) {
-        transform: scaleY(var(--stretch));
+        transform: scaleY(var(--header-title-stretch));
     }
     transform-origin: top;
     /* grows with the screen, but never bigger than 7rem */
@@ -22,16 +21,13 @@ h1{
             animation-range: entry 100lvh exit 0%;
             animation-name: extended-animation;
             animation-fill-mode: forwards;
-            /* min() so it doesn't move right when the h1 is narrower than the screen */
-            --translate: min(0px, calc(-100% + 100vw - 2 * var(--pad)));
         }
     }
 }
 
 .marquee{
     /* same padding as the sections */
-    --pad: clamp(.5rem, calc(.5rem + (100vw - 375px) * 2.5rem / 1065px), 3rem);
-    padding-inline: var(--pad);
+    padding-inline: var(--page-padding);
     width: 100%;
     height: clamp(10lvh, calc(10lvh + (40lvh - 10lvh) * (100vw - 375px) / 1065px), 40lvh);
     overflow: clip;
@@ -48,7 +44,7 @@ h1{
         transform: translateX(0);
     }
     to{
-        transform: translateX(var(--translate));
+        transform: translateX(var(--header-title-translate));
     }
 }
 
@@ -59,8 +55,8 @@ h1{
   }
   to {
     font-weight: 900;
-    transform: translateX(var(--translate));
-    color: blue;
+    transform: translateX(var(--header-title-translate));
+    color: var(--color-primary);
   }
 }
 </style>

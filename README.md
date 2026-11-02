@@ -94,3 +94,5 @@ Videos play muted and on a loop, only while they are on screen. A "Pause videos"
 ## Conventions
 
 This project follows the [FDND code conventions](fdnd-code-conventies.md).
+
+All custom properties (colors, page padding, sizes) live in `:root` in [`src/app.css`](src/app.css), so there is one place to change them. Components only use them with `var()`.

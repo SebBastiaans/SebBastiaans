@@ -22,8 +22,8 @@
             transform: translateX(-50%);
             margin-top: .35rem;
             white-space: nowrap;
-            background: black;
-            color: white;
+            background: var(--color-text);
+            color: var(--color-background);
             font-size: .75rem;
             padding: .25rem .5rem;
             border-radius: .25rem;

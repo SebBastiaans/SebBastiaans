@@ -117,6 +117,38 @@
     font-display: swap;
 }
 
+:root {
+    /* colors */
+    --color-primary: blue;
+    --color-background: white;
+    --color-text: black;
+
+    /* side padding of the page, from .5rem on a 375px screen to 3rem on a 1440px screen */
+    --page-padding: clamp(.5rem, calc(.5rem + (100vw - 375px) * 2.5rem / 1065px), 3rem);
+
+    /* headings are stretched vertically on small screens, and get back to normal on big screens */
+    --heading-stretch: clamp(.8, calc(1.5 - 0.5 * (100vw - 375px) / 825px), 1.5);
+    --header-title-stretch: clamp(.5, calc(1.5 - 0.5 * (100vw - 375px) / 825px), 1.5);
+    /* how far the header title slides left, min() so it doesn't move right when it is narrower than the screen */
+    /* 100% is the width of the title itself, because the value is only filled in where it is used */
+    --header-title-translate: min(0px, calc(-100% + 100vw - 2 * var(--page-padding)));
+
+    /* hero: no side padding on very small screens, see the media query below */
+    --hero-padding: 0px;
+    /* 100% is the width of the hero, because the value is only filled in where it is used */
+    --profile-photo-size: min(420px, 100% - 2 * var(--hero-padding));
+
+    /* project carousel on wide screens: the images get a fixed part of the width, the text gets the rest */
+    /* cqi is the width of .project-stage, because the value is only filled in where it is used */
+    --project-gap: 2rem;
+    --project-image-width: 55cqi;
+    --project-text-width: calc(100cqi - var(--project-image-width) - var(--project-gap) - var(--page-padding));
+
+    @media (width >= 420px) {
+        --hero-padding: var(--page-padding);
+    }
+}
+
 html {
     /* proximity: only snaps when you stop close to a project card, the rest of the page scrolls freely */
     scroll-snap-type: y proximity;
@@ -135,7 +167,7 @@ html {
 p, a, span {
     font-family: inter, sans-serif;
     text-decoration: none;
-    color: black;
+    color: var(--color-text);
 }
 
 h1, h2, h3, h4, h5{
@@ -164,23 +196,22 @@ a:hover::after{
 
 section{
     margin-top: 1rem;
-    padding-inline: clamp(.5rem, calc(.5rem + (100vw - 375px) * 2.5rem / 1065px), 3rem);
+    padding-inline: var(--page-padding);
     /* height: 100dvh; */
 
     h2 {
-        --stretch: clamp(.8, calc(1.5 - 0.5 * (100vw - 375px) / 825px), 1.5);
-        transform: scaleY(var(--stretch));
+        transform: scaleY(var(--heading-stretch));
         transform-origin: top;
         display: flex;
         align-items: center;
         gap: .75rem;
-        margin-bottom: calc(.8rem + (var(--stretch) - 1) * 1.4em);
+        margin-bottom: calc(.8rem + (var(--heading-stretch) - 1) * 1.4em);
 
         &::after{
             content: '';
             flex: 1 1 auto;
             height: 2px;
-            background: blue;
+            background: var(--color-primary);
         }
     }
 }
