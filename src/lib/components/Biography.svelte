@@ -15,7 +15,7 @@
         <li>Soon to be AI prompt whisperer</li>
     </ul>
 
-    <h3>Just like creating stuff</h3>
+    <!-- <h3>Just like creating stuff</h3> -->
 
     {#if favoriteSong}
         <!-- at the bottom of the section, sticky at the bottom of the screen -->
