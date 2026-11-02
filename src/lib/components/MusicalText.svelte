@@ -176,7 +176,7 @@
     <div class="controls">
         {#if canPlay}
             <!-- the text says what the button does, so no aria-pressed: "Pause, pressed" would be confusing -->
-            <button type="button" class="play-toggle" onclick={togglePlay}>
+            <button type="button" class="pill play-toggle" onclick={togglePlay}>
                 {#if paused}
                     <span aria-hidden="true">▶</span>
                     Play
@@ -188,7 +188,8 @@
 
             <!-- radio buttons and :has() in the CSS, like the project filter: switching needs no JS -->
             <fieldset class="style-switch">
-                <legend>Animation</legend>
+                <!-- still read by screen readers, the options speak for themselves visually -->
+                <legend class="visually-hidden">Animation</legend>
                 <label>
                     <input type="radio" name="musical-text-style" value="weight" checked>
                     Weight
@@ -266,6 +267,8 @@
 .word{
     /* the letters are inline-blocks, a line could break between any two of them without this */
     white-space: nowrap;
+    /* the words decide the height of the line, the letters inside have line-height 1 to scale from themselves */
+    line-height: var(--line-height);
 }
 
 .letter{
@@ -310,25 +313,8 @@
 }
 
 .play-toggle{
-    /* 44px touch target, same look as the theme toggle */
-    min-height: 2.75rem;
-    display: inline-flex;
-    align-items: center;
-    gap: .5rem;
-    padding-inline: 1rem;
-    border: 2px solid var(--color-primary);
-    border-radius: 2rem;
-    background: var(--color-background);
-    color: var(--color-text);
-    font: inherit;
     /* the song title is long, on small screens it goes to a second line */
     text-align: start;
-    cursor: pointer;
-
-    &:focus-visible{
-        outline: 3px solid var(--color-text);
-        outline-offset: 2px;
-    }
 }
 
 /* one pill with both options, a knob slides behind the chosen one */
@@ -361,16 +347,6 @@
 
     &:has(input[value="equalizer"]:checked)::before{
         translate: 100%;
-    }
-
-    legend{
-        /* still read by screen readers, the buttons speak for themselves visually */
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        overflow: hidden;
-        clip-path: inset(50%);
-        white-space: nowrap;
     }
 
     label{
@@ -442,14 +418,5 @@
             transition: none;
         }
     }
-}
-
-.visually-hidden{
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
 }
 </style>

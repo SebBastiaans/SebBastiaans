@@ -39,15 +39,6 @@ h1{
     }
 }
 
-@keyframes translate-to{
-    from{
-        transform: translateX(0);
-    }
-    to{
-        transform: translateX(var(--header-title-translate));
-    }
-}
-
 @keyframes extended-animation {
   from {
     font-weight: 300;

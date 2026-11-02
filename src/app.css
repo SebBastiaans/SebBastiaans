@@ -7,49 +7,9 @@
 
 @font-face {
     font-family: 'ibm';
-    src: url('./lib/assets/fonts/IBMPlexSerif-Thin.ttf');
-    font-weight: 100;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'ibm';
-    src: url('./lib/assets/fonts/IBMPlexSerif-ThinItalic.ttf');
-    font-weight: 100;
-    font-style: italic;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'ibm';
-    src: url('./lib/assets/fonts/IBMPlexSerif-ExtraLight.ttf');
-    font-weight: 200;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'ibm';
-    src: url('./lib/assets/fonts/IBMPlexSerif-ExtraLightItalic.ttf');
-    font-weight: 200;
-    font-style: italic;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'ibm';
     src: url('./lib/assets/fonts/IBMPlexSerif-Light.ttf');
     font-weight: 300;
     font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'ibm';
-    src: url('./lib/assets/fonts/IBMPlexSerif-LightItalic.ttf');
-    font-weight: 300;
-    font-style: italic;
     font-display: swap;
 }
 
@@ -63,25 +23,9 @@
 
 @font-face {
     font-family: 'ibm';
-    src: url('./lib/assets/fonts/IBMPlexSerif-Italic.ttf');
-    font-weight: normal;
-    font-style: italic;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'ibm';
     src: url('./lib/assets/fonts/IBMPlexSerif-Medium.ttf');
     font-weight: 500;
     font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'ibm';
-    src: url('./lib/assets/fonts/IBMPlexSerif-MediumItalic.ttf');
-    font-weight: 500;
-    font-style: italic;
     font-display: swap;
 }
 
@@ -95,25 +39,9 @@
 
 @font-face {
     font-family: 'ibm';
-    src: url('./lib/assets/fonts/IBMPlexSerif-SemiBoldItalic.ttf');
-    font-weight: 600;
-    font-style: italic;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'ibm';
     src: url('./lib/assets/fonts/IBMPlexSerif-Bold.ttf');
     font-weight: bold;
     font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'ibm';
-    src: url('./lib/assets/fonts/IBMPlexSerif-BoldItalic.ttf');
-    font-weight: bold;
-    font-style: italic;
     font-display: swap;
 }
 
@@ -183,6 +111,11 @@
 html {
     /* proximity: only snaps when you stop close to a project card, the rest of the page scrolls freely */
     scroll-snap-type: y proximity;
+
+    /* the nav links scroll smoothly to their section, only on html because only the page itself scrolls */
+    @media (prefers-reduced-motion: no-preference) {
+        scroll-behavior: smooth;
+    }
 }
 
 body {
@@ -194,22 +127,23 @@ body {
         linear-gradient(var(--color-grid) 1px, transparent 1px),
         linear-gradient(90deg, var(--color-grid) 1px, transparent 1px);
     background-size: 20px 20px;
-    /* headings and list items inherit this, p, a and span get it below */
+    /* every element inherits these, links get the color below */
     color: var(--color-text);
+    font-family: inter, sans-serif;
+    line-height: var(--line-height);
 }
 
 * {
     margin: 0;
     padding: 0;
-    line-height: var(--line-height);
     box-sizing: border-box;
-    font-family: inter, sans-serif;
     list-style: none;
-    scroll-behavior: smooth;
 }
 
-p, a, span {
+/* links are always Inter with the line height of the page, also inside a heading like the project titles */
+a {
     font-family: inter, sans-serif;
+    line-height: var(--line-height);
     text-decoration: none;
     color: var(--color-text);
 }
@@ -220,6 +154,54 @@ h1, h2, h3, h4, h5{
 
 a{
     position: relative;
+}
+
+/* hidden, but still read by screen readers */
+.visually-hidden{
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+/* round button with a border, used for buttons and for labels with a hidden radio button inside */
+/* 44px touch target */
+.pill{
+    min-height: 2.75rem;
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding-inline: 1rem;
+    border: 2px solid var(--color-primary);
+    border-radius: 2rem;
+    background: var(--color-background);
+    color: var(--color-text);
+    font: inherit;
+    cursor: pointer;
+    transition: background .2s, color .2s;
+
+    /* chosen: a checked radio button inside, or a pressed toggle button */
+    &:has(input:checked),
+    &[aria-pressed="true"]{
+        background: var(--color-primary);
+        color: var(--color-background);
+    }
+
+    /* a label shows the focus of the radio button inside it */
+    &:focus-visible,
+    &:has(input:focus-visible){
+        outline: 3px solid var(--color-text);
+        outline-offset: 2px;
+    }
+
+    /* the radio button is still there for keyboard and screen readers, the label is what you see */
+    input{
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+    }
 }
 
 a::after{

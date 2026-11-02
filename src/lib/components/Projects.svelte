@@ -29,16 +29,17 @@
 
     <div class="project-toolbar">
         <fieldset class="project-filter">
-            <legend>Show projects</legend>
-            <label>
+            <!-- still read by screen readers, the buttons speak for themselves visually -->
+            <legend class="visually-hidden">Show projects</legend>
+            <label class="pill">
                 <input type="radio" name="project-category" value="all" checked>
                 All
             </label>
-            <label>
+            <label class="pill">
                 <input type="radio" name="project-category" value="school">
                 School
             </label>
-            <label>
+            <label class="pill">
                 <input type="radio" name="project-category" value="personal">
                 Personal
             </label>
@@ -48,7 +49,7 @@
             <!-- WCAG 2.2.2: moving video that plays longer than 5 seconds must be pausable -->
             <button
                 type="button"
-                class="project-video-toggle"
+                class="pill project-video-toggle"
                 aria-pressed={videosPaused}
                 onclick={() => (videosPaused = !videosPaused)}
             >
@@ -142,26 +143,6 @@
     .project-video-toggle{
         /* pushes the button and the counter to the right */
         margin-inline-start: auto;
-        /* 44px touch target, same look as the filter */
-        min-height: 2.75rem;
-        padding-inline: 1rem;
-        border: 2px solid var(--color-primary);
-        border-radius: 2rem;
-        background: var(--color-background);
-        color: var(--color-text);
-        font: inherit;
-        cursor: pointer;
-        transition: background .2s, color .2s;
-
-        &[aria-pressed="true"]{
-            background: var(--color-primary);
-            color: var(--color-background);
-        }
-
-        &:focus-visible{
-            outline: 3px solid var(--color-text);
-            outline-offset: 2px;
-        }
     }
 
     .project-counter{
@@ -176,47 +157,6 @@
         display: flex;
         gap: .5rem;
         border: none;
-
-        legend{
-            /* still read by screen readers, the buttons speak for themselves visually */
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            overflow: hidden;
-            clip-path: inset(50%);
-            white-space: nowrap;
-        }
-
-        label{
-            /* 44px touch target */
-            min-height: 2.75rem;
-            display: inline-flex;
-            align-items: center;
-            padding-inline: 1rem;
-            border: 2px solid var(--color-primary);
-            border-radius: 2rem;
-            background: var(--color-background);
-            color: var(--color-text);
-            cursor: pointer;
-            transition: background .2s, color .2s;
-
-            &:has(input:checked){
-                background: var(--color-primary);
-                color: var(--color-background);
-            }
-
-            /* the input is still there for keyboard and screen readers, the label shows the focus */
-            &:has(input:focus-visible){
-                outline: 3px solid var(--color-text);
-                outline-offset: 2px;
-            }
-
-            input{
-                position: absolute;
-                opacity: 0;
-                pointer-events: none;
-            }
-        }
     }
 
     .project-stage{

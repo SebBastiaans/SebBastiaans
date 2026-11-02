@@ -38,7 +38,7 @@
 <footer class="page-footer">
     {#if canToggleTheme}
         <!-- the text says what the button does, so no aria-pressed: "Light mode, pressed" would be confusing -->
-        <button type="button" class="theme-toggle" onclick={toggleTheme}>
+        <button type="button" class="pill" onclick={toggleTheme}>
             {#if isDark}
                 <span aria-hidden="true">☀</span>
                 Light mode
@@ -57,26 +57,5 @@
     padding: 2rem var(--page-padding);
     /* room for the fixed nav at the bottom of the screen */
     margin-bottom: 2.8rem;
-}
-
-.theme-toggle{
-    /* 44px touch target, same look as the filter in the projects */
-    min-height: 2.75rem;
-    display: inline-flex;
-    align-items: center;
-    gap: .5rem;
-    padding-inline: 1rem;
-    border: 2px solid var(--color-primary);
-    border-radius: 2rem;
-    background: var(--color-background);
-    color: var(--color-text);
-    font: inherit;
-    cursor: pointer;
-    transition: background .2s, color .2s;
-
-    &:focus-visible{
-        outline: 3px solid var(--color-text);
-        outline-offset: 2px;
-    }
 }
 </style>

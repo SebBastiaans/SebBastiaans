@@ -76,10 +76,7 @@ nav{
     }
 
     a{
-        text-decoration: none;
-        color: var(--color-text);
         padding: .5rem;
-        scroll-behavior: smooth;
 
         &::after{
             bottom: .5rem;

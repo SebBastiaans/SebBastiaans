@@ -16,7 +16,6 @@
             <li>Soon to be AI prompt whisperer</li>
         </ul>
 
-        <br>
         <h3>Just like creating stuff</h3>
     </div>
 
@@ -39,6 +38,11 @@
 <style>
 #biography{
     min-height: 100dvh;
+
+    /* an empty line between the lists and the next heading */
+    .biography-text ul{
+        margin-bottom: 1lh;
+    }
 
     /* wide screens: the text on the left, the musical text in a column on the right */
     @media (width >= 1024px) {

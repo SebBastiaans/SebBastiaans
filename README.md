@@ -90,6 +90,7 @@ A fixed bar at the bottom of the screen ([`Nav.svelte`](src/lib/components/Nav.s
 - It's the `replaceState` from `$app/navigation`: SvelteKit keeps its own history state, and calling `history.replaceState` directly would get in its way.
 - The URL only changes when the section changes, not on every scroll event.
 - Without JS nothing changes: the nav links still go to `#biography` and so on.
+- Clicking a nav link scrolls smoothly to the section: `scroll-behavior: smooth` on `html` in `app.css`, only inside `prefers-reduced-motion: no-preference`, so with reduced motion it jumps straight there.
 
 On hover and keyboard focus a link gets a glow behind it: a `::before` that is 3rem wider than the link on both sides (`inset-inline: -3rem`), with `radial-gradient(closest-side, var(--color-background) 50%, transparent)`. `closest-side` makes an ellipse that touches the edges of this wide box, so it's a lying oval. It is solid up to halfway, right behind the text, and fades out to the nav from there. The nav has `overflow: clip`, so the glow of the outer links stops at the screen edge. The edge is `transparent` and not `--color-glass`, because the nav's own background already shows through there: two layers of glass would make a visible edge. A gradient can't transition, so the `::before` fades in with `opacity`. `z-index: -1` puts it behind the text but in front of the nav background, because the fixed nav with its `z-index` is its own stacking context.
 
@@ -161,3 +162,10 @@ Videos play muted and on a loop, only while they are on screen. A "Pause videos"
 This project follows the [FDND code conventions](fdnd-code-conventies.md).
 
 All custom properties (colors, page padding, sizes) live in `:root` in [`src/app.css`](src/app.css), so there is one place to change them. Components only use them with `var()`.
+
+Two global classes in `app.css` are shared by the components, so their styles only exist once:
+
+- `.visually-hidden`: hidden, but still read by screen readers. For example the `legend` of the project filter and the animation switch.
+- `.pill`: the round button with a border, at least 44px high. Used for the theme toggle, the play button, the "Pause videos" button and the labels of the project filter. A label with a checked radio button inside, or a button with `aria-pressed="true"`, gets the filled look.
+
+Fonts, line height and text color are set once on `body` and inherited by everything. Links set them again: browsers give links their own color, and links in a heading (like the project titles) stay Inter.
