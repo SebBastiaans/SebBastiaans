@@ -166,8 +166,7 @@ a{
     white-space: nowrap;
 }
 
-/* round button with a border, used for buttons and for labels with a hidden radio button inside */
-/* 44px touch target */
+/* round button with a border, 44px touch target */
 .pill{
     min-height: 2.75rem;
     display: inline-flex;
@@ -182,25 +181,92 @@ a{
     cursor: pointer;
     transition: background .2s, color .2s;
 
-    /* chosen: a checked radio button inside, or a pressed toggle button */
-    &:has(input:checked),
+    /* a pressed toggle button */
     &[aria-pressed="true"]{
         background: var(--color-primary);
         color: var(--color-background);
     }
 
-    /* a label shows the focus of the radio button inside it */
-    &:focus-visible,
-    &:has(input:focus-visible){
+    &:focus-visible{
         outline: 3px solid var(--color-text);
         outline-offset: 2px;
     }
+}
 
-    /* the radio button is still there for keyboard and screen readers, the label is what you see */
-    input{
+/* one pill with 2 or 3 options, a knob slides behind the chosen one */
+/* a fieldset with a label around every radio button */
+.switch{
+    --switch-padding: 2px;
+    --switch-options: 2;
+    position: relative;
+    display: grid;
+    /* every option as wide as the widest one, so they are all as wide as the knob */
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    width: fit-content;
+    margin: 0;
+    padding: var(--switch-padding);
+    border: 2px solid var(--color-primary);
+    border-radius: 2rem;
+    background: var(--color-background);
+
+    &:has(label:nth-of-type(3)){
+        --switch-options: 3;
+    }
+
+    /* the knob: as wide as one option, translate 100% moves it exactly one option to the right */
+    &::before{
+        content: '';
         position: absolute;
-        opacity: 0;
-        pointer-events: none;
+        inset-block: var(--switch-padding);
+        inset-inline-start: var(--switch-padding);
+        width: calc((100% - 2 * var(--switch-padding)) / var(--switch-options));
+        border-radius: 2rem;
+        background: var(--color-primary);
+        transition: translate .25s ease;
+
+        @media (prefers-reduced-motion: reduce) {
+            transition: none;
+        }
+    }
+
+    &:has(label:nth-of-type(2) input:checked)::before{
+        translate: 100%;
+    }
+
+    &:has(label:nth-of-type(3) input:checked)::before{
+        translate: 200%;
+    }
+
+    label{
+        /* with the padding and border of the switch it's 44px high, like a .pill */
+        min-height: calc(2.75rem - 2 * var(--switch-padding) - 4px);
+        /* in front of the knob */
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding-inline: 1rem;
+        border-radius: 2rem;
+        color: var(--color-text);
+        cursor: pointer;
+        transition: color .25s;
+
+        &:has(input:checked){
+            color: var(--color-background);
+        }
+
+        /* the radio button is still there for keyboard and screen readers, the label shows the focus */
+        &:has(input:focus-visible){
+            outline: 3px solid var(--color-text);
+            outline-offset: 2px;
+        }
+
+        input{
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
     }
 }
 

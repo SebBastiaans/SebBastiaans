@@ -159,7 +159,7 @@ The letters are bolder and closer together than in the weight animation, and 1.3
 
 ### The switch
 
-Two radio buttons in one pill, with a knob that slides behind the chosen option. The CSS picks the animation with `:has()`, so switching needs no JS:
+Two radio buttons in one pill (`.switch`), with a knob that slides behind the chosen option. The CSS picks the animation with `:has()`, so switching needs no JS:
 
 ```css
 .musical-text:has(input[value="equalizer"]:checked) .letter { … }
@@ -167,10 +167,7 @@ Two radio buttons in one pill, with a knob that slides behind the chosen option.
 
 Both `--beat` and `--level` are always set, so you can switch while the song plays.
 
-- The knob is a `::before` on the `fieldset`, half as wide as the switch. `translate: 100%` moves it exactly its own width, so one option to the right, when `equalizer` is checked. With reduced motion it jumps instead of sliding.
-- The two options are a grid with `1fr 1fr`, so they are as wide as the knob.
-- The labels are `position: relative`, so they lay in front of the knob.
-- It's radio buttons and not a `role="switch"`: a switch is on or off, this is a choice between two animations.
+- It's the global `.switch` class from `app.css`, the same as the project filter. How the knob works is in the [Conventions](../README.md#conventions) of the README.
 - With its padding and border it's 44px high, the same as the play button.
 
 ## 5. Accessibility

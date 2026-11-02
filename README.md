@@ -189,9 +189,15 @@ This project follows the [FDND code conventions](fdnd-code-conventies.md).
 
 All custom properties (colors, page padding, sizes) live in `:root` in [`src/app.css`](src/app.css), so there is one place to change them. Components only use them with `var()`.
 
-Two global classes in `app.css` are shared by the components, so their styles only exist once:
+Three global classes in `app.css` are shared by the components, so their styles only exist once:
 
 - `.visually-hidden`: hidden, but still read by screen readers. For example the `legend` of the project filter and the animation switch.
-- `.pill`: the round button with a border, at least 44px high. Used for the theme toggle, the play button, the "Pause videos" button and the labels of the project filter. A label with a checked radio button inside, or a button with `aria-pressed="true"`, gets the filled look.
+- `.pill`: the round button with a border, at least 44px high. Used for the theme toggle, the play button and the "Pause videos" button. A button with `aria-pressed="true"` gets the filled look.
+- `.switch`: a `fieldset` with 2 or 3 radio buttons in one pill, with a knob that slides behind the chosen option. Used for the project filter (All, School, Personal) and the animation switch of the musical text (Weight, Equalizer).
+  - The knob is a `::before` as wide as one option: `(100% - padding) / --switch-options`. `--switch-options` is 2, or 3 when there is a third label (`:has(label:nth-of-type(3))`).
+  - `translate: 100%` or `200%` moves the knob exactly one or two options to the right, when the second or third radio button is checked. With reduced motion it jumps instead of sliding.
+  - The options are a grid with `grid-auto-columns: 1fr`, so every option is as wide as the widest one, and as wide as the knob.
+  - The radio buttons are invisible but still there, so the arrow keys and screen readers work as usual. The label shows the focus.
+  - It's radio buttons and not a `role="switch"`: a switch is on or off, this is a choice between options.
 
 Fonts, line height and text color are set once on `body` and inherited by everything. Links set them again: browsers give links their own color, and links in a heading (like the project titles) stay Inter.

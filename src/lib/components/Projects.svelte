@@ -31,18 +31,18 @@
     <h2 id="projects-title">Projects</h2>
 
     <div class="project-toolbar">
-        <fieldset class="project-filter">
+        <fieldset class="switch">
             <!-- still read by screen readers, the buttons speak for themselves visually -->
             <legend class="visually-hidden">Show projects</legend>
-            <label class="pill">
+            <label>
                 <input type="radio" name="project-category" value="all" checked>
                 All
             </label>
-            <label class="pill">
+            <label>
                 <input type="radio" name="project-category" value="school">
                 School
             </label>
-            <label class="pill">
+            <label>
                 <input type="radio" name="project-category" value="personal">
                 Personal
             </label>
@@ -160,12 +160,6 @@
         /* all digits the same width, so the counter doesn't wiggle */
         font-variant-numeric: tabular-nums;
         white-space: nowrap;
-    }
-
-    .project-filter{
-        display: flex;
-        gap: .5rem;
-        border: none;
     }
 
     .project-stage{

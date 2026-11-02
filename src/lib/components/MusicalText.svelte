@@ -187,7 +187,7 @@
             </button>
 
             <!-- radio buttons and :has() in the CSS, like the project filter: switching needs no JS -->
-            <fieldset class="style-switch">
+            <fieldset class="switch">
                 <!-- still read by screen readers, the options speak for themselves visually -->
                 <legend class="visually-hidden">Animation</legend>
                 <label>
@@ -315,70 +315,6 @@
 .play-toggle{
     /* the song title is long, on small screens it goes to a second line */
     text-align: start;
-}
-
-/* one pill with both options, a knob slides behind the chosen one */
-.style-switch{
-    --switch-padding: 2px;
-    position: relative;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    margin: 0;
-    padding: var(--switch-padding);
-    border: 2px solid var(--color-primary);
-    border-radius: 2rem;
-    background: var(--color-background);
-
-    /* the knob: half of the switch, translate 100% moves it exactly one option to the right */
-    &::before{
-        content: '';
-        position: absolute;
-        inset-block: var(--switch-padding);
-        inset-inline-start: var(--switch-padding);
-        width: calc(50% - var(--switch-padding));
-        border-radius: 2rem;
-        background: var(--color-primary);
-        transition: translate .25s ease;
-
-        @media (prefers-reduced-motion: reduce) {
-            transition: none;
-        }
-    }
-
-    &:has(input[value="equalizer"]:checked)::before{
-        translate: 100%;
-    }
-
-    label{
-        /* with the padding and border of the switch it's 44px high, like the play button */
-        min-height: calc(2.75rem - 2 * var(--switch-padding) - 4px);
-        /* in front of the knob */
-        position: relative;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding-inline: 1rem;
-        border-radius: 2rem;
-        color: var(--color-text);
-        cursor: pointer;
-        transition: color .25s;
-
-        &:has(input:checked){
-            color: var(--color-background);
-        }
-
-        /* the input is still there for keyboard and screen readers, the label shows the focus */
-        &:has(input:focus-visible){
-            outline: 3px solid var(--color-text);
-            outline-offset: 2px;
-        }
-
-        input{
-            position: absolute;
-            opacity: 0;
-            pointer-events: none;
-        }
-    }
 }
 
 .apple-music-link{
