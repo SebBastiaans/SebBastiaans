@@ -30,8 +30,6 @@
 
 <style>
 #contact{
-    margin-bottom: 2.8rem;
-
     ul{
         li{
             width: fit-content;

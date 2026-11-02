@@ -118,31 +118,26 @@
 }
 
 :root {
-    /* tells the browser both schemes are supported, so scrollbars and form controls follow along */
+    /* follows the device by default, the theme toggle in footer.svelte can force one with data-theme (see below).
+       It also makes scrollbars and form controls follow along */
     color-scheme: light dark;
 
-    /* colors, light scheme */
-    --color-primary: blue;
-    --color-background: white;
-    --color-text: black;
+    /* colors: light-dark(light scheme, dark scheme), the browser picks one based on color-scheme */
+    /* dark is the light scheme turned around, with a light pink accent and broken white text */
+    --color-primary: light-dark(blue, #ffb3c7);
+    --color-background: light-dark(white, #121212);
+    --color-text: light-dark(black, #f3efe6);
     /* the page behind everything: off-white with a grid of thin lines */
-    --color-page: #fafafa;
-    --color-grid: #ddd;
+    --color-page: light-dark(#fafafa, #0a0a0a);
+    --color-grid: light-dark(#ddd, #262626);
     /* see-through background for sticky bars, the content shows through */
     --color-glass: color-mix(in srgb, var(--color-background) 41%, transparent);
 
     /* light text on a dark background looks thinner and tighter, so it gets a bit more line height */
+    /* light-dark() only works for colors, so this one needs the media query and data-theme below */
     --line-height: 1.4;
 
     @media (prefers-color-scheme: dark) {
-        /* colors, dark scheme: the light scheme turned around, with a light pink accent */
-        --color-primary: #ffb3c7;
-        --color-background: #121212;
-        /* broken white, softer on the eyes than pure white */
-        --color-text: #f3efe6;
-        --color-page: #0a0a0a;
-        --color-grid: #262626;
-
         --line-height: 1.5;
     }
 
@@ -172,6 +167,17 @@
     @media (width >= 420px) {
         --hero-padding: var(--page-padding);
     }
+}
+
+/* chosen with the theme toggle, overrides the device setting */
+:root[data-theme="light"] {
+    color-scheme: light;
+    --line-height: 1.4;
+}
+
+:root[data-theme="dark"] {
+    color-scheme: dark;
+    --line-height: 1.5;
 }
 
 html {

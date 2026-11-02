@@ -29,7 +29,8 @@ src/
         ├── nav.svelte
         ├── biography.svelte
         ├── projects.svelte     project filter and carousel
-        └── contact.svelte
+        ├── contact.svelte
+        └── footer.svelte       dark mode toggle
 ```
 
 ## Features
@@ -77,15 +78,26 @@ On hover and keyboard focus a link gets a glow behind it: a `::before` that is 3
 
 ### Dark mode
 
-The site follows the color scheme of the device (`prefers-color-scheme`). Dark mode turns the colors around: a near black background, broken white text (`#f3efe6`, softer than pure white) and a light pink accent (`#ffb3c7`) instead of blue.
+The site follows the color scheme of the device (`prefers-color-scheme`), and the "Dark mode" button in the footer lets visitors choose themselves. Dark mode turns the colors around: a near black background, broken white text (`#f3efe6`, softer than pure white) and a light pink accent (`#ffb3c7`) instead of blue.
 
-- All colors are tokens in `:root` in [`src/app.css`](src/app.css). The dark values sit in a `@media (prefers-color-scheme: dark)` block inside `:root`, so the components don't need to know about dark mode at all.
-- `color-scheme: light dark` makes the browser's own parts, like scrollbars, follow along.
+- All colors are tokens in `:root` in [`src/app.css`](src/app.css), written as `light-dark(light value, dark value)`. The browser picks one based on `color-scheme`, so every color is defined once and the components don't need to know about dark mode at all.
+- `color-scheme: light dark` on `:root` follows the device, and also makes the browser's own parts, like scrollbars, follow along.
+- `light-dark()` only works for colors, so `--line-height` uses a `prefers-color-scheme` media query and the `data-theme` rules instead.
+
+#### Theme toggle
+
+The button in [`footer.svelte`](src/lib/components/footer.svelte) sets `data-theme="light"` or `"dark"` on `<html>`. In `app.css`, `:root[data-theme="dark"]` sets `color-scheme: dark` (and the light one `light`), which overrides the device setting, so every `light-dark()` color switches along.
+
+- **Remembered**: the choice is saved in `localStorage`. Until a visitor chooses, the site follows the device, also when the device changes.
+- **No flash of the wrong colors**: a small inline script in the `<head>` of [`src/app.html`](src/app.html) sets `data-theme` from `localStorage` before the page is drawn. In the component it would come too late, after the first paint.
+- **Accessible**: the text says what the button does: "Dark mode" in light mode, "Light mode" in dark mode. Because the label describes the action, there is no `aria-pressed`: together with a changing label, screen readers would announce something confusing like "Light mode, pressed". The ☾ / ☀ icon matches the text and is `aria-hidden`. 44px touch target and a visible focus ring.
+- **Without JS** the button isn't shown (it couldn't do anything) and the site follows the device.
+- `try/catch` around `localStorage`, because it can be blocked (for example in some private modes): then the choice simply isn't remembered.
 - The social media icons in [`contact.svelte`](src/lib/components/contact.svelte) are not `<img>`s but a `<span>` with the SVG as a CSS `mask-image` and `background-color: currentColor`. The SVG only gives the shape, the color is the text color, so the icons follow dark mode (an `<img>` can't use the text color). The `url()` needs quotes, because Vite inlines small SVGs as data URLs that contain `'`. The icons are `aria-hidden`, because the name next to them is already the link text.
 - Dark mode gets a slightly bigger line height (`--line-height`: 1.5 instead of 1.4), because light text on a dark background looks thinner and tighter.
 - Every text and background combination passes WCAG AAA (at least 7:1): broken white on the background is 16.3:1, pink on the background 11.2:1.
 
-To test it: DevTools → Rendering → Emulate CSS media feature `prefers-color-scheme: dark`, or switch your system to dark mode.
+To test the device setting: DevTools → Rendering → Emulate CSS media feature `prefers-color-scheme: dark`, or switch your system to dark mode. To reset a choice made with the button: remove `theme` in DevTools → Application → Local storage.
 
 ### Adding a project
 

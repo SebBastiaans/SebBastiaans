@@ -58,7 +58,7 @@
 <style>
 nav{
     display: flex;
-    border-block: solid var(--color-text) 2px;
+    border-top: solid var(--color-text) 2px;
     justify-content: space-around;
     position: fixed;
     bottom: 0;

@@ -5,6 +5,7 @@
     import Biography from '$lib/components/biography.svelte';
     import Projects from '$lib/components/projects.svelte';
     import Contact from '$lib/components/contact.svelte';
+    import Footer from '$lib/components/footer.svelte';
 
     let { data } = $props();
     const { projects } = $derived(data);
@@ -22,6 +23,8 @@
 <Projects {projects} />
 
 <Contact />
+
+<Footer />
 
 <Nav />
 
