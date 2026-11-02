@@ -71,7 +71,7 @@ In the biography you can play my favorite song, *What Goes Around...Comes Around
 - Two animations, with a switch next to the play button:
   - **Weight**: every letter gets bolder and taller on the kick, a few frames later than the one before it, so the beat rolls through the text like a wave.
   - **Equalizer**: every letter is a bar of an equalizer, like the lights on a studio panel: the first letter shows the deep bass, the last one the highest sounds, and every letter shoots up as loud as its band is. The letters are bolder, closer together and already a bit stretched. Inter has no height axis (only weight and optical size), so this is `scale` on the y-axis.
-- On screens from 1024px wide it's a column on the right of the biography, aligned to the bottom and sticky at the bottom of the screen while the biography is in view.
+- It's below the text, aligned to the bottom of the biography, and sticky at the bottom of the screen while the biography is in view.
 - The text is always one line and gets smaller when the page isn't wide enough: `font-size: min(5rem, 100cqi / var(--text-ems))`, where JS measures the width of the text in em once.
 - **Without JS** the play button isn't shown and the text stays thin and still. Without internet while building, the site builds without the song.
 - **Reduced motion**: the song still plays, but the text doesn't move.

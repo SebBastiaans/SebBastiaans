@@ -53,13 +53,16 @@ and passes `previewUrl` (the 30 seconds) and `trackViewUrl` (the song in Apple M
 
 ### Place in the biography
 
-On screens from 1024px wide the biography is a grid with two columns: the text on the left (`.biography-text`), the musical text on the right (`.biography-music`). Smaller screens just show it below the text.
+The musical text sits below the text of the biography, at the bottom of the section, and while the biography is on screen it sticks to the bottom of the screen, above the fixed nav.
 
 ```css
-grid-template-columns: 1fr 1fr;
-grid-template-rows: auto 1fr;
+#biography {
+    display: flex;
+    flex-direction: column;
+}
 
 .biography-music {
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -71,10 +74,9 @@ grid-template-rows: auto 1fr;
 }
 ```
 
-- The heading spans both columns (`grid-column: 1 / -1`), the second row fills the rest of the section (`1fr`).
-- `.biography-music` fills the second row of the right column: from the Web heading down to the bottom of the section. `justify-content: flex-end` puts the musical text at the bottom of it.
-- `.biography-music-sticky` is `position: sticky` with `bottom: 4rem`: while the bottom of the section is still below the screen, it sticks to the bottom of the screen, above the fixed nav. When you scroll on, it stops at the bottom of the section and scrolls away with it.
-- **Why the extra wrapper**: a sticky element stays inside its parent. With the sticky element straight in the grid, its parent is the whole section, so when the biography just came on screen, the musical text moved up next to the "Biography" heading. Inside `.biography-music` it can't move higher than the Web heading.
+- `.biography-music` fills the rest of the section below the text (`flex-grow: 1`), and `justify-content: flex-end` puts the musical text at the bottom of it.
+- `.biography-music-sticky` is `position: sticky` with `bottom: 4rem`: while the bottom of the section is still below the screen, it sticks to the bottom of the screen. When you scroll on, it stops at the bottom of the section and scrolls away with it.
+- **Why the extra wrapper**: a sticky element stays inside its parent. With the sticky element straight in the section, its parent would be the whole section and it could move up over the text. Inside `.biography-music` it can't move higher than the end of the text. On a small phone the text can push it partly below the screen at first, it sticks as soon as you scroll a bit further.
 
 ## 3. Measuring the beat
 
