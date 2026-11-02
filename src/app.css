@@ -117,7 +117,6 @@
     font-display: swap;
 }
 
-
 * {
     margin: 0;
     padding: 0;
@@ -161,6 +160,7 @@ a:hover::after{
 section{
     margin-top: 1rem;
     padding-inline: clamp(.5rem, calc(.5rem + (100vw - 375px) * 2.5rem / 1065px), 3rem);
+    /* height: 100dvh; */
 
     h2 {
         --stretch: clamp(.8, calc(1.5 - 0.5 * (100vw - 375px) / 825px), 1.5);
