@@ -30,7 +30,7 @@ and passes `previewUrl` (the 30 seconds) and `trackViewUrl` (the song in Apple M
 
 - **Changing the song**: find it on [music.apple.com](https://music.apple.com), the id is the `?i=` in the url of the song. Put it in `favoriteSongId` and change `songTitle` in `Biography.svelte`.
 - Apple decides which 30 seconds you get, usually the chorus.
-- Apple only allows the previews streamed from its own url and with a link to the song in Apple Music, so the file is not downloaded into the project and there is a link to the song next to the switch. The link is a diagonal arrow (↗) that moves a bit in its own direction on hover and focus (`translate: .25rem -.25rem`). It doesn't get the underline of the other links (`a::after` in `app.css`), the arrow moving is the hover effect.
+- Apple only allows the previews streamed from its own url and with a link to the song in Apple Music, so the file is not downloaded into the project and there is a link to the song next to the switch. The link is a diagonal arrow (↗, [`ArrowIcon.svelte`](../src/lib/components/ArrowIcon.svelte), also used for the GitHub links of the projects) that moves a bit in its own direction on hover and focus (`translate: .25rem -.25rem`). It doesn't get the underline of the other links (`a::after` in `app.css`), the arrow moving is the hover effect.
 - **No internet or Apple down while building**: `getFavoriteSong` returns `null` and Biography leaves the component out, so the build doesn't fail.
 
 ## 2. Usage

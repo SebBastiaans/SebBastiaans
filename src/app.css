@@ -188,6 +188,23 @@ a{
     }
 }
 
+/* arrow in a link, see ArrowIcon.svelte. Its size follows the text next to it */
+.arrow-icon{
+    width: 1.25em;
+    height: 1.25em;
+    transition: translate .2s;
+
+    /* moves a bit in the direction it points: right and up */
+    a:hover &,
+    a:focus-visible &{
+        translate: .25rem -.25rem;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        transition: none;
+    }
+}
+
 /* one pill with 2 or 3 options, a knob slides behind the chosen one */
 /* a fieldset with a label around every radio button */
 .switch{

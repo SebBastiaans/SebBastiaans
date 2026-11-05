@@ -19,12 +19,14 @@ import aiFramerPoster from '$lib/assets/pics/ai-framer.png?w=1600&format=webp'
 
 // image: ?enhanced makes AVIF and WebP versions in 4 widths, with a JPG or PNG fallback, shown in a <picture> in Projects.svelte
 // width and height of the image prevent layout shift while it loads
+// live is optional: the card links to the live site, or to GitHub when there is none. The GitHub link is always shown as well
 // category is 'school' or 'personal', used by the filter in Projects.svelte
 const projects = [
 	{
 		title: 'Milledoni',
 		description: 'Designing and building an interactive website.',
-		href: 'https://github.com/SebBastiaans/fix-the-flow-interactive-website',
+		live: 'https://sebbastiaans.github.io/fix-the-flow-interactive-website/',
+		github: 'https://github.com/SebBastiaans/fix-the-flow-interactive-website',
 		image: fixTheFlow,
 		width: 2880,
 		height: 1984,
@@ -33,7 +35,8 @@ const projects = [
 	{
 		title: '270 Degrees',
 		description: 'Designing and building a responsive website for a startup.',
-		href: 'https://github.com/SebBastiaans/the-startup-responsive-interactive-website',
+		live: 'https://sebbastiaans.github.io/the-startup-responsive-interactive-website/',
+		github: 'https://github.com/SebBastiaans/the-startup-responsive-interactive-website',
 		image: theStartupResponsive,
 		width: 2882,
 		height: 1986,
@@ -42,7 +45,8 @@ const projects = [
 	{
 		title: 'Profile card',
 		description: 'Making a profile card with NodeJS and a REST API.',
-		href: 'https://github.com/SebBastiaans/connect-your-tribe-profile-card',
+		live: 'https://connect-your-tribe-profile-card-yyds.onrender.com/',
+		github: 'https://github.com/SebBastiaans/connect-your-tribe-profile-card',
 		image: profileCard,
 		width: 2878,
 		height: 1984,
@@ -51,7 +55,8 @@ const projects = [
 	{
 		title: 'Squad page',
 		description: 'Making a team overview with a team, using NodeJS and a REST API.',
-		href: 'https://github.com/SebBastiaans/connect-your-tribe-squad-page',
+		live: 'https://connect-your-tribe-squad-page-okq6.onrender.com/',
+		github: 'https://github.com/SebBastiaans/connect-your-tribe-squad-page',
 		image: teamSquadPage,
 		width: 2880,
 		height: 1982,
@@ -60,7 +65,8 @@ const projects = [
 	{
 		title: 'Bloemenveld Frankendael',
 		description: 'First personal data driven and UX enhanced website, made with Liquid, NodeJS and APIs.',
-		href: 'https://github.com/SebBastiaans/user-experience-enhanced-website',
+		live: 'https://user-experience-enhanced-website-7wvf.onrender.com/',
+		github: 'https://github.com/SebBastiaans/user-experience-enhanced-website',
 		image: userExperienceEnhanced,
 		width: 3840,
 		height: 1986,
@@ -69,7 +75,8 @@ const projects = [
 	{
 		title: 'Bloemenveld Frankendael — Pleasurable UI',
 		description: 'Working in a team with branches and pull requests.',
-		href: 'https://github.com/GijsNagtegaal/pleasurable-ui',
+		live: 'https://pleasurable-ui-xr0z.onrender.com/',
+		github: 'https://github.com/GijsNagtegaal/pleasurable-ui',
 		image: pleasurableUi,
 		width: 3838,
 		height: 1982,
@@ -78,7 +85,8 @@ const projects = [
 	{
 		title: 'Q42 and Teylers Museum',
 		description: 'End of first year project with everything coming together: data driven, UI and UX, progressively enhanced.',
-		href: 'https://github.com/SebBastiaans/proof-of-concept',
+		live: 'https://proof-of-concept-p8tg.onrender.com/',
+		github: 'https://github.com/SebBastiaans/proof-of-concept',
 		image: proofOfConcept,
 		width: 3840,
 		height: 1984,
@@ -87,7 +95,8 @@ const projects = [
 	{
 		title: 'Your tribe for life squad page',
 		description: 'Remaking a squad page using SvelteKit.',
-		href: 'https://github.com/SebBastiaans/your-tribe-for-life-squad-page',
+		live: 'https://semsettin.netlify.app/',
+		github: 'https://github.com/SebBastiaans/your-tribe-for-life-squad-page',
 		image: tribeForLifeSquadPage,
 		width: 3840,
 		height: 1982,
@@ -96,7 +105,8 @@ const projects = [
 	{
 		title: 'Your Tribe for life profile card',
 		description: 'Remaking my profile card using SvelteKit.',
-		href: 'https://github.com/SebBastiaans/your-tribe-for-life-profile-card',
+		live: 'https://profilecardofseb.netlify.app/',
+		github: 'https://github.com/SebBastiaans/your-tribe-for-life-profile-card',
 		image: tribeForLifeProfileCard,
 		video: tribeForLifeProfileCardVideo,
 		poster: tribeForLifeProfileCardPoster,
@@ -107,7 +117,7 @@ const projects = [
 	{
 		title: 'Automated AI trade tool',
 		description: 'Seeing if there is an ulimited money glitch. Using API for live prices.',
-		href: 'https://github.com/SebBastiaans/ai-trade',
+		github: 'https://github.com/SebBastiaans/ai-trade',
 		image: aiTradeTool,
 		video: aiTradeToolVideo,
 		poster: aiTradeToolPoster,
@@ -118,7 +128,7 @@ const projects = [
 	{
 		title: 'AI Framer testing',
 		description: 'Experimenting with AI tools for web.',
-		href: 'https://github.com/SebBastiaans/AI-garden',
+		github: 'https://github.com/SebBastiaans/AI-garden',
 		image: aiFramer,
 		video: aiFramerVideo,
 		poster: aiFramerPoster,

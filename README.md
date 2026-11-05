@@ -29,6 +29,7 @@ src/
         ├── Nav.svelte
         ├── Biography.svelte
         ├── MusicalText.svelte  text that bounces on the beat of a song
+        ├── ArrowIcon.svelte    arrow for links, moves on hover
         ├── Projects.svelte     project filter and carousel
         ├── Contact.svelte
         └── Footer.svelte       dark mode toggle
@@ -47,7 +48,7 @@ It is built in layers, so it works for everyone:
 | HTML | A list of projects with a filter made of radio buttons |
 | CSS | Full width cards, a working filter with `:has()`, text next to the image when it fits (container query) and scroll snapping |
 | CSS scroll-driven animations | Cards scale with the scroll position |
-| JavaScript | Cards stack without gaps, like a real carousel, with a counter (`03 / 08`). On wide screens the title and description stay fixed in the middle of the screen and change with the project |
+| JavaScript | Cards stack without gaps, like a real carousel, with a counter (`03 / 08`). On wide screens the title, description and GitHub link stay fixed in the middle of the screen and change with the project |
 
 Reduced motion turns off all scaling.
 
@@ -128,13 +129,16 @@ import projectImage from '$lib/assets/pics/project.png?enhanced&w=2400;1600;1080
 {
 	title: 'Project name',
 	description: 'One or two sentences about the project.',
-	href: 'https://github.com/SebBastiaans/project',
-	image: projectImage
+	live: 'https://project.example.com/', // optional, leave out when there is no live site
+	github: 'https://github.com/SebBastiaans/project',
+	image: projectImage,
 	width: 2880, // real pixel size of the image
 	height: 1984,
 	category: 'school' // or 'personal'
 }
 ```
+
+The card links to `live`, or to `github` when there is no live site. All project links open in a new tab. The GitHub link is always shown as well: under the description on wide screens, and on the image on small screens.
 
 On macOS you can find the image size with `sips -g pixelWidth -g pixelHeight image.png`.
 
@@ -189,10 +193,11 @@ This project follows the [FDND code conventions](fdnd-code-conventies.md).
 
 All custom properties (colors, page padding, sizes, the rounding of buttons and switches) live in `:root` in [`src/app.css`](src/app.css), so there is one place to change them. Components only use them with `var()`.
 
-Three global classes in `app.css` are shared by the components, so their styles only exist once:
+Four global classes in `app.css` are shared by the components, so their styles only exist once:
 
 - `.visually-hidden`: hidden, but still read by screen readers. For example the `legend` of the project filter and the animation switch.
 - `.pill`: the round button with a border, at least 44px high. Used for the theme toggle, the play button and the "Pause videos" / "Play videos" button.
+- `.arrow-icon`: the diagonal arrow in a link ([`ArrowIcon.svelte`](src/lib/components/ArrowIcon.svelte)), which moves in its own direction on hover and focus. Used for the Apple Music link and the GitHub links of the projects.
 - `.switch`: a `fieldset` with 2 or 3 radio buttons in one pill, with a knob that slides behind the chosen option. Used for the project filter (All, School, Personal) and the animation switch of the musical text (Weight, Equalizer).
   - The knob is a `::before` as wide as one option: `(100% - padding) / --switch-options`. `--switch-options` is 2, or 3 when there is a third label (`:has(label:nth-of-type(3))`).
   - `translate: 100%` or `200%` moves the knob exactly one or two options to the right, when the second or third radio button is checked. With reduced motion it jumps instead of sliding.

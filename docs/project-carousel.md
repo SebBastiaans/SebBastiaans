@@ -18,6 +18,8 @@ Inspired by the projects page of [Mainly Photography Studio](https://mainlyphoto
 
 The projects live in `+page.server.js`, so the page component only passes data on (FDND convention). Because of `prerender = true` in `+layout.js`, this runs at build time and the data ends up in the static HTML.
 
+A project has a `github` url and, if it is online, a `live` url. The title and image link to `live ?? github`, so a project without a live site still links somewhere. The GitHub link is always there as a separate link, so visitors who want to read the code don't have to look for it on the live site.
+
 Every project has `width` and `height`, the real pixel size of its image. They end up as attributes on the `<img>`, so the browser reserves the right space before a lazy loaded image arrives. Without them the image is 0px high until it loads, the page jumps (layout shift) and both the snapping and the carousel would measure the wrong positions.
 
 ## 2. HTML: the base layer
@@ -36,15 +38,18 @@ Every project has `width` and `height`, the real pixel size of its image. They e
 			<source type="image/webp" srcset="…">
 			<img src="…" alt="" width="2880" height="1984" loading="lazy">
 		</picture>
-		<h3><a href="…">Milledoni</a></h3>
+		<h3><a href="…" target="_blank" rel="noopener">Milledoni <span class="visually-hidden">(opens in a new tab)</span></a></h3>
 		<p>Designing and building an interactive website.</p>
+		<a class="project-github" href="…" target="_blank" rel="noopener">GitHub <span class="visually-hidden">repository of Milledoni (opens in a new tab)</span> <svg aria-hidden="true">…</svg></a>
 	</li>
 </ol>
 ```
 
 - **Radio buttons in a `fieldset`**: keyboard support (arrow keys) and screen reader announcements for free.
 - **`<ol>`**: the order means something, you go through the projects one by one.
-- **The link is in the `h3`**: one link per project, and screen reader users can jump from heading to heading.
+- **The link is in the `h3`**: the main link of the project, and screen reader users can jump from heading to heading.
+- **Project links open in a new tab** (`target="_blank"`), so visitors don't lose their place in the carousel. The visually hidden "(opens in a new tab)" tells screen reader users beforehand, because a new tab without warning is disorienting. `rel="noopener"` keeps the opened page away from this page through `window.opener`; modern browsers already do this for `target="_blank"`, older ones don't.
+- **The GitHub link comes after the description**: the text says "GitHub", the visually hidden part makes it unique ("GitHub repository of Milledoni") in a screen reader's list of links.
 - **`alt=""`**: the title is right next to the image, a description would be read twice.
 - **Empty message with `hidden`**: "No personal projects yet" only shows when CSS can show it (see below). Without `:has()` support it stays hidden, because then the filter doesn't work either.
 
@@ -76,6 +81,8 @@ On small screens a card shows only its image, like Mainly.
 Never `display: none` here: then the only thing left is an image with `alt=""`, and the link would have no name.
 
 **Stretched link**: the link gets a `::before` with `position: absolute; inset: 0`, so the whole card is clickable while there is only one link per project in the tab order. The global `a { position: relative }` from `app.css` is set back to `static` on this link, otherwise the `::before` would only cover the title. Keyboard focus gives the image an outline via `.project-card:has(a:focus-visible) img`, so the focus ring shows exactly the clickable area. It's on the image and not on the link itself, because the `h3` (and so the link and its `::before`) has `opacity: 0` on mobile and with JS.
+
+**GitHub link on mobile**: the text is hidden there, but the link can't be, or touch users could never reach it. So it lies on the bottom right of the image (44px touch target, solid background, so it stays readable on any image). `z-index: 1` keeps it above the stretched link. The focus ring on the image is limited to `h3 a:focus-visible`, because focus on the GitHub link has its own ring and doesn't mean the whole image.
 
 On wide screens the `::before` only covers the image column (`inset-inline-start: auto; width: var(--project-image-width)`). Otherwise the empty space next to the image would be one big link, and it's easy to click it by accident.
 
@@ -225,8 +232,10 @@ When the text fits next to the images, the title and description don't move with
 - `stackCarousel` reports `projectIndex`, the position of the middle card in the **whole** list. The counter's `index` only counts visible cards, so it can't be used to look up the project when the filter is on.
 - The title may never overlap the images. The panel is exactly `--page-padding + --project-text-width` wide, the same as the text column of the cards, and the title size is `clamp(1.5rem, calc(var(--project-text-width) * .14), 4.5rem)`. A long word like "Frankendael" is about 6em wide in IBM Plex Serif, so at 14% of the column it still fits on one line. For even longer words, `hyphens: auto` (works because of `<html lang="en">`) and `overflow-wrap: break-word` break the word instead of letting it run into the images. The title inside the cards (without JS) has the same safety net.
 - `{#key active.projectIndex}` with `in:fade` fades the new title and description in when the project changes.
-- The panel is `aria-hidden="true"`: screen readers already read the title and description in the card itself, which stays in the HTML (visually hidden, like on mobile).
+- The panel is `aria-hidden="true"`: screen readers already read the title, description and GitHub link in the card itself, which stay in the HTML (visually hidden, like on mobile).
 - The title and description in the panel are wrapped in a link to the same project, so the text is clickable like the image. The panel has `pointer-events: none` and only the link sets it back to `auto`, so the empty space around the text is not clickable. The link has `tabindex="-1"`: the keyboard already reaches the project through the link in the card, and a focusable element inside `aria-hidden` would be focusable without a name for screen readers.
+- The GitHub link has the same arrow as the Apple Music link ([`ArrowIcon.svelte`](../src/lib/components/ArrowIcon.svelte)) and no border. Like there, the arrow moves on hover and keyboard focus instead of the underline of the other links.
+- The GitHub link in the panel sits next to that link and not inside it, because a link can't contain another link. It has `tabindex="-1"` for the same reason. The one in the card stays in the tab order: it is hidden with `clip-path` and `opacity` until it has keyboard focus, then it appears on the image, so focus is never invisible. It has to stay a focusable element, so no `display: none`.
 
 **Layers:** the panel only exists when the JS runs. The CSS that puts the text next to its own image is limited to `.project-list:not([data-enhanced])`, and so is the text fade. So without JS or with reduced motion you get the text next to each image as before, and with JS you get the fixed panel.
 
@@ -292,7 +301,8 @@ A Svelte attachment with an `IntersectionObserver`: the video plays when at leas
 - [x] Filter is a native radio group with a (visually hidden) `legend`
 - [x] Visible focus on the filter labels and the cards
 - [x] Touch targets of at least 44px
-- [x] One link per project, with the project title as its name
+- [x] Main link of a project has the project title as its name, the GitHub link has "GitHub repository of" + the title
+- [x] Screen readers hear that project links open in a new tab
 - [x] Title and description are read on every screen size
 - [x] Native scrolling: keyboard, zoom and assistive technology keep working
 - [x] No motion with `prefers-reduced-motion: reduce`

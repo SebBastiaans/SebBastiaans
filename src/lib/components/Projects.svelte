@@ -1,5 +1,6 @@
 <script>
     import { fade } from 'svelte/transition';
+    import ArrowIcon from '$lib/components/ArrowIcon.svelte';
     import { stackCarousel } from '$lib/stack-carousel.js';
     import { autoplayVideo } from '$lib/autoplay-video.js';
 
@@ -70,23 +71,26 @@
 
     <div class="project-stage">
         {#if active}
-            {@const { title, description, href } = projects[active.projectIndex]}
-            <!-- visual only: screen readers and the keyboard get the same title, description and link from the card itself -->
+            {@const { title, description, live, github } = projects[active.projectIndex]}
+            <!-- visual only: screen readers and the keyboard get the same title, description and links from the card itself -->
             <div class="project-details" aria-hidden="true">
                 <div class="project-details-content">
                     {#key active.projectIndex}
-                        <!-- tabindex -1: clickable with the mouse, but no duplicate stop for the keyboard -->
-                        <a {href} tabindex="-1" in:fade={{ duration: 300 }}>
-                            <p class="project-details-title">{title}</p>
-                            <p>{description}</p>
-                        </a>
+                        <div in:fade={{ duration: 300 }}>
+                            <!-- tabindex -1: clickable with the mouse, but no duplicate stop for the keyboard -->
+                            <a class="project-details-link" href={live ?? github} target="_blank" rel="noopener" tabindex="-1">
+                                <p class="project-details-title">{title}</p>
+                                <p>{description}</p>
+                            </a>
+                            <a class="project-github" href={github} target="_blank" rel="noopener" tabindex="-1">GitHub <ArrowIcon /></a>
+                        </div>
                     {/key}
                 </div>
             </div>
         {/if}
 
         <ol class="project-list" {@attach (list) => stackCarousel(list, (newActive) => (active = newActive))}>
-            {#each projects as { title, description, href, image, video, poster, width, height, category }}
+            {#each projects as { title, description, live, github, image, video, poster, width, height, category }}
                 <li class="project-card" data-category={category}>
                     {#if video}
                         <!-- decorative like the images: muted, no controls, the title is the link -->
@@ -113,8 +117,11 @@
                             <img class="project-media" src={image.img.src} alt="" {width} {height} loading="lazy">
                         </picture>
                     {/if}
-                    <h3><a {href}>{title}</a></h3>
+                    <!-- a new tab can be disorienting, so screen readers hear it beforehand -->
+                    <h3><a href={live ?? github} target="_blank" rel="noopener">{title} <span class="visually-hidden">(opens in a new tab)</span></a></h3>
                     <p>{description}</p>
+                    <!-- the visually hidden part tells the links apart when screen readers list all links on the page -->
+                    <a class="project-github" href={github} target="_blank" rel="noopener">GitHub <span class="visually-hidden">repository of {title} (opens in a new tab)</span> <ArrowIcon /></a>
                 </li>
             {/each}
         </ol>
@@ -133,6 +140,25 @@
 
     h2{
         margin-inline: var(--page-padding);
+    }
+
+    /* the card and the details panel both have this link */
+    .project-github{
+        /* 44px touch target */
+        min-height: 2.75rem;
+        display: inline-flex;
+        align-items: center;
+        gap: .25rem;
+
+        /* no underline on hover like the other links (app.css), the arrow moves instead */
+        &::after{
+            content: none;
+        }
+
+        &:focus-visible{
+            outline: 3px solid var(--color-text);
+            outline-offset: 2px;
+        }
     }
 
     .project-toolbar{
@@ -246,8 +272,20 @@
             line-height: 1.5;
         }
 
+        /* mobile only shows the image, so the GitHub link lies on it, above the stretched link of the title */
+        .project-github{
+            position: absolute;
+            inset-block-end: .5rem;
+            inset-inline-end: .5rem;
+            z-index: 1;
+            padding-inline: .75rem;
+            /* images can have any color, the background keeps the text readable */
+            background-color: var(--color-background);
+            border-radius: var(--radius-pill);
+        }
+
         /* focus ring on the image, the same area as the clickable link (the h3 itself can be invisible) */
-        &:has(a:focus-visible) .project-media{
+        &:has(h3 a:focus-visible) .project-media{
             outline: 3px solid var(--color-primary);
             outline-offset: -3px;
         }
@@ -277,9 +315,12 @@
             align-content: center;
 
             a{
-                display: block;
-                /* the panel lets clicks through, only the text itself is clickable */
+                /* the panel lets clicks through, only the text and the GitHub link are clickable */
                 pointer-events: auto;
+            }
+
+            .project-details-link{
+                display: block;
                 width: fit-content;
             }
 
@@ -303,7 +344,7 @@
         .project-card{
             /* text on the left, image on the right edge */
             grid-template-columns: minmax(0, 1fr) var(--project-image-width);
-            grid-template-rows: 1fr auto;
+            grid-template-rows: 1fr auto auto;
             column-gap: var(--project-gap);
             padding-inline-start: var(--page-padding);
 
@@ -334,8 +375,24 @@
                 overflow: visible;
                 clip-path: none;
                 white-space: normal;
-                padding-block: .5rem 2rem;
+                padding-block: .5rem 1rem;
             }
+
+            .project-github{
+                position: static;
+                grid-column: 1;
+                justify-self: start;
+                margin-bottom: 2rem;
+                /* next to the image it needs no background of its own */
+                padding-inline: 0;
+                background: none;
+            }
+        }
+
+        /* with JS the panel shows this link, the one in the card only appears for the keyboard, on top of the image */
+        .project-list:global([data-enhanced]) .project-github:not(:focus-visible){
+            clip-path: inset(50%);
+            opacity: 0;
         }
     }
 
@@ -351,7 +408,8 @@
             /* only fade the text when it is visible: not on mobile, and not when .project-details shows it */
             @container (min-width: 48rem){
                 .project-list:not([data-enhanced]) .project-card h3,
-                .project-list:not([data-enhanced]) .project-card p{
+                .project-list:not([data-enhanced]) .project-card p,
+                .project-list:not([data-enhanced]) .project-card .project-github{
                     animation: project-fade linear both;
                     animation-timeline: --project-card;
                 }

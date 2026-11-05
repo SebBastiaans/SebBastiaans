@@ -1,4 +1,6 @@
 <script>
+    import ArrowIcon from '$lib/components/ArrowIcon.svelte';
+
     let { text, song, songTitle, songUrl } = $props();
 
     // frames of delay between two letters, so the beat rolls through the text like a wave
@@ -205,9 +207,7 @@
         <!-- only the arrow is visible, the text is still the name of the link for screen readers -->
         <a class="apple-music-link" href={songUrl}>
             <span class="visually-hidden">Listen to the whole song on Apple Music</span>
-            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M7 17 17 7M8 7h9v9" />
-            </svg>
+            <ArrowIcon />
         </a>
     </div>
 
@@ -332,27 +332,15 @@
         content: none;
     }
 
-    svg{
+    /* no text next to it here, so the arrow is bigger than usual */
+    :global(.arrow-icon){
         width: 1.75rem;
         height: 1.75rem;
-        transition: translate .2s;
-    }
-
-    /* the arrow moves a bit in the direction it points: right and up */
-    &:hover svg,
-    &:focus-visible svg{
-        translate: .25rem -.25rem;
     }
 
     &:focus-visible{
         outline: 3px solid var(--color-text);
         outline-offset: 2px;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        svg{
-            transition: none;
-        }
     }
 }
 </style>
