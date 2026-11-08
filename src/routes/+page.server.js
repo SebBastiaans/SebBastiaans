@@ -12,10 +12,13 @@ import aiTradeTool from '$lib/assets/pics/ai-trade-tool.png?enhanced&w=2400;1600
 import aiTradeToolVideo from '$lib/assets/videos/ai-trade-tool.mp4'
 import aiFramer from '$lib/assets/pics/ai-framer.png?enhanced&w=2400;1600;1080;640'
 import aiFramerVideo from '$lib/assets/videos/ai-framer.mp4'
+import forThePlot from '$lib/assets/pics/for-the-plot.png?enhanced&w=2400;1600;1080;640'
+import forThePlotVideo from '$lib/assets/videos/for-the-plot.mp4'
 // the poster of a video can't be a <picture>, so it's one WebP
 import tribeForLifeProfileCardPoster from '$lib/assets/pics/profile-card-fl.png?w=1600&format=webp'
 import aiTradeToolPoster from '$lib/assets/pics/ai-trade-tool.png?w=1600&format=webp'
 import aiFramerPoster from '$lib/assets/pics/ai-framer.png?w=1600&format=webp'
+import forThePlotPoster from '$lib/assets/pics/for-the-plot.png?w=1600&format=webp'
 
 // image: ?enhanced makes AVIF and WebP versions in 4 widths, with a JPG or PNG fallback, shown in a <picture> in Projects.svelte
 // width and height of the image prevent layout shift while it loads
@@ -132,6 +135,18 @@ const projects = [
 		image: aiFramer,
 		video: aiFramerVideo,
 		poster: aiFramerPoster,
+		width: 3840,
+		height: 1982,
+		category: 'personal'
+	},
+	{
+		title: 'For the plot',
+		description: 'A tool to keep track of your trips with friends, with a shared photo and video album. Figuring out how Lovable works.',
+		live: 'https://for-the-plot.lovable.app/',
+		github: 'https://github.com/SebBastiaans/for-the-plot',
+		image: forThePlot,
+		video: forThePlotVideo,
+		poster: forThePlotPoster,
 		width: 3840,
 		height: 1982,
 		category: 'personal'
