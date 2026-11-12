@@ -18,8 +18,9 @@ src/
 ├── app.css                     global styles, fonts and scroll snapping
 ├── routes/
 │   ├── +layout.js              prerenders every page (adapter-static)
+│   ├── +layout.svelte          page <title>, meta description and favicon
 │   ├── +page.server.js         project data, passed to the page at build time
-│   └── +page.svelte            the home page, puts the components together
+│   └── +page.svelte            the home page, puts the components together inside <main> (footer and nav stay outside)
 └── lib/
     ├── stack-carousel.js       JS enhancement for the project carousel
     ├── autoplay-video.js       plays project videos only while they are on screen
@@ -155,24 +156,22 @@ Just add the PNG or JPG as it is, big is fine. `?enhanced` (from [`@sveltejs/enh
 
 #### With a video instead of a photo
 
-Add a `video` and a `poster` next to the `image`. The poster is shown as the first frame without JavaScript, with reduced motion and while the video loads. A poster can't be a `<picture>`, so it's one WebP made from the same image.
+Add a `video` next to the `image`. The image is the still of the video: it lies under the video and is shown without JavaScript, with reduced motion and while the video loads. There is no `poster`: a poster can't be a `<picture>`, so mobile would load a big image it doesn't need.
 
 ```js
 import projectVideo from '$lib/assets/videos/project.mp4'
-import projectPoster from '$lib/assets/pics/project.png?w=1600&format=webp'
 
 {
 	// …same as above
 	image: projectImage, // a still from the video
 	video: projectVideo,
-	poster: projectPoster,
 	width: 1920, // real pixel size of the video
 	height: 1080
 }
 ```
 
 - Use an **MP4 (H.264)** without sound, so it plays in every browser. Keep it short and small: a few seconds and preferably under 5 MB.
-- Make the poster image with the same size as the video, for example a screenshot of the first frame.
+- Make the image the same size as the video, for example a screenshot of the first frame.
 - On macOS you can find the video size with `mdls -name kMDItemPixelWidth -name kMDItemPixelHeight project.mp4`.
 
 Videos play muted and on a loop, only while they are on screen. A "Pause videos" button appears in the bar above the projects as soon as there is at least one video, it changes to "Play videos" while they are paused. [More about videos](docs/project-carousel.md#videos).

@@ -11,18 +11,21 @@
     const { projects, favoriteSong } = $derived(data);
 </script>
 
-<!-- the sticky profile photo in the hero stays inside this, so it stops above projects -->
-<div class="page-start">
-    <Header />
+<!-- main: the content of the page, so screen readers can skip straight to it (Footer and Nav stay outside) -->
+<main>
+    <!-- the sticky profile photo in the hero stays inside this, so it stops above projects -->
+    <div class="page-start">
+        <Header />
 
-    <Hero />
-    
-    <Biography {favoriteSong} />
-</div>
+        <Hero />
 
-<Projects {projects} />
+        <Biography {favoriteSong} />
+    </div>
 
-<Contact />
+    <Projects {projects} />
+
+    <Contact />
+</main>
 
 <Footer />
 

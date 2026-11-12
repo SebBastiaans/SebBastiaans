@@ -254,20 +254,20 @@ A project can have a `video` instead of only an `image`. How to add one is in th
 ### Markup
 
 ```svelte
+<picture>
+	<source type="image/avif" srcset={image.sources.avif} {sizes}>
+	<source type="image/webp" srcset={image.sources.webp} {sizes}>
+	<img class="project-media" src={image.img.src} alt="" {width} {height} loading="lazy">
+</picture>
 {#if video}
-	<video class="project-media" src={video} {poster} {width} {height}
+	<video class="project-media" src={video} {width} {height}
 		muted loop playsinline preload="none" aria-hidden="true"
 		{@attach (element) => autoplayVideo(element, videosPaused)}></video>
-{:else}
-	<picture>
-		<source type="image/avif" srcset={image.sources.avif} {sizes}>
-		<source type="image/webp" srcset={image.sources.webp} {sizes}>
-		<img class="project-media" src={image.img.src} alt="" {width} {height} loading="lazy">
-	</picture>
 {/if}
 ```
 
-- **The poster** is a WebP of the project image (a `poster` can't be a `<picture>`, see [Images and fonts](../README.md#images-and-fonts)). The browser loads it right away, also with `preload="none"`, so it's kept at 1600px wide. That's what you see without JS, with reduced motion, when the browser blocks autoplay and while the video loads. So a video project never shows an empty box.
+- **The image is the still**: every card has the `<picture>`, and a video lies on top of it in the same grid cell (`grid-area: 1 / 1`, on wide screens both get the image column). That's what you see without JS, with reduced motion, when the browser blocks autoplay and while the video loads. So a video project never shows an empty box.
+- **No `poster`**: a `poster` can't have a `srcset`, so it was one 1600px WebP, also on mobile. Lighthouse flagged that as "Improve image delivery". The `<picture>` picks the width that fits. Without a poster a video is transparent until its first frame, so the image underneath stays visible.
 - **`width` and `height`** work on `<video>` just like on `<img>`: the browser uses them for the aspect ratio before anything is loaded, so there is no layout shift.
 - **`preload="none"`**: nothing of the video is downloaded until it plays. With a few videos on the page, that keeps the first load light.
 - **`muted` and `playsinline`**: browsers only allow autoplay for muted videos, and `playsinline` stops iOS from opening the video full screen.
@@ -279,7 +279,7 @@ A project can have a `video` instead of only an `image`. How to add one is in th
 
 A Svelte attachment with an `IntersectionObserver`: the video plays when at least a quarter of it is on screen and pauses when it scrolls away. Videos outside the screen don't use battery and data, and you see the video in the middle move, like on Mainly.
 
-`play()` returns a promise that fails when the browser blocks autoplay (for example in low power mode). The `.catch()` ignores that, and the poster simply stays visible.
+`play()` returns a promise that fails when the browser blocks autoplay (for example in low power mode). The `.catch()` ignores that, and the image underneath simply stays visible.
 
 ### Pause button
 
@@ -293,7 +293,7 @@ A Svelte attachment with an `IntersectionObserver`: the video plays when at leas
 
 - **The text says what the button does**: "Pause videos" while they play, "Play videos" while they are paused, just like the play button of the musical text and the theme toggle. Because the label describes the action, there is no `aria-pressed`: together with a changing label, screen readers would announce something confusing like "Play videos, pressed".
 - The attachment reads `videosPaused`, so Svelte runs it again when the button is pressed: the cleanup pauses the video and disconnects the observer, and the new run either stays paused or starts observing again.
-- **The button only appears when JS runs** (`canControlVideos` is set in an `$effect`), because without JS it can't do anything. Without JS the videos don't play anyway: there is no `autoplay` attribute, so only the poster is shown.
+- **The button only appears when JS runs** (`canControlVideos` is set in an `$effect`), because without JS it can't do anything. Without JS the videos don't play anyway: there is no `autoplay` attribute, so only the image is shown.
 - **Reduced motion**: `videosPaused` starts as `true` and the `$effect` only sets it to `false` when the visitor doesn't prefer reduced motion. So videos never start for those visitors, and they can still choose to play them with the button.
 
 ## Accessibility checklist

@@ -12,7 +12,7 @@ export function autoplayVideo(video, isPaused) {
 	const observer = new IntersectionObserver(
 		([entry]) => {
 			if (entry.isIntersecting) {
-				// play() fails when the browser blocks autoplay, then the poster just stays visible
+				// play() fails when the browser blocks autoplay, then the image underneath just stays visible
 				video.play().catch(() => {})
 			} else {
 				video.pause()

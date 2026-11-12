@@ -90,15 +90,23 @@
         {/if}
 
         <ol class="project-list" {@attach (list) => stackCarousel(list, (newActive) => (active = newActive))}>
-            {#each projects as { title, description, live, github, image, video, poster, width, height, category }}
+            {#each projects as { title, description, live, github, image, video, width, height, category }}
                 <li class="project-card" data-category={category}>
+                    <!-- the browser takes the first format it supports, in the width that fits: AVIF, then WebP, then the JPG or PNG of the img -->
+                    <!-- sizes: full width on small screens, 55% next to the text when the stage is 48rem or wider -->
+                    <!-- with a video this is its still: shown without JS, with reduced motion and while loading -->
+                    <picture>
+                        <source type="image/avif" srcset={image.sources.avif} {sizes}>
+                        <source type="image/webp" srcset={image.sources.webp} {sizes}>
+                        <img class="project-media" src={image.img.src} alt="" {width} {height} loading="lazy">
+                    </picture>
                     {#if video}
+                        <!-- lies on top of the image in the same grid cell. No poster: a poster can't be responsive, so
+                             mobile would load a 1600px image. Without poster the video stays transparent until it plays -->
                         <!-- decorative like the images: muted, no controls, the title is the link -->
-                        <!-- the poster is a still of the video: shown without JS, with reduced motion and while loading -->
                         <video
                             class="project-media"
                             src={video}
-                            {poster}
                             {width}
                             {height}
                             muted
@@ -108,14 +116,6 @@
                             aria-hidden="true"
                             {@attach (element) => autoplayVideo(element, videosPaused)}
                         ></video>
-                    {:else}
-                        <!-- the browser takes the first format it supports, in the width that fits: AVIF, then WebP, then the JPG or PNG of the img -->
-                        <!-- sizes: full width on small screens, 55% next to the text when the stage is 48rem or wider -->
-                        <picture>
-                            <source type="image/avif" srcset={image.sources.avif} {sizes}>
-                            <source type="image/webp" srcset={image.sources.webp} {sizes}>
-                            <img class="project-media" src={image.img.src} alt="" {width} {height} loading="lazy">
-                        </picture>
                     {/if}
                     <!-- a new tab can be disorienting, so screen readers hear it beforehand -->
                     <h3><a href={live ?? github} target="_blank" rel="noopener">{title} <span class="visually-hidden">(opens in a new tab)</span></a></h3>
@@ -232,6 +232,8 @@
             width: 100%;
             height: auto;
             object-fit: cover;
+            /* same cell, so a video lies exactly on top of its image */
+            grid-area: 1 / 1;
             /* shrink towards the right edge, so the carousel is aligned right */
             transform-origin: right center;
         }
