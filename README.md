@@ -24,7 +24,7 @@ src/
     ├── stack-carousel.js       JS enhancement for the project carousel
     ├── autoplay-video.js       plays project videos only while they are on screen
     └── components/
-        ├── Header.svelte       scroll-driven title marquee
+        ├── Header.svelte       full width title, stretched until you scroll
         ├── Hero.svelte
         ├── Nav.svelte
         ├── Biography.svelte
@@ -53,6 +53,15 @@ It is built in layers, so it works for everyone:
 Reduced motion turns off all scaling.
 
 ➡️ **[Read how the project carousel works](docs/project-carousel.md)**
+
+### Header
+
+The title in [`Header.svelte`](src/lib/components/Header.svelte) is exactly as wide as the page and starts stretched vertically (`--header-title-stretch` in `app.css`: 4× on a 375px screen, 2× on a 1440px screen). It starts in the primary color. While you scroll the first bit it shrinks back to scale 1 and turns into the text color, then it simply scrolls out of view.
+
+- **Full width**: `font-size: calc(100cqi / 12.6)`. The title is 12.6em wide in IBM Plex Serif Bold (measured in the browser), and `cqi` is the width inside the header's padding. When the text changes, measure it again: width of the h1 ÷ its font-size.
+- **Stretch**: `scaleY` with `transform-origin: bottom`, and a `margin-top` of the extra height so the stretched title doesn't overlap anything.
+- **Shrink**: a CSS scroll-driven animation on `scroll(root)` to `scaleY(1)`. Its range is exactly the extra height (`(stretch - 1) * 1em`), so the top of the title stays at the top of the screen while it shrinks.
+- Without support or with reduced motion the title stays stretched and in the primary color, and scrolls away normally.
 
 ### Hero
 

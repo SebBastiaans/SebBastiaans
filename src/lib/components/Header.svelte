@@ -1,53 +1,46 @@
-<header class="marquee">
-    <div class="marquee__inner">
-        <h1>Portfolio of Seb Bastiaans</h1>
-    </div>
+<header class="site-header">
+    <h1>Portfolio of Seb Bastiaans</h1>
 </header>
 
 <style>
-h1{
-    @media (prefers-reduced-motion: reduce) {
-        transform: scaleY(var(--header-title-stretch));
-    }
-    transform-origin: top;
-    /* grows with the screen, but never bigger than 7rem */
-    font-size: min(10vw, 7rem);
-    white-space: nowrap;
-    width: max-content;
+.site-header{
+    /* same padding as the sections */
+    padding-inline: var(--page-padding);
+    /* cqi in the h1 is the width inside this padding (without the scrollbar, unlike vw) */
+    container-type: inline-size;
+    overflow: clip;
+}
 
+h1{
+    /* the title is 12.6em wide in IBM Plex Serif Bold, so this makes it exactly as wide as the page */
+    /* measured in the browser: width of the h1 / its font-size. Change it when the text changes */
+    font-size: calc(100cqi / 12.6);
+    font-weight: bold;
+    line-height: 1;
+    color: var(--color-primary);
+    white-space: nowrap;
+
+    /* stretched vertically from the bottom, the margin makes room for the extra height above it */
+    transform: scaleY(var(--header-title-stretch));
+    transform-origin: bottom;
+    margin-top: calc((var(--header-title-stretch) - 1) * 1em);
+
+    /* while you scroll the first bit, the title shrinks back to scale 1 and turns from the primary color
+       to the text color. The scroll distance is exactly
+       the extra height, so the top of the title stays at the top of the screen. After that it scrolls away */
     @media (prefers-reduced-motion: no-preference) {
-        @supports (animation-timeline: view()) {
-            animation-timeline: view();
-            animation-range: entry 100lvh exit 0%;
-            animation-name: extended-animation;
-            animation-fill-mode: forwards;
+        @supports (animation-timeline: scroll()) {
+            animation: header-title-shrink linear both;
+            animation-timeline: scroll(root);
+            animation-range: 0 calc((var(--header-title-stretch) - 1) * 1em);
         }
     }
 }
 
-.marquee{
-    /* same padding as the sections */
-    padding-inline: var(--page-padding);
-    width: 100%;
-    height: clamp(10lvh, calc(10lvh + (40lvh - 10lvh) * (100vw - 375px) / 1065px), 40lvh);
-    overflow: clip;
-
-    .marquee__inner{
-        width: max-content;
-        position: sticky;
-        top: 0;
+@keyframes header-title-shrink {
+    to {
+        transform: scaleY(1);
+        color: var(--color-text);
     }
-}
-
-@keyframes extended-animation {
-  from {
-    font-weight: 300;
-    transform: translateX(0);
-  }
-  to {
-    font-weight: 900;
-    transform: translateX(var(--header-title-translate));
-    color: var(--color-primary);
-  }
 }
 </style>

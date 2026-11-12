@@ -77,10 +77,8 @@
 
     /* headings are stretched vertically on small screens, and get back to normal on big screens */
     --heading-stretch: clamp(.8, calc(1.5 - 0.5 * (100vw - 375px) / 825px), 1.5);
-    --header-title-stretch: clamp(.5, calc(1.5 - 0.5 * (100vw - 375px) / 825px), 1.5);
-    /* how far the header title slides left, min() so it doesn't move right when it is narrower than the screen */
-    /* 100% is the width of the title itself, because the value is only filled in where it is used */
-    --header-title-translate: min(0px, calc(-100% + 100vw - 2 * var(--page-padding)));
+    /* the header title starts stretched: 4 times as tall on a 375px screen, 2 times on a 1440px screen */
+    --header-title-stretch: clamp(2, calc(4 - 2 * (100vw - 375px) / 1065px), 4);
 
     /* hero: no side padding on very small screens, see the media query below */
     --hero-padding: 0px;
