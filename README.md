@@ -59,7 +59,7 @@ Reduced motion turns off all scaling.
 
 The title in [`Header.svelte`](src/lib/components/Header.svelte) is exactly as wide as the page and starts stretched vertically (`--header-title-stretch` in `app.css`: 4× on a 375px screen, 2× on a 1440px screen). It starts in the primary color. While you scroll the first bit it shrinks back to scale 1 and turns into the text color, then it simply scrolls out of view.
 
-- **Full width**: `font-size: calc(100cqi / 12.6)`. The title is 12.6em wide in IBM Plex Serif Bold (measured in the browser), and `cqi` is the width inside the header's padding. When the text changes, measure it again: width of the h1 ÷ its font-size.
+- **Full width**: `font-size: calc(100cqi / 11.4)`. The title is 11.4em wide in Roboto Flex Bold (measured in the browser), and `cqi` is the width inside the header's padding. When the text changes, measure it again: width of the h1 ÷ its font-size.
 - **Stretch**: `scaleY` with `transform-origin: bottom`, and a `margin-top` of the extra height so the stretched title doesn't overlap anything.
 - **Shrink**: a CSS scroll-driven animation on `scroll(root)` to `scaleY(1)`. Its range is exactly the extra height (`(stretch - 1) * 1em`), so the top of the title stays at the top of the screen while it shrinks.
 - Without support or with reduced motion the title stays stretched and in the primary color, and scrolls away normally.
@@ -193,7 +193,11 @@ Videos play muted and on a loop, only while they are on screen. A "Pause videos"
 - The originals stay in `src/lib/assets/pics`, the small versions only exist in the build. The first build after adding an image is slower, because AVIF takes a while.
 - Result: the project images went from up to 6 MB per PNG to 10 to 70 KB per AVIF. A full visit on a sharp laptop screen loads about 875 KB of images and fonts.
 
-**Fonts** are WOFF2, the compressed format for the web: about 70% smaller than TTF (Inter: 875 KB → 349 KB). Only the IBM Plex Serif weights the site uses are there: Light to Bold, no italics. To convert a new font: [`wawoff2`](https://www.npmjs.com/package/wawoff2), or an online converter.
+**Fonts** are WOFF2, the compressed format for the web: about 70% smaller than TTF (Inter: 875 KB → 349 KB). Only the IBM Plex Serif weights the site uses are there: Light to Bold, no italics.
+
+The headings (`h1` to `h5`) use **Roboto Flex**, with regular **Roboto** as the fallback: `font-family: 'roboto-flex', 'roboto', sans-serif`. Both are variable fonts, so one file covers every weight and width. Roboto Flex is the biggest font on the site (1.7 MB TTF → 747 KB WOFF2, it has 13 axes); Roboto is 488 KB → 221 KB. Body text stays IBM Plex Serif, links stay Inter.
+
+To convert a new font: [`wawoff2`](https://www.npmjs.com/package/wawoff2), or an online converter.
 
 ## Conventions
 
@@ -213,4 +217,4 @@ Four global classes in `app.css` are shared by the components, so their styles o
   - The radio buttons are invisible but still there, so the arrow keys and screen readers work as usual. The label shows the focus.
   - It's radio buttons and not a `role="switch"`: a switch is on or off, this is a choice between options.
 
-Fonts, line height and text color are set once on `body` and inherited by everything. Links set them again: browsers give links their own color, and links in a heading (like the project titles) stay Inter.
+Fonts, line height and text color are set once on `body` and inherited by everything. Headings get Roboto Flex. Links set font and color again: browsers give links their own color, and links in a heading (like the project titles) stay Inter.
