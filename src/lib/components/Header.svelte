@@ -12,9 +12,12 @@
 }
 
 h1{
-    /* the title is 12.6em wide in IBM Plex Serif Bold, so this makes it exactly as wide as the page */
-    /* measured in the browser: width of the h1 / its font-size. Change it when the text changes */
-    font-size: calc(100cqi / 12.6);
+    /* the title is about 11.4em wide in Roboto Flex Bold, so this makes it exactly as wide as the page */
+    /* measured in the browser: width of the h1 / its font-size. Change it when the text or font changes */
+    font-size: calc(100cqi / 11.4);
+    /* Roboto Flex makes its letters wider at small sizes (optical size). Fixed on the display size,
+       so the title is the same number of ems wide on every screen. Otherwise it's too wide on mobile */
+    font-variation-settings: "opsz" 144;
     font-weight: bold;
     line-height: 1;
     color: var(--color-primary);

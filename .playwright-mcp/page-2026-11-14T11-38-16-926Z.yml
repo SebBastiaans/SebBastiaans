@@ -1,0 +1,176 @@
+- generic [ref=f7e2]:
+  - main [ref=f7e3]:
+    - generic [ref=f7e4]:
+      - heading "Portfolio of Seb Bastiaans" [level=1] [ref=f7e6]
+      - generic [ref=f7e7]:
+        - list [ref=f7e9]:
+          - listitem [ref=f7e10]: Student Front-end development & Design
+          - listitem [ref=f7e11]: Utrecht, The Netherlands
+          - listitem [ref=f7e12]: scroll down to see more
+        - list [ref=f7e13]:
+          - listitem [ref=f7e14]:
+            - generic [ref=f7e15]: Specializing in responsive, accesible, performing, progressive enhanced websites
+          - listitem [ref=f7e16]: Understanding design, translating it to code
+          - listitem [ref=f7e17]: Scrumming, communicating, collaborating
+          - listitem [ref=f7e18]: Soon to be AI prompt whisperer
+    - region "Projects" [ref=f7e19]:
+      - heading "Projects" [level=2] [ref=f7e20]
+      - group "Show projects" [ref=f7e22]:
+        - generic [ref=f7e24] [cursor=pointer]:
+          - radio "All" [checked]
+          - text: All
+        - generic [ref=f7e25] [cursor=pointer]:
+          - radio "School"
+          - text: School
+        - generic [ref=f7e26] [cursor=pointer]:
+          - radio "Personal"
+          - text: Personal
+      - list [ref=f7e28]:
+        - listitem [ref=f7e29]:
+          - heading [level=3] [ref=f7e32]:
+            - link "Milledoni (opens in a new tab)" [ref=f7e33] [cursor=pointer]:
+              - /url: https://sebbastiaans.github.io/fix-the-flow-interactive-website/
+              - text: Milledoni
+              - generic [ref=f7e34]: (opens in a new tab)
+          - paragraph [ref=f7e35]: Designing and building an interactive website.
+          - link "GitHub repository of Milledoni (opens in a new tab)" [ref=f7e36] [cursor=pointer]:
+            - /url: https://github.com/SebBastiaans/fix-the-flow-interactive-website
+            - text: GitHub
+            - generic [ref=f7e37]: repository of Milledoni (opens in a new tab)
+        - listitem [ref=f7e40]:
+          - heading [level=3] [ref=f7e43]:
+            - link "270 Degrees (opens in a new tab)" [ref=f7e44] [cursor=pointer]:
+              - /url: https://sebbastiaans.github.io/the-startup-responsive-interactive-website/
+              - text: 270 Degrees
+              - generic [ref=f7e45]: (opens in a new tab)
+          - paragraph [ref=f7e46]: Designing and building a responsive website for a startup.
+          - link "GitHub repository of 270 Degrees (opens in a new tab)" [ref=f7e47] [cursor=pointer]:
+            - /url: https://github.com/SebBastiaans/the-startup-responsive-interactive-website
+            - text: GitHub
+            - generic [ref=f7e48]: repository of 270 Degrees (opens in a new tab)
+        - listitem [ref=f7e51]:
+          - heading [level=3] [ref=f7e54]:
+            - link "Profile card (opens in a new tab)" [ref=f7e55] [cursor=pointer]:
+              - /url: https://connect-your-tribe-profile-card-yyds.onrender.com/
+              - text: Profile card
+              - generic [ref=f7e56]: (opens in a new tab)
+          - paragraph [ref=f7e57]: Making a profile card with NodeJS and a REST API.
+          - link "GitHub repository of Profile card (opens in a new tab)" [ref=f7e58] [cursor=pointer]:
+            - /url: https://github.com/SebBastiaans/connect-your-tribe-profile-card
+            - text: GitHub
+            - generic [ref=f7e59]: repository of Profile card (opens in a new tab)
+        - listitem [ref=f7e62]:
+          - heading [level=3] [ref=f7e65]:
+            - link "Squad page (opens in a new tab)" [ref=f7e66] [cursor=pointer]:
+              - /url: https://connect-your-tribe-squad-page-okq6.onrender.com/
+              - text: Squad page
+              - generic [ref=f7e67]: (opens in a new tab)
+          - paragraph [ref=f7e68]: Making a team overview with a team, using NodeJS and a REST API.
+          - link "GitHub repository of Squad page (opens in a new tab)" [ref=f7e69] [cursor=pointer]:
+            - /url: https://github.com/SebBastiaans/connect-your-tribe-squad-page
+            - text: GitHub
+            - generic [ref=f7e70]: repository of Squad page (opens in a new tab)
+        - listitem [ref=f7e73]:
+          - heading [level=3] [ref=f7e76]:
+            - link "Bloemenveld Frankendael (opens in a new tab)" [ref=f7e77] [cursor=pointer]:
+              - /url: https://user-experience-enhanced-website-7wvf.onrender.com/
+              - text: Bloemenveld Frankendael
+              - generic [ref=f7e78]: (opens in a new tab)
+          - paragraph [ref=f7e79]: First personal data driven and UX enhanced website, made with Liquid, NodeJS and APIs.
+          - link "GitHub repository of Bloemenveld Frankendael (opens in a new tab)" [ref=f7e80] [cursor=pointer]:
+            - /url: https://github.com/SebBastiaans/user-experience-enhanced-website
+            - text: GitHub
+            - generic [ref=f7e81]: repository of Bloemenveld Frankendael (opens in a new tab)
+        - listitem [ref=f7e84]:
+          - heading [level=3] [ref=f7e87]:
+            - link "Bloemenveld Frankendael — Pleasurable UI (opens in a new tab)" [ref=f7e88] [cursor=pointer]:
+              - /url: https://pleasurable-ui-xr0z.onrender.com/
+              - text: Bloemenveld Frankendael — Pleasurable UI
+              - generic [ref=f7e89]: (opens in a new tab)
+          - paragraph [ref=f7e90]: Working in a team with branches and pull requests.
+          - link "GitHub repository of Bloemenveld Frankendael — Pleasurable UI (opens in a new tab)" [ref=f7e91] [cursor=pointer]:
+            - /url: https://github.com/GijsNagtegaal/pleasurable-ui
+            - text: GitHub
+            - generic [ref=f7e92]: repository of Bloemenveld Frankendael — Pleasurable UI (opens in a new tab)
+        - listitem [ref=f7e95]:
+          - heading [level=3] [ref=f7e98]:
+            - link "Q42 and Teylers Museum (opens in a new tab)" [ref=f7e99] [cursor=pointer]:
+              - /url: https://proof-of-concept-p8tg.onrender.com/
+              - text: Q42 and Teylers Museum
+              - generic [ref=f7e100]: (opens in a new tab)
+          - paragraph [ref=f7e101]: "End of first year project with everything coming together: data driven, UI and UX, progressively enhanced."
+          - link "GitHub repository of Q42 and Teylers Museum (opens in a new tab)" [ref=f7e102] [cursor=pointer]:
+            - /url: https://github.com/SebBastiaans/proof-of-concept
+            - text: GitHub
+            - generic [ref=f7e103]: repository of Q42 and Teylers Museum (opens in a new tab)
+        - listitem [ref=f7e106]:
+          - heading [level=3] [ref=f7e109]:
+            - link "Your tribe for life squad page (opens in a new tab)" [ref=f7e110] [cursor=pointer]:
+              - /url: https://semsettin.netlify.app/
+              - text: Your tribe for life squad page
+              - generic [ref=f7e111]: (opens in a new tab)
+          - paragraph [ref=f7e112]: Remaking a squad page using SvelteKit.
+          - link "GitHub repository of Your tribe for life squad page (opens in a new tab)" [ref=f7e113] [cursor=pointer]:
+            - /url: https://github.com/SebBastiaans/your-tribe-for-life-squad-page
+            - text: GitHub
+            - generic [ref=f7e114]: repository of Your tribe for life squad page (opens in a new tab)
+        - listitem [ref=f7e117]:
+          - heading [level=3] [ref=f7e121]:
+            - link "Your Tribe for life profile card (opens in a new tab)" [ref=f7e122] [cursor=pointer]:
+              - /url: https://profilecardofseb.netlify.app/
+              - text: Your Tribe for life profile card
+              - generic [ref=f7e123]: (opens in a new tab)
+          - paragraph [ref=f7e124]: Remaking my profile card using SvelteKit.
+          - link "GitHub repository of Your Tribe for life profile card (opens in a new tab)" [ref=f7e125] [cursor=pointer]:
+            - /url: https://github.com/SebBastiaans/your-tribe-for-life-profile-card
+            - text: GitHub
+            - generic [ref=f7e126]: repository of Your Tribe for life profile card (opens in a new tab)
+        - listitem [ref=f7e129]:
+          - heading [level=3] [ref=f7e133]:
+            - link "Automated AI trade tool (opens in a new tab)" [ref=f7e134] [cursor=pointer]:
+              - /url: https://github.com/SebBastiaans/ai-trade
+              - text: Automated AI trade tool
+              - generic [ref=f7e135]: (opens in a new tab)
+          - paragraph [ref=f7e136]: Seeing if there is an ulimited money glitch. Using API for live prices.
+          - link "GitHub repository of Automated AI trade tool (opens in a new tab)" [ref=f7e137] [cursor=pointer]:
+            - /url: https://github.com/SebBastiaans/ai-trade
+            - text: GitHub
+            - generic [ref=f7e138]: repository of Automated AI trade tool (opens in a new tab)
+        - listitem [ref=f7e141]:
+          - heading [level=3] [ref=f7e145]:
+            - link "AI Framer testing (opens in a new tab)" [ref=f7e146] [cursor=pointer]:
+              - /url: https://github.com/SebBastiaans/AI-garden
+              - text: AI Framer testing
+              - generic [ref=f7e147]: (opens in a new tab)
+          - paragraph [ref=f7e148]: Experimenting with AI tools for web.
+          - link "GitHub repository of AI Framer testing (opens in a new tab)" [ref=f7e149] [cursor=pointer]:
+            - /url: https://github.com/SebBastiaans/AI-garden
+            - text: GitHub
+            - generic [ref=f7e150]: repository of AI Framer testing (opens in a new tab)
+        - listitem [ref=f7e153]:
+          - heading [level=3] [ref=f7e157]:
+            - link "For the plot (opens in a new tab)" [ref=f7e158] [cursor=pointer]:
+              - /url: https://for-the-plot.lovable.app/
+              - text: For the plot
+              - generic [ref=f7e159]: (opens in a new tab)
+          - paragraph [ref=f7e160]: A tool to keep track of your trips with friends, with a shared photo and video album. Figuring out how Lovable works.
+          - link "GitHub repository of For the plot (opens in a new tab)" [ref=f7e161] [cursor=pointer]:
+            - /url: https://github.com/SebBastiaans/for-the-plot
+            - text: GitHub
+            - generic [ref=f7e162]: repository of For the plot (opens in a new tab)
+    - generic [ref=f7e165]:
+      - heading "Contact" [level=2] [ref=f7e166]
+      - list [ref=f7e167]:
+        - listitem [ref=f7e168]:
+          - link "Instagram" [ref=f7e169] [cursor=pointer]:
+            - /url: https://www.instagram.com/sbeee87?stkn=MWVzZ242ZzQ2dmE2bg%3D%3D&utm_source=qr
+        - listitem [ref=f7e171]:
+          - link "GitHub" [ref=f7e172] [cursor=pointer]:
+            - /url: https://github.com/SebBastiaans
+        - listitem [ref=f7e174]:
+          - link "LinkedIn" [ref=f7e175] [cursor=pointer]:
+            - /url: https://www.linkedin.com/in/seb-bastiaans-86b5b7200?utm_source=share_via&utm_content=profile&utm_medium=member_ios
+        - listitem [ref=f7e177]:
+          - link "WhatsApp" [ref=f7e178] [cursor=pointer]:
+            - /url: https://wa.me/qr/KLK6VJEGKVD5M1
+  - contentinfo [ref=f7e180]

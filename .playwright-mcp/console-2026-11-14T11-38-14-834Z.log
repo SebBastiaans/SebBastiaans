@@ -1,0 +1,2 @@
+[   24017ms] [LOG] [vite] server connection lost. Polling for restart... @ http://localhost:5199/@vite/client:1003
+[  389995ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:5199/@imagetools/6c845080c78329b6b8070b4b92b439d08b0042ae:1

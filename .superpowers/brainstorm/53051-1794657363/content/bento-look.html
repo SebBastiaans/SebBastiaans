@@ -1,0 +1,84 @@
+<style>
+  .bento{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:64px;grid-auto-flow:dense;gap:10px;max-width:420px;padding:14px;border-radius:14px}
+  .tile{display:flex;align-items:center;justify-content:center;gap:10px;border-radius:22px;font:600 13px/1.1 system-ui;position:relative;overflow:hidden}
+  .tile .logo{display:grid;place-items:center;border-radius:12px;font:800 15px system-ui;aspect-ratio:1;height:46%;min-height:30px}
+  /* shapes: area = mastery */
+  .big-sq{grid-column:span 2;grid-row:span 2}
+  .big-tall{grid-column:span 2;grid-row:span 3}
+  .big-wide{grid-column:span 3;grid-row:span 2}
+  .mid-wide{grid-column:span 2}
+  .mid-tall{grid-row:span 2}
+  .pill{border-radius:999px}
+  .big-sq .logo,.big-tall .logo,.big-wide .logo{height:42%;font-size:22px}
+  .tile.col{flex-direction:column}
+  .name{opacity:.85}
+
+  /* A: vivid gradients, dark like the screenshot */
+  .a{background:#0d0d0d}
+  .a .tile{color:#fff;border:1px solid rgba(255,255,255,.12);box-shadow:inset 0 1px 0 rgba(255,255,255,.15)}
+  .a .tile .logo{background:rgba(255,255,255,.18);backdrop-filter:blur(4px)}
+  .a .html{background:radial-gradient(circle at 30% 20%,#ff9a6b,#e34f26 60%,#7a1f0a)}
+  .a .css{background:radial-gradient(circle at 70% 20%,#7cc4ff,#1572b6 60%,#0b2f55)}
+  .a .sv{background:radial-gradient(circle at 30% 80%,#ffd0b8,#ff3e00 55%,#8a1f00)}
+  .a .js{background:linear-gradient(135deg,#fff2a8,#d4b106)} .a .js{color:#222}
+  .a .fig{background:radial-gradient(circle at 20% 30%,#f2c9ff,#a259ff 60%,#4a1f8a)}
+  .a .git{background:linear-gradient(135deg,#2a2a2a,#f05032)}
+  .a .node{background:linear-gradient(135deg,#9be29b,#3c873a)}
+  .a .ts{background:#1e1e1e}
+
+  /* B: the site's own style: paper grid, white tiles, blue border, logo in color */
+  .b{background-color:#fafafa;background-image:linear-gradient(#ddd 1px,transparent 1px),linear-gradient(90deg,#ddd 1px,transparent 1px);background-size:20px 20px}
+  .b .tile{background:#fff;color:#111;border:2px solid blue}
+  .b .tile:nth-child(3n){background:blue;color:#fff}
+  .b .tile:nth-child(3n) .logo{background:#fff!important;color:blue}
+  .b .html .logo{background:#e34f26;color:#fff}.b .css .logo{background:#1572b6;color:#fff}.b .sv .logo{background:#ff3e00;color:#fff}.b .js .logo{background:#d4b106;color:#fff}.b .fig .logo{background:#a259ff;color:#fff}.b .git .logo{background:#f05032;color:#fff}.b .node .logo{background:#3c873a;color:#fff}.b .ts .logo{background:#3178c6;color:#fff}
+
+  .key{font:12px system-ui;color:#666;margin-top:8px}
+</style>
+
+<h2>Welke stijl past bij je portfolio?</h2>
+<p class="subtitle">Grootte (oppervlakte) = hoe goed je het beheerst. Binnen hetzelfde niveau wisselen de vormen af (vierkant, hoog, breed, pil), zodat het speels en door elkaar oogt. Technieken en niveaus zijn voorbeelden.</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Kleurrijk, zoals je screenshot</h3>
+      <p>Elk vakje een verloop in de kleur van het logo, donkere achtergrond, glasachtig. Valt erg op, maar wijkt af van de rest van je site (lichte rasterachtergrond, blauw/roze).</p>
+      <div class="mockup"><div class="mockup-body">
+        <div class="bento a">
+          <div class="tile big-tall col html"><span class="logo">5</span><span class="name">HTML</span></div>
+          <div class="tile big-sq col css"><span class="logo">3</span><span class="name">CSS</span></div>
+          <div class="tile mid-wide pill js"><span class="logo">JS</span><span class="name">JavaScript</span></div>
+          <div class="tile big-wide sv"><span class="logo">S</span><span class="name">Svelte</span></div>
+          <div class="tile mid-tall col fig"><span class="logo">F</span></div>
+          <div class="tile git"><span class="logo">G</span></div>
+          <div class="tile mid-wide pill node"><span class="logo">N</span><span class="name">Node</span></div>
+          <div class="tile ts"><span class="logo" style="background:#3178c6">TS</span></div>
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>In de stijl van je site</h3>
+      <p>Hetzelfde speelse raster, maar met je eigen kleuren: witte vakjes met blauwe rand op het ruitjespapier, af en toe een blauw vakje. Logo's in hun eigen kleur. In dark mode wordt het blauw roze, zoals de rest.</p>
+      <div class="mockup"><div class="mockup-body">
+        <div class="bento b">
+          <div class="tile big-tall col html"><span class="logo">5</span><span class="name">HTML</span></div>
+          <div class="tile big-sq col css"><span class="logo">3</span><span class="name">CSS</span></div>
+          <div class="tile mid-wide pill js"><span class="logo">JS</span><span class="name">JavaScript</span></div>
+          <div class="tile big-wide sv"><span class="logo">S</span><span class="name">Svelte</span></div>
+          <div class="tile mid-tall col fig"><span class="logo">F</span></div>
+          <div class="tile git"><span class="logo">G</span></div>
+          <div class="tile mid-wide pill node"><span class="logo">N</span><span class="name">Node</span></div>
+          <div class="tile ts"><span class="logo">TS</span></div>
+        </div>
+      </div></div>
+    </div>
+  </div>
+</div>
+
+<p class="key">Niveaus in deze mockup: groot (4–6 cellen) = beheers ik goed · middel (2 cellen) = redelijk · klein (1 cel) = basis</p>
