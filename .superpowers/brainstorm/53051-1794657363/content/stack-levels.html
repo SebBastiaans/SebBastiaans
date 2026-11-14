@@ -1,0 +1,89 @@
+<style>
+  .stack{display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:56px;grid-auto-flow:dense;gap:8px;max-width:520px}
+  .t{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border-radius:10px;background:#f2f2f2;border:2px solid #ddd;font:600 12px/1 system-ui;color:#222;position:relative}
+  .t b{display:grid;place-items:center;width:60%;max-width:72px;aspect-ratio:1;border-radius:8px;color:#fff;font-size:clamp(10px,2.2vw,22px)}
+  .l3{grid-column:span 2;grid-row:span 2}
+  .l2{grid-column:span 2}
+  .l2 b{width:auto;height:70%}
+  .l1 b,.l0 b{width:auto;height:60%;font-size:10px}
+  .l0.dashed{border-style:dashed;background:transparent}
+  .l0.dashed b{filter:grayscale(1);opacity:.5}
+  .badge{position:absolute;top:-8px;right:-6px;background:#ffb3c7;color:#222;font-size:9px;padding:2px 5px;border-radius:6px}
+  .row-label{font:600 11px system-ui;text-transform:uppercase;letter-spacing:.05em;color:#666;margin:14px 0 6px}
+  .html{background:#e34f26}.css{background:#1572b6}.js{background:#d4b106}.sv{background:#ff3e00}.fig{background:#a259ff}.git{background:#f05032}.node{background:#3c873a}.ts{background:#3178c6}.ast{background:#222}.rc{background:#149eca}
+  .legend{font:12px system-ui;color:#555;margin-top:10px}
+</style>
+
+<h2>Hoe laat je zien hoe goed je iets beheerst, en wat je nog aan het leren bent?</h2>
+<p class="subtitle">De logo's zijn placeholders en de technieken zijn voorbeelden. Het gaat om hoe de niveaus eruitzien. Klik op de optie die het beste voelt.</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Alleen grootte: het kleinste formaat is "aan het leren"</h3>
+      <p>Drie formaten. Het kleinste vakje krijgt een labeltje "leren". Eén schaal, dus makkelijk te snappen, maar "leren" en "een beetje" vallen samen.</p>
+      <div class="mockup"><div class="mockup-body">
+        <div class="stack">
+          <div class="t l3"><b class="html">HTML</b></div>
+          <div class="t l3"><b class="css">CSS</b></div>
+          <div class="t l3"><b class="sv">Svelte</b></div>
+          <div class="t l2"><b class="js">JS</b></div>
+          <div class="t l2"><b class="fig">Figma</b></div>
+          <div class="t l2"><b class="git">Git</b></div>
+          <div class="t l1"><b class="node">Node</b><span class="badge">leren</span></div>
+          <div class="t l1"><b class="ts">TS</b><span class="badge">leren</span></div>
+          <div class="t l1"><b class="ast">Astro</b><span class="badge">leren</span></div>
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Grootte voor niveau, en "aan het leren" ziet er anders uit</h3>
+      <p>Grootte zegt hoe goed je iets beheerst. Wat je aan het leren bent heeft een gestippelde rand en een grijs logo dat later "kleur krijgt". Het staat in hetzelfde raster.</p>
+      <div class="mockup"><div class="mockup-body">
+        <div class="stack">
+          <div class="t l3"><b class="html">HTML</b></div>
+          <div class="t l3"><b class="css">CSS</b></div>
+          <div class="t l3"><b class="sv">Svelte</b></div>
+          <div class="t l2"><b class="js">JS</b></div>
+          <div class="t l2"><b class="fig">Figma</b></div>
+          <div class="t l1"><b class="git">Git</b></div>
+          <div class="t l1"><b class="rc">React</b></div>
+          <div class="t l0 dashed"><b class="node">Node</b></div>
+          <div class="t l0 dashed"><b class="ts">TS</b></div>
+          <div class="t l0 dashed"><b class="ast">Astro</b></div>
+        </div>
+        <p class="legend">groot = beheers ik goed · gestippeld = ben ik aan het leren</p>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Twee groepen: "Mijn stack" en "Aan het leren"</h3>
+      <p>Bovenaan het raster met formaten naar niveau, eronder een aparte rij met kleine logo's. Het duidelijkst voor een docent of bedrijf, maar het raster valt in twee stukken uiteen.</p>
+      <div class="mockup"><div class="mockup-body">
+        <div class="row-label">Mijn stack</div>
+        <div class="stack">
+          <div class="t l3"><b class="html">HTML</b></div>
+          <div class="t l3"><b class="css">CSS</b></div>
+          <div class="t l3"><b class="sv">Svelte</b></div>
+          <div class="t l2"><b class="js">JS</b></div>
+          <div class="t l2"><b class="fig">Figma</b></div>
+          <div class="t l2"><b class="git">Git</b></div>
+        </div>
+        <div class="row-label">Aan het leren</div>
+        <div class="stack">
+          <div class="t l1"><b class="node">Node</b></div>
+          <div class="t l1"><b class="ts">TS</b></div>
+          <div class="t l1"><b class="ast">Astro</b></div>
+        </div>
+      </div></div>
+    </div>
+  </div>
+</div>

@@ -4,6 +4,7 @@
     import Nav from '$lib/components/Nav.svelte';
     import Biography from '$lib/components/Biography.svelte';
     import Projects from '$lib/components/Projects.svelte';
+    import TechStack from '$lib/components/TechStack.svelte';
     import Contact from '$lib/components/Contact.svelte';
     import Footer from '$lib/components/Footer.svelte';
 
@@ -13,30 +14,31 @@
 
 <!-- main: the content of the page, so screen readers can skip straight to it (Footer and Nav stay outside) -->
 <main>
-    <!-- the sticky profile photo in the hero stays inside this, so it stops above projects -->
+    <!-- the first screen: header at the top, hero at the bottom against projects -->
     <div class="page-start">
         <Header />
 
         <Hero />
 
-        <Biography {favoriteSong} />
+        <!-- <Biography {favoriteSong} /> -->
     </div>
 
     <Projects {projects} />
+
+    <TechStack />
 
     <Contact />
 </main>
 
 <Footer />
 
-<Nav />
+<!-- <Nav /> -->
 
 <style>
     .page-start{
-        min-height: 100dvh;
-        /* the photo counts as 0px high for sticky (negative margin), so its top would stop right at the edge
-           of projects and the round icon would hang over it. A sticky element never moves into the padding
-           of its parent, so this room for the icon makes it stop above projects */
-        padding-bottom: calc(var(--profile-photo-size) * var(--profile-icon-scale));
+        display: flex;
+        gap: 5rem;
+        flex-direction: column;
+        justify-content: space-between;
     }
 </style>

@@ -9,6 +9,7 @@ npm install
 npm run dev      # development server on http://localhost:5173
 npm run build    # static site in /build
 npm run preview  # preview the build
+npm test         # tests of the tech stack data (node --test)
 ```
 
 ## Structure
@@ -24,14 +25,19 @@ src/
 └── lib/
     ├── stack-carousel.js       JS enhancement for the project carousel
     ├── autoplay-video.js       plays project videos only while they are on screen
+    ├── tech-stack.js           tech stack data: logo and level per technique, shapes of the tiles
+    ├── tech-stack.test.js      tests for tech-stack.js (npm test)
+    ├── test-setup.js           lets the tests (plain Node) understand $lib/ and ?raw, like Vite
+    ├── assets/logos/           own svg logos for the tech stack (one color)
     └── components/
         ├── Header.svelte       full width title, stretched until you scroll
-        ├── Hero.svelte
+        ├── Hero.svelte         intro, skills and the profile photo
         ├── Nav.svelte
         ├── Biography.svelte
         ├── MusicalText.svelte  text that bounces on the beat of a song
         ├── ArrowIcon.svelte    arrow for links, moves on hover
         ├── Projects.svelte     project filter and carousel
+        ├── TechStack.svelte    tech stack section: bento grid of logos, bigger tile = better mastered
         ├── Contact.svelte
         └── Footer.svelte       dark mode toggle
 ```
@@ -59,20 +65,34 @@ Reduced motion turns off all scaling.
 
 The title in [`Header.svelte`](src/lib/components/Header.svelte) is exactly as wide as the page and starts stretched vertically (`--header-title-stretch` in `app.css`: 4× on a 375px screen, 2× on a 1440px screen). It starts in the primary color. While you scroll the first bit it shrinks back to scale 1 and turns into the text color, then it simply scrolls out of view.
 
-- **Full width**: `font-size: calc(100cqi / 11.4)`. The title is 11.4em wide in Roboto Flex Bold (measured in the browser), and `cqi` is the width inside the header's padding. When the text changes, measure it again: width of the h1 ÷ its font-size.
+- **Full width**: `font-size: calc(100cqi / 11.4)`. The title is about 11.4em wide in Roboto Flex Bold (measured in the browser). Roboto Flex has an optical size axis: the browser makes the letters wider at small font sizes, so on mobile the title was 11.8em and went off the screen. `font-variation-settings: "opsz" 144` fixes it on the display size, so the title is the same number of ems wide on every screen, and `cqi` is the width inside the header's padding. When the text changes, measure it again: width of the h1 ÷ its font-size.
 - **Stretch**: `scaleY` with `transform-origin: bottom`, and a `margin-top` of the extra height so the stretched title doesn't overlap anything.
 - **Shrink**: a CSS scroll-driven animation on `scroll(root)` to `scaleY(1)`. Its range is exactly the extra height (`(stretch - 1) * 1em`), so the top of the title stays at the top of the screen while it shrinks.
 - Without support or with reduced motion the title stays stretched and in the primary color, and scrolls away normally.
 
 ### Hero
 
-The profile photo in [`Hero.svelte`](src/lib/components/Hero.svelte) is `position: sticky` and morphs while you scroll (square → M → E → circle), with a CSS scroll-driven animation on the `--hero` view timeline. Without support or with reduced motion it stays a normal square photo.
+[`Hero.svelte`](src/lib/components/Hero.svelte) is a grid with the profile photo and two lists: the intro (who, where) and the skills.
 
-- The `<img>` sits outside `.hero`, so it isn't part of the flex layout and can lay on top of `.photo-slot`.
-- A sticky element only sticks until the end of its parent. The photo's parent is `.page-start` in [`+page.svelte`](src/routes/+page.svelte), around header, hero and biography. So after morphing into a round icon, it scrolls along through biography and stops above projects.
-- The photo has a negative `margin-bottom` of its own size (to lay on top of `.photo-slot`), so for sticky it counts as 0px high: its *top* would stop right at the edge of projects, and the icon would hang over it. `.page-start` has a `padding-bottom` of exactly the icon's size (`--profile-photo-size` × `--profile-icon-scale`), and a sticky element never moves into its parent's padding, so the icon stops above projects.
-- `--profile-icon-scale` (`.12` in `app.css`) is used both by the end of the morph animation and by that padding, so they always match.
-- `timeline-scope: --hero` on `body` (in `app.css`) lets the img use the `--hero` timeline of `.hero`, even though it isn't inside `.hero`.
+- **From 800px**: two columns, `1fr 420px`. The intro and the skills are under each other on the left, the photo is on the right over the height of both lists (`grid-template-areas`).
+- `grid-template-rows: auto 1fr`: the photo is taller than the lists, so the second row gets all the extra height. Otherwise both rows would grow and the skills would end up halfway down instead of right under the intro. The `gap` is 2rem.
+- **Against projects**: `.page-start` in [`+page.svelte`](src/routes/+page.svelte) (header and hero) is at least as tall as the screen, a flex column with `justify-content: space-between`. The header is at the top, the hero at the bottom, and the space that's left goes in between. `#projects` has no `margin-top`, so it starts right under the hero.
+- The photo column is a fixed 420px and the img fills it. With an `auto` column, the percentage in `--profile-photo-size` would make the photo smaller than 420px.
+- **Below 800px**: one column in the order of the HTML: photo, intro, skills.
+
+### Tech stack
+
+A section between projects and contact ([`TechStack.svelte`](src/lib/components/TechStack.svelte)) with a playful bento grid of the logos of the techniques I work with. The bigger the tile, the better I master it.
+
+➡️ **[Read how the tech stack works and how to add a technique](docs/tech-stack.md)**
+- **Text size**: `--hero-text-size` in `app.css` grows with the screen, from 1rem on a 375px screen to 2rem on a 1440px screen.
+- **Text lights up while you read**: while you scroll, the text lights up letter by letter from left to right, line by line. CSS only, no JavaScript and no span per letter:
+  - The text of every `li` is in a `<span class="line">` with a transparent `color` and two backgrounds that are only painted inside the letters (`background-clip: text`): the dim text (15% of the text color) and on top the lit text, whose `background-size` grows from 0% to 100%.
+  - The lit layer fades out at its right end (`--edge`, 1.5em), so the letters light up one by one instead of being cut in half.
+  - The span is inline: when the text wraps, its background runs on over the next line as if all lines were one long line (`box-decoration-break: slice`). So the light goes to the end of a line and then continues on the next one.
+  - The items light up one after another, from top to bottom. All of them share one timeline, the scroll of the page (`scroll(root)`). The first `--read-distance` (40vh) of scrolling is split into `--lines` (7) equal steps. Every `li` has its place over both lists as `--i` (0 to 6, inline in the HTML) and lights up between `--i` and `--i + 1` steps, so an item only starts when the one above it is done. When you add or remove an item, change the `--i` numbers and `--lines`.
+  - Every item gets the same scroll distance, so a long item that wraps over 3 lines lights up faster per line than a short one.
+  - Without support or with reduced motion the text is just visible in the normal color.
 
 ### Musical text
 

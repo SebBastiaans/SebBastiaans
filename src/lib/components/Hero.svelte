@@ -1,163 +1,122 @@
 <script>
     // AVIF and WebP in 420px (the photo is at most 420px wide) and 840px for sharp screens, with a fallback
     import profilePhoto from '$lib/assets/pics/IMG_7841-face.png?enhanced&w=840;420';
-
-    const dodgeDistance = 100;
-    const dodgeDuration = 1000;
-
-    let dodge = $state('');
-    let dodgeTimer;
-
-    // Shoots the img away from the mouse, in the direction from the mouse to its center
-    function handlePointerEnter(event) {
-        const img = event.currentTarget;
-
-        // only while the scroll animation runs, otherwise the normal photo would dodge too
-        if (!img.getAnimations().length) return;
-
-        const rect = img.getBoundingClientRect();
-        const dx = rect.left + rect.width / 2 - event.clientX;
-        const dy = rect.top + rect.height / 2 - event.clientY;
-        const length = Math.hypot(dx, dy) || 1;
-
-        dodge = `${dx / length * dodgeDistance}px ${dy / length * dodgeDistance}px`;
-
-        clearTimeout(dodgeTimer);
-        dodgeTimer = setTimeout(() => dodge = '', dodgeDuration);
-    }
 </script>
 
-<!-- The img sits outside .hero, so it isn't part of the flex layout and can lay on top of .photo-slot.
-     Its parent is .page-start in +page.svelte (header, hero and biography), so it sticks until above projects. -->
-<!-- the picture has display: contents, so for sticky and the margins the img is still straight inside .page-start -->
-<picture>
-    <source type="image/avif" srcset={profilePhoto.sources.avif} sizes="420px">
-    <source type="image/webp" srcset={profilePhoto.sources.webp} sizes="420px">
-    <img class="profile-photo" src={profilePhoto.img.src} alt="" style:translate={dodge} onpointerenter={handlePointerEnter}>
-</picture>
-
+<!-- grid: the two lists under each other on the left, the photo on the right.
+     On small screens one column, in the order of the HTML: photo, intro, skills -->
 <div class="hero">
-    <div class="photo-slot"></div>
+    <picture>
+        <source type="image/avif" srcset={profilePhoto.sources.avif} sizes="420px">
+        <source type="image/webp" srcset={profilePhoto.sources.webp} sizes="420px">
+        <img class="profile-photo" src={profilePhoto.img.src} alt="">
+    </picture>
+
+    <!-- .line: the text of a list item lights up letter by letter on scroll, see the styles.
+         --i is the place of the item over both lists (0 to 6), so they light up one after another.
+         Add or remove an item: change the numbers and --lines in the styles -->
     <ul class="intro">
-        <li>Student Front-end development & Design</li>
-        <li>Utrecht, The Netherlands</li>
-        <li>scroll down to see more</li>
+        <li style="--i: 0"><span class="line">Student Front-end development & Design</span></li>
+        <li style="--i: 1"><span class="line">Utrecht, The Netherlands</span></li>
+    </ul>
+
+    <ul class="skills">
+        <li style="--i: 3"><span class="line">Specializing in <span class="hint" data-tooltip="Try different view width's in your dev tools ;)">responsive</span>, accesible, performing, progressive enhanced websites</span></li>
+        <li style="--i: 4"><span class="line">Understanding design, translating it to code</span></li>
+        <li style="--i: 5"><span class="line">Scrumming, communicating, collaborating</span></li>
+        <li style="--i: 6"><span class="line">Soon to be AI prompt whisperer</span></li>
     </ul>
 </div>
 
 <style>
+.hero{
+    display: grid;
+    grid-template-areas:
+        "photo"
+        "intro"
+        "skills";
+    gap: 2rem;
+    padding-inline: var(--hero-padding);
+
+    /* lists on the left, photo on the right over the height of both lists */
+    @media (width >= 800px){
+        /* the photo column is 420px (the size of the photo), the lists get the rest of the width */
+        grid-template-columns: 1fr 420px;
+        /* the photo is taller than the lists: the second row gets all the extra height,
+           so the skills stay right under the intro instead of halfway down */
+        grid-template-rows: auto 1fr;
+        grid-template-areas:
+            "intro  photo"
+            "skills photo";
+    }
+}
+
 picture{
-    display: contents;
+    grid-area: photo;
 }
 
 .profile-photo{
     display: block;
     width: var(--profile-photo-size);
     aspect-ratio: 1/1;
-    margin-inline-start: var(--hero-padding);
-    /* takes up no space, the img lays on top of .photo-slot */
-    margin-bottom: calc(-1 * var(--profile-photo-size));
-    position: relative;
-    z-index: 5;
 
-    @media (prefers-reduced-motion: no-preference) {
-        /* without support the img just stays a normal square photo in the hero */
-        @supports (animation-timeline: view()) and (animation-range: exit 0% exit 50%) and (timeline-scope: --hero) {
-            position: sticky;
-            top: var(--hero-padding);
-            /* shrinks towards the right, where it ends up */
-            transform-origin: top right;
-            animation-name: photo-morph;
-            animation-timing-function: linear;
-            animation-fill-mode: both;
-            /* starts when the img sticks, at --hero-padding from the top of the viewport */
-            animation-timeline: --hero;
-            animation-range: exit calc(0% - var(--hero-padding)) exit 50%;
-            /* for the dodge on hover (set in the script), only possible at the end of the animation,
-               see pointer-events in photo-morph. translate instead of transform, because transform
-               would be scaled down along with the animated scale */
-            transition: translate .3s ease-out;
+    /* fills its 420px grid column. With an auto column the percentage in --profile-photo-size would make it smaller */
+    @media (width >= 800px){
+        width: 100%;
+    }
+}
+
+.intro{
+    grid-area: intro;
+}
+
+.skills{
+    grid-area: skills;
+}
+
+.intro,
+.skills{
+    font-size: var(--hero-text-size);
+}
+
+/* the text lights up letter by letter from left to right while you scroll, as if you read it.
+   Without support or with reduced motion the text is just visible in the normal color */
+@media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: scroll()) and ((background-clip: text) or (-webkit-background-clip: text)) {
+        .line{
+            /* all items share one timeline: the scroll of the page. The first --read-distance of scrolling is
+               split into equal parts, one per item, so an item only starts when the one above it is done */
+            --lines: 7;
+            --read-distance: 40vh;
+            --step: calc(var(--read-distance) / var(--lines));
+            /* width of the soft edge of the light, about 2 letters */
+            --edge: 1.5em;
+            /* the text itself is see-through, the backgrounds below are only painted inside the letters */
+            color: transparent;
+            background-image:
+                /* on top: the lit text, grows from the left. Its right end fades out, so letters light up one by one */
+                linear-gradient(to right, var(--color-text) calc(100% - var(--edge)), transparent),
+                /* below: the dim text that isn't read yet */
+                linear-gradient(color-mix(in srgb, var(--color-text) 15%, transparent));
+            background-repeat: no-repeat;
+            background-size: 0% 100%, 100% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            /* default, but needed for the effect: when the text wraps, the background runs on over the next line
+               as if all lines were one long line, so the light goes line by line */
+            box-decoration-break: slice;
+            animation: read-line linear both;
+            animation-timeline: scroll(root);
+            /* item --i lights up between --i and --i + 1 steps of scrolling */
+            animation-range: calc(var(--i) * var(--step)) calc((var(--i) + 1) * var(--step));
         }
     }
 }
 
-.hero{
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 1rem;
-    padding-inline: var(--hero-padding);
-    view-timeline: --hero;
-
-    /* photo and intro always side by side, so the intro can slide into the photo's place */
-    @media (width>=800px){
-        flex-wrap: nowrap;
-    }
-
-    .photo-slot{
-        flex: none;
-        width: min(420px, 100%);
-        aspect-ratio: 1/1;
-    }
-
-    .intro{
-        flex: 1 1 auto;
-
-        @media (width>=800px) and (prefers-reduced-motion: no-preference) {
-            /* same check as the img, so they always animate together or not at all */
-            @supports (animation-timeline: view()) and (animation-range: exit 0% exit 50%) and (timeline-scope: --hero) {
-                /* top aligned with the photo, so both stick at the same moment */
-                align-self: flex-end;
-                /* sticks until the bottom of .hero, where the next section starts */
-                position: sticky;
-                top: var(--hero-padding);
-                animation-name: intro-slide;
-                animation-timing-function: linear;
-                animation-fill-mode: both;
-                animation-timeline: --hero;
-                animation-range: exit calc(0% - var(--hero-padding)) exit 50%;
-            }
-        }
-    }
-}
-
-@keyframes intro-slide {
+@keyframes read-line {
     to {
-        /* width of .photo-slot (always 420px from 800px) + gap */
-        translate: calc(-420px - 1rem) 0;
-    }
-}
-
-/* Every shape has 12 points, starting bottom-left and going clockwise, so they can morph into each other */
-@keyframes photo-morph {
-    0% {
-        scale: 1;
-        margin-inline-start: var(--hero-padding);
-        clip-path: polygon(0% 100%, 0% 0%, 20% 0%, 50% 0%, 80% 0%, 100% 0%, 100% 100%, 80% 100%, 65% 100%, 50% 100%, 35% 100%, 20% 100%);
-    }
-    25%, 35% {
-        /* M */
-        clip-path: polygon(0% 100%, 0% 0%, 20% 0%, 50% 45%, 80% 0%, 100% 0%, 100% 100%, 80% 100%, 80% 35%, 50% 80%, 20% 35%, 20% 100%);
-    }
-    55%, 65% {
-        /* E */
-        clip-path: polygon(0% 100%, 0% 0%, 100% 0%, 100% 20%, 25% 20%, 25% 40%, 80% 40%, 80% 60%, 25% 60%, 25% 80%, 100% 80%, 100% 100%);
-    }
-    0%, 99% {
-        /* no hover until the animation is done */
-        pointer-events: none;
-    }
-    90% {
-        /* circle made of 12 points, so the E can morph into it */
-        clip-path: polygon(14.64% 85.36%, 1.7% 62.94%, 1.7% 37.06%, 14.64% 14.64%, 37.06% 1.7%, 62.94% 1.7%, 85.36% 14.64%, 98.3% 37.06%, 98.3% 62.94%, 85.36% 85.36%, 62.94% 98.3%, 37.06% 98.3%);
-    }
-    100% {
-        /* real circle, small as an icon (a polygon can't morph into circle(), so it switches at the very end) */
-        scale: var(--profile-icon-scale);
-        /* right side of the screen, same padding as on the left */
-        margin-inline-start: calc(100% - var(--hero-padding) - var(--profile-photo-size));
-        clip-path: circle(50%);
-        pointer-events: auto;
+        /* past 100% by the soft edge, so the last letter is fully lit too */
+        background-size: calc(100% + var(--edge)) 100%, 100% 100%;
     }
 }
 </style>

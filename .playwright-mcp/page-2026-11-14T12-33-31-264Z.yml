@@ -1,0 +1,84 @@
+- generic [active] [ref=f7e1]:
+  - generic [ref=f7e2]:
+    - link "Prime Radiant Superpowers v7.0.2" [ref=f7e4] [cursor=pointer]:
+      - /url: https://github.com/obra/superpowers
+      - img "Prime Radiant" [ref=f7e5]
+      - generic [ref=f7e6]: Superpowers v7.0.2
+    - generic [ref=f7e7]: Connecting…
+  - generic [ref=f7e9]:
+    - heading "Kleiner, of een preview die openklapt?" [level=2] [ref=f7e10]
+    - paragraph [ref=f7e11]: Je echte logo's en vormen, op een breed scherm (rechterhelft van de hero). Bij B kun je op het blauwe "+22 meer"-vakje klikken.
+    - generic [ref=f7e12]:
+      - generic [ref=f7e13] [cursor=pointer]:
+        - generic [ref=f7e14]: A
+        - generic [ref=f7e15]:
+          - 'heading "Kleiner: 10 kolommen, foto 3×3" [level=3] [ref=f7e16]'
+          - paragraph [ref=f7e17]: Alles blijft zichtbaar, maar de vakjes en logo's worden kleiner. Het raster is ongeveer 30% lager, maar nog steeds hoger dan je lijsten, en het groeit als je er meer bij zet.
+          - generic [ref=f7e21]:
+            - generic [ref=f7e22]:
+              - paragraph [ref=f7e23]: Student Front-end development & DesignUtrecht, The Netherlands
+              - paragraph [ref=f7e24]: Specializing in responsive, accesible, performing, progressive enhanced websitesUnderstanding design, translating it to codeScrumming, communicating, collaboratingSoon to be AI prompt whisperer
+            - list [ref=f7e26]:
+              - listitem [ref=f7e27]: foto
+              - listitem [ref=f7e28]:
+                - generic [ref=f7e31]: HTML
+              - listitem [ref=f7e32]:
+                - generic [ref=f7e35]: CSS
+              - listitem [ref=f7e36]:
+                - generic [ref=f7e39]: GitHub
+              - listitem [ref=f7e40]:
+                - generic [ref=f7e43]: JavaScript
+              - listitem [ref=f7e44]:
+                - generic [ref=f7e47]: SvelteKit
+              - listitem [ref=f7e48]:
+                - generic [ref=f7e51]: Svelte
+              - listitem [ref=f7e52]:
+                - generic [ref=f7e55]: Node.js
+              - listitem [ref=f7e56]:
+                - generic [ref=f7e59]: Express.js
+              - listitem [ref=f7e60]:
+                - generic [ref=f7e61]: REST API's
+              - listitem [ref=f7e62]:
+                - generic [ref=f7e65]: JSON
+              - listitem [ref=f7e66]:
+                - generic [ref=f7e67]: Adobe Illustrator
+              - listitem [ref=f7e68]:
+                - generic [ref=f7e69]: Liquid
+              - listitem [ref=f7e70]:
+                - generic [ref=f7e73]: Figma
+              - listitem [ref=f7e74]:
+                - generic [ref=f7e77]: Claude
+              - listitem [ref=f7e78]:
+                - generic [ref=f7e79]: Lovable
+              - listitem [ref=f7e80]:
+                - generic [ref=f7e83]: Notion
+              - listitem [ref=f7e84]:
+                - generic [ref=f7e85]: VS Code
+              - listitem [ref=f7e86]:
+                - generic [ref=f7e89]: Shopify
+              - listitem [ref=f7e90]
+              - listitem [ref=f7e93]
+              - listitem [ref=f7e96]
+              - listitem [ref=f7e99]
+              - listitem [ref=f7e102]
+              - listitem [ref=f7e105]
+              - listitem [ref=f7e108]
+      - generic [ref=f7e111] [cursor=pointer]:
+        - generic [ref=f7e112]: B
+        - generic [ref=f7e113]:
+          - 'heading "Preview: foto + je sterkste technieken, de rest klapt open" [level=3] [ref=f7e114]'
+          - paragraph [ref=f7e115]: "Dicht is het raster precies zo hoog als je foto: alleen niveau 3 (HTML, CSS, GitHub) en een vakje \"+22 meer\". Klik je erop, dan komt de rest erbij. Zonder JavaScript staat alles gewoon open."
+          - generic [ref=f7e119]:
+            - generic [ref=f7e120]:
+              - paragraph [ref=f7e121]: Student Front-end development & DesignUtrecht, The Netherlands
+              - paragraph [ref=f7e122]: Specializing in responsive, accesible, performing, progressive enhanced websitesUnderstanding design, translating it to codeScrumming, communicating, collaboratingSoon to be AI prompt whisperer
+            - list [ref=f7e124]:
+              - listitem [ref=f7e125]: foto
+              - listitem [ref=f7e126]:
+                - generic [ref=f7e129]: HTML
+              - listitem [ref=f7e130]:
+                - generic [ref=f7e133]: CSS
+              - listitem [ref=f7e134]:
+                - generic [ref=f7e137]: GitHub
+              - listitem [ref=f7e138]: +22meer
+          - paragraph [ref=f7e139]: Bij "open" staat het "Minder"-vakje onderaan, en ziet het raster eruit zoals nu.

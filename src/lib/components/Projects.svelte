@@ -135,6 +135,8 @@
 
 <style>
 #projects{
+    /* straight against the hero, which sits at the bottom of the first screen */
+    margin-top: 0;
     /* the carousel goes edge to edge, the parts inside get --page-padding themselves */
     padding-inline: 0;
 

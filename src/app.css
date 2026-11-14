@@ -98,6 +98,9 @@
     /* the header title starts stretched: 4 times as tall on a 375px screen, 2 times on a 1440px screen */
     --header-title-stretch: clamp(2, calc(4 - 2 * (100vw - 375px) / 1065px), 4);
 
+    /* text of the intro and skills in the hero, from 1rem on a 375px screen to 2rem on a 1440px screen */
+    --hero-text-size: clamp(1rem, calc(1rem + (100vw - 375px) * 1rem / 1065px), 2rem);
+
     /* hero: no side padding on very small screens, see the media query below */
     --hero-padding: 0px;
     /* 100% is the width of the hero, because the value is only filled in where it is used */
