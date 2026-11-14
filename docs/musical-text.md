@@ -167,7 +167,7 @@ Two radio buttons in one pill (`.switch`), with a knob that slides behind the ch
 
 Both `--beat` and `--level` are always set, so you can switch while the song plays.
 
-- It's the global `.switch` class from `app.css`, the same as the project filter. How the knob works is in the [Conventions](../README.md#conventions) of the README.
+- It's the global `.switch` class from `app.css`, the same as the project filter. How the knob works is in the [Conventions](README.md#conventions) of the README.
 - With its padding and border it's 44px high, the same as the play button.
 
 ## 5. Accessibility

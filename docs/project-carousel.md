@@ -67,7 +67,7 @@ Without CSS and JS this is a plain list of links with images: everything works.
 
 "When School is checked in this section, hide every card that isn't a school project." `display: none` also removes the cards for screen readers. Browsers without `:has()` show all projects.
 
-The filter uses the global `.switch` class from `app.css`, the same as the animation switch of the musical text: one pill with the three options, and a knob that slides behind the chosen one (see [Conventions](../README.md#conventions)). The radio input itself is invisible (`opacity: 0`) but still on the page, so the keyboard and screen readers keep using the native control. The label shows the focus ring with `:has(input:focus-visible)`. The switch is 44px high, the WCAG touch target size.
+The filter uses the global `.switch` class from `app.css`, the same as the animation switch of the musical text: one pill with the three options, and a knob that slides behind the chosen one (see [Conventions](README.md#conventions)). The radio input itself is invisible (`opacity: 0`) but still on the page, so the keyboard and screen readers keep using the native control. The label shows the focus ring with `:has(input:focus-visible)`. The switch is 44px high, the WCAG touch target size.
 
 The filter sits in `.project-toolbar` with `position: sticky`, so you can switch while scrolling through the projects. The same bar holds the counter (see JavaScript).
 
@@ -249,7 +249,7 @@ Svelte removes selectors it can't find in the markup. `data-enhanced` is added l
 
 ## 5. Videos
 
-A project can have a `video` instead of only an `image`. How to add one is in the [README](../README.md#with-a-video-instead-of-a-photo).
+A project can have a `video` instead of only an `image`. How to add one is in the [README](README.md#with-a-video-instead-of-a-photo).
 
 ### Markup
 
